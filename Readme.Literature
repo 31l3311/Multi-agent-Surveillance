@@ -1,0 +1,11 @@
+The main features that are used in this paper for system- level design studies are summarized here and will be explained in detail in the following sections:
+ Task
+o Location of threats
+o Areas with high probability of harboring threats o Difficulty of classifying threats
+ UAV
+o Flight performance constraints o Navigation autonomy levels
+o Camera image quality
+ Operator
+o Inherent skill
+o Dynamic effects of workload, fatigue, and situational awareness
+ Human-agent interaction o Level of automation o Interaction time
