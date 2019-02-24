@@ -10,14 +10,16 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    private double sceneWidth = 800;
-    private double sceneHeight = 800;
+    private double windowWidth = 1000;
+    private double windowHeight = 1000;
 
+    /*n is amount of cells per row
+    m is amount of cells per column*/
     private int n = 50;
     private int m = 50;
 
-    double gridWidth = sceneWidth / n;
-    double gridHeight = sceneHeight / m;
+    double gridWidth = windowWidth / n;
+    double gridHeight = windowHeight / m;
 
     MyNode[][] playfield = new MyNode[n][m];
 
@@ -25,10 +27,10 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
     @Override
     public void start(Stage primaryStage) {
 
-        primaryStage.setResizable(true);
         Group root = new Group();
 
         // initialize playfield
@@ -48,10 +50,12 @@ public class MainApp extends Application {
         }
 
 
-        Scene scene = new Scene( root, sceneWidth, sceneHeight);
+        Scene scene = new Scene( root, windowWidth, windowHeight);
 
         primaryStage.setScene( scene);
         primaryStage.show();
+        primaryStage.setResizable(false);
+        primaryStage.sizeToScene();
 
     }
 
@@ -62,7 +66,7 @@ public class MainApp extends Application {
             // create rectangle
             Rectangle rectangle = new Rectangle( width, height);
             rectangle.setStroke(Color.BLACK);
-            rectangle.setFill(Color.LIGHTBLUE);
+            rectangle.setFill(Color.LIGHTGREEN);
 
             // set position
             setTranslateX(x);
