@@ -11,17 +11,15 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-     static double windowWidth = 1000;
-     static double windowHeight = 1000;
+    static double windowWidth = 1000;
+    static double windowHeight = 1000;
 
-     /*n is amount of cells per row
-      m is amount of cells per column*/
-     static int n = 50;
-     static int m = 50;
+    static int rowCells = 50;
+    static int columnCells = 50;
 
-     static double gridWidth = windowWidth / n;
-     static double gridHeight = windowHeight / m;
-     private MyNode[][] playfield = new MyNode[n][m];
+    static double gridWidth = windowWidth / rowCells;
+    static double gridHeight = windowHeight / columnCells;
+    private MyNode[][] playfield = new MyNode[rowCells][columnCells];
 
 
     public static void main(String[] args) {
@@ -36,36 +34,28 @@ public class MainApp extends Application {
         System.out.println("Node coordinate is: " + "(" + roundedX + ", " + roundedY + ")");
     }
 
-
     @Override
     public void start(Stage primaryStage) {
 
         Group root = new Group();
 
         // initialize playfield
-        for( int i=0; i < n; i++) {
-            for( int j=0; j < m; j++) {
-
+        for( int i=0; i < rowCells; i++) {
+            for( int j=0; j < columnCells; j++) {
                 // create node
                 MyNode node = new MyNode( i * gridWidth, j * gridHeight, gridWidth, gridHeight);
-
                 // add node to group
                 root.getChildren().add( node);
-
                 // add to playfield for further reference using an array
                 playfield[i][j] = node;
 
             }
         }
-
-
-        Scene scene = new Scene( root, windowWidth, windowHeight);
-
+        Scene scene = new Scene( root, windowWidth+350, windowHeight);
         primaryStage.setScene( scene);
         primaryStage.show();
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.sizeToScene();
-
     }
 
     public static class MyNode extends StackPane {
@@ -82,12 +72,8 @@ public class MainApp extends Application {
             // set position
             setTranslateX(x);
             setTranslateY(y);
-
             getChildren().addAll(rectangle);
-
         }
-
-
     }
 
 }
