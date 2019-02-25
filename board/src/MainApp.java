@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -10,7 +11,7 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    private double windowWidth = 1000;
+    private double windowWidth = 1250;
     private double windowHeight = 1000;
 
     /*n is amount of cells per row
@@ -27,6 +28,15 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    private static void mousePressedOnNode(MouseEvent e) {
+
+       // System.out.println("mouse pressed on (x-y): "+e.getX()+"-"+e.getY());
+        double roundedX = (int)(e.getSceneX()/20);
+        double roundedY = (int)(e.getSceneY()/20);
+        System.out.println("Node coordinate is: " + "(" + roundedX + ", " + roundedY + ")");
+    }
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -64,9 +74,11 @@ public class MainApp extends Application {
         public MyNode(double x, double y, double width, double height) {
 
             // create rectangle
-            Rectangle rectangle = new Rectangle( width, height);
+            Rectangle rectangle = new Rectangle(x, y, width, height);
             rectangle.setStroke(Color.BLACK);
             rectangle.setFill(Color.LIGHTGREEN);
+
+            setOnMousePressed(e->mousePressedOnNode(e));
 
             // set position
             setTranslateX(x);
@@ -75,6 +87,7 @@ public class MainApp extends Application {
             getChildren().addAll(rectangle);
 
         }
+
 
     }
 
