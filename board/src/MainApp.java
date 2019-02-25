@@ -11,29 +11,28 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    private double windowWidth = 1250;
-    private double windowHeight = 1000;
+     static double windowWidth = 1000;
+     static double windowHeight = 1000;
 
-    /*n is amount of cells per row
-    m is amount of cells per column*/
-    private int n = 50;
-    private int m = 50;
+     /*n is amount of cells per row
+      m is amount of cells per column*/
+     static int n = 50;
+     static int m = 50;
 
-    double gridWidth = windowWidth / n;
-    double gridHeight = windowHeight / m;
-
-    MyNode[][] playfield = new MyNode[n][m];
+     static double gridWidth = windowWidth / n;
+     static double gridHeight = windowHeight / m;
+     private MyNode[][] playfield = new MyNode[n][m];
 
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private static void mousePressedOnNode(MouseEvent e) {
+    static void mousePressedOnNode(MouseEvent e) {
 
        // System.out.println("mouse pressed on (x-y): "+e.getX()+"-"+e.getY());
-        double roundedX = (int)(e.getSceneX()/20);
-        double roundedY = (int)(e.getSceneY()/20);
+        double roundedX = (int)(e.getSceneX()/gridWidth);
+        double roundedY = (int)(e.getSceneY()/gridHeight);
         System.out.println("Node coordinate is: " + "(" + roundedX + ", " + roundedY + ")");
     }
 
