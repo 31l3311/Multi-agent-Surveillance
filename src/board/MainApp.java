@@ -1,11 +1,20 @@
 package board;
 
 
+import javax.swing.JComboBox;
+
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -42,7 +51,13 @@ public class MainApp extends Application {
                 playfield[i][j] = node;
             }
         }
-        Scene scene = new Scene( root, windowWidth+350, windowHeight);
+        
+        
+        	BorderPane pane = new BorderPane();
+        	Menu menu = new Menu(root);
+        pane.setLeft(root);
+        pane.setRight(menu.createMenu());
+        Scene scene = new Scene( pane, windowWidth+menu.menuWidth, windowHeight);
         primaryStage.setScene( scene);
         primaryStage.show();
         primaryStage.setResizable(true);
