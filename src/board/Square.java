@@ -1,3 +1,5 @@
+package board;
+
 import com.sun.org.apache.regexp.internal.RE;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
