@@ -21,7 +21,7 @@ public class Intruder extends Agent{
 	}
 
 	@Override
-	public void walk() {
+	public void walk(int time) {
 		// TODO Auto-generated method stub
 		
 	}

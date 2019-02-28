@@ -1,12 +1,23 @@
 package agent;
 
+import java.awt.Point;
+import java.util.Vector;
+
 public class SurveillanceAgent extends Agent{
 	
-	private double baseSpeed = 1.4;
-	private int angle;
+	//speed per millisecond
+	private double baseSpeed = 0.0014;
+	private Point vector;
+	//defined as coordinates x,y to 2 decimal places
+	private Point position;
 	//visual range 6 m
 	
-	public SurveillanceAgent() {
+	public SurveillanceAgent(Point position) {
+		this.position = position;
+		vector = new Point(6, 6);
+	}
+	
+	public void updatePos() {
 		
 	}
 	
@@ -17,9 +28,14 @@ public class SurveillanceAgent extends Agent{
 	}
 
 	@Override
-	public void walk() {
-		// TODO Auto-generated method stub
-		
+	public void walk(int time) {
+		double u = ((time*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
+		System.out.println("U: " + u);
+		System.out.println(time*baseSpeed);
+		System.out.println("Vector: " + vector.x + ", " + vector.y);
+		position.x += 100*(u*vector.x);
+		position.y += 100*(u*vector.y);
+		System.out.println("Position: " + position.x + ", " + position.y);
 	}
 
 
