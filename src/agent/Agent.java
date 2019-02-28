@@ -9,8 +9,8 @@ public abstract class Agent{
 	
 	
 	
-	public abstract void walk();
+	public abstract void walk(); 
 	
-	public abstract void turn();
+	public abstract void turn(int angle);
 	
 }
