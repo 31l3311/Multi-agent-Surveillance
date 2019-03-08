@@ -1,8 +1,7 @@
-package main;
+
 
 import java.awt.Point;
-
-import agent.SurveillanceAgent;
+//import agent.SurveillanceAgent;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;

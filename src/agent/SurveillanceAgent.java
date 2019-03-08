@@ -1,4 +1,4 @@
-package agent;
+
 
 import java.awt.Point;
 import java.util.Vector;
@@ -30,12 +30,12 @@ public class SurveillanceAgent extends Agent{
 	@Override
 	public void walk(int time) {
 		double u = ((time*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
-		System.out.println("U: " + u);
-		System.out.println(time*baseSpeed);
-		System.out.println("Vector: " + vector.x + ", " + vector.y);
+		//System.out.println("U: " + u);
+		//System.out.println(time*baseSpeed);
+		//System.out.println("Vector: " + vector.x + ", " + vector.y);
 		position.x += 100*(u*vector.x);
 		position.y += 100*(u*vector.y);
-		System.out.println("Position: " + position.x + ", " + position.y);
+		//System.out.println("Position: " + position.x + ", " + position.y);
 	}
 
 

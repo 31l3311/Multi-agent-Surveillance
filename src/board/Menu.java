@@ -1,5 +1,3 @@
-package board;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -10,20 +8,38 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
 
-public class Menu{
+public class Menu {
+
 	public int menuWidth = 350;
-	public String state;
-	
+	public static String state;
+
+
 	public Menu(Group root) {
 		Group squares = root;
+	}
+
+	private void getChoice(ChoiceBox<String> chooseType) {
+		String state = chooseType.getValue();
 	}
 	
 	public VBox createMenu()
 	{
-		VBox menu = new VBox();
 		Button clearBoard = new Button("Clear board");
-		ChoiceBox chooseType = new ChoiceBox(FXCollections.observableArrayList("Building", "Sentry tower", "Tree"));
- 		menu.getChildren().addAll(clearBoard,chooseType);
+		ChoiceBox<String> chooseType = new ChoiceBox<>();
+		chooseType.getItems().add("Sentry");
+		chooseType.getItems().add("vertWall");
+		chooseType.getItems().add("horWall");
+		chooseType.getItems().add("verWindow");
+		chooseType.getItems().add("horWindow");
+		chooseType.getItems().add("horDoor");
+		chooseType.getItems().add("verDoor");
+
+		//Listening for selection changes
+		chooseType.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> state = newValue);
+
+		VBox menu = new VBox();
+
+		menu.getChildren().addAll(clearBoard,chooseType);
  		menu.setAlignment(Pos.TOP_CENTER);
  		menu.setSpacing(20);
  		menu.setMinWidth(menuWidth);

@@ -1,6 +1,3 @@
-package board;
-
-
 import javax.swing.JComboBox;
 
 import javafx.application.Application;
@@ -19,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import main.Run;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

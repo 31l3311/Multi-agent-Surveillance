@@ -1,4 +1,4 @@
-package agent;
+
 
 public class Intruder extends Agent{
 	

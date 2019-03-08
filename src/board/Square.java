@@ -1,4 +1,4 @@
-package board;
+
 
 import com.sun.org.apache.regexp.internal.RE;
 import javafx.scene.input.MouseEvent;
@@ -11,7 +11,6 @@ public class Square extends StackPane {
 
     MainApp w = new MainApp();
     int sentryRange = 15;
-    String state;
 
     public Square(double x, double y, double width, double height) {
 
@@ -29,72 +28,74 @@ public class Square extends StackPane {
     }
 
     void mousePressedOnSquare(MouseEvent e) {
-        state = "horWindow";
+        //state = "Sentry";
         /**Here the String state should be obtained from the menu.
          * i.e. after clicking a button corresponding with an obstacle,
          * the value of state is passed. For now it is hardcoded.
          */
-        if(state == "Sentry") {
+        if(Menu.state == "Sentry") {
+            System.out.println("SENTRY SELECTED");
             Circle sentry = new Circle((e.getSceneX() / w.getgridWidth()), e.getSceneY() / w.getgridHeight(), 10);
             sentry.setStroke(Color.BLACK);
             sentry.setFill(Color.RED);
 
             getChildren().add(sentry);
         }
-        else if(state == "vertWall") {
+        else if(Menu.state == "vertWall") {
             Rectangle vertWall = new Rectangle();
             /**Extra condition to see if you are closer to left or right side of square.
              * If you are closer to the left, place on the left.
              * If you are closer to the right, place on the right.
              */
         }
-        else if(state == "horWall") {
+        else if(Menu.state == "horWall") {
             Rectangle horWall = new Rectangle();
             /** Same applies as above.
              * But this time check proximity to upper/lower bound.
              */
         }
-        else if(state == "horWindow") {
+        else if(Menu.state == "horWindow") {
 
             Rectangle horWindow = new Rectangle();
             horWindow.setHeight(w.gridHeight/4);
             horWindow.setWidth(w.gridWidth);
             horWindow.setStroke(Color.BLACK);
             horWindow.setFill(Color.WHITE);
-            double currentSquareY = ((int) ((e.getSceneY()/ w.getgridHeight())) * (getHeight()-1)) + 20;
+            double currentSquareY = ((int) ((e.getSceneY()/ w.getgridHeight())) * (getHeight()-1));
             System.out.println("e.getsceneY() is " + e.getSceneY());
             System.out.println("w.getgridHeight() is " + w.getgridHeight());
             System.out.println("getHeight is " + getHeight());
             System.out.println("currentsquareY is " + currentSquareY);
 
-            if((e.getSceneY()/w.getgridHeight()) + 20  < currentSquareY/2) {
+            if((e.getSceneY()/w.getgridHeight()) * 20  < (currentSquareY/2) +5) {
                 System.out.println("First statement works");
-                System.out.println((e.getSceneX()/w.getgridHeight()) + 20 + "<" + currentSquareY/2);
+                System.out.println((e.getSceneY()/w.getgridHeight()) * 20 + "<" + ((currentSquareY)/(2) + 5));
                 horWindow.setX((int) (e.getSceneX()/w.getgridWidth()));
                 horWindow.setY((int) (e.getSceneY()/w.getgridHeight()));
                 getChildren().add(horWindow);
             }
-            else if((e.getSceneY()/w.getgridHeight())*20 >= currentSquareY/2) {
+            else if((e.getSceneY()/w.getgridHeight()) * 20 >= (currentSquareY/2) + 5) {
                 System.out.println("Second statement works");
-                System.out.println(((e.getSceneX()/w.getgridHeight()) + 20) + ">=" + currentSquareY/2);
+                System.out.println((e.getSceneY()/w.getgridHeight()) * 20 + ">=" + ((currentSquareY)/(2) + 5));
                 horWindow.setX((int) (e.getSceneX()/w.getgridWidth()));
-                horWindow.setY((int) (e.getSceneY() - w.getgridHeight() / w.getgridHeight()));
+                horWindow.setY((int) (e.getSceneY() - w.getgridHeight())/ (w.getgridHeight()) + 0.5 * w.getgridHeight());
                 getChildren().add(horWindow);
             }
             else
                 System.out.println("Nothing works. It's all fucked.");
 
         }
-        else if(state == "verWindow") {
+        else if(Menu.state == "verWindow") {
             Rectangle verWindow = new Rectangle();
             //Same checking
         }
-        else if(state == "horDoor") {
+        else if(Menu.state == "horDoor") {
             Rectangle horDoor = new Rectangle();
             //Doors can be placed up down left or right, unless bordered by walls.
         }
-        else if(state == "verDoor") {
+        else if(Menu.state == "verDoor") {
             Rectangle verDoor = new Rectangle();
         }
+        else{System.out.println("FUCK");}
     }
 }
