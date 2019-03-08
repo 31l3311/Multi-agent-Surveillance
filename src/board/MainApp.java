@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import main.Run;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -51,7 +52,8 @@ public class MainApp extends Application {
                 playfield[i][j] = node;
             }
         }
-        
+        Run run = new Run();
+        run.startTimer();
         
         	BorderPane pane = new BorderPane();
         	Menu menu = new Menu(root);
@@ -63,6 +65,9 @@ public class MainApp extends Application {
         primaryStage.setResizable(true);
         primaryStage.sizeToScene();
         primaryStage.setTitle("Multi Agent Surveillance");
+        
+        
+        
     }
     static double windowWidth = 1000;
     static double windowHeight = 1000;
