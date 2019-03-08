@@ -29,7 +29,7 @@ public class Square extends StackPane {
     }
 
     void mousePressedOnSquare(MouseEvent e) {
-        state = "Sentry";
+        state = "horWindow";
         /**Here the String state should be obtained from the menu.
          * i.e. after clicking a button corresponding with an obstacle,
          * the value of state is passed. For now it is hardcoded.
@@ -45,7 +45,7 @@ public class Square extends StackPane {
             Rectangle vertWall = new Rectangle();
             /**Extra condition to see if you are closer to left or right side of square.
              * If you are closer to the left, place on the left.
-             * If you are clsoer to the right, place on the right.
+             * If you are closer to the right, place on the right.
              */
         }
         else if(state == "horWall") {
@@ -55,8 +55,35 @@ public class Square extends StackPane {
              */
         }
         else if(state == "horWindow") {
+
             Rectangle horWindow = new Rectangle();
-            // Same checking
+            horWindow.setHeight(w.gridHeight/4);
+            horWindow.setWidth(w.gridWidth);
+            horWindow.setStroke(Color.BLACK);
+            horWindow.setFill(Color.WHITE);
+            double currentSquareY = ((int) ((e.getSceneY()/ w.getgridHeight())) * (getHeight()-1)) + 20;
+            System.out.println("e.getsceneY() is " + e.getSceneY());
+            System.out.println("w.getgridHeight() is " + w.getgridHeight());
+            System.out.println("getHeight is " + getHeight());
+            System.out.println("currentsquareY is " + currentSquareY);
+
+            if((e.getSceneY()/w.getgridHeight()) + 20  < currentSquareY/2) {
+                System.out.println("First statement works");
+                System.out.println((e.getSceneX()/w.getgridHeight()) + 20 + "<" + currentSquareY/2);
+                horWindow.setX((int) (e.getSceneX()/w.getgridWidth()));
+                horWindow.setY((int) (e.getSceneY()/w.getgridHeight()));
+                getChildren().add(horWindow);
+            }
+            else if((e.getSceneY()/w.getgridHeight())*20 >= currentSquareY/2) {
+                System.out.println("Second statement works");
+                System.out.println(((e.getSceneX()/w.getgridHeight()) + 20) + ">=" + currentSquareY/2);
+                horWindow.setX((int) (e.getSceneX()/w.getgridWidth()));
+                horWindow.setY((int) (e.getSceneY() - w.getgridHeight() / w.getgridHeight()));
+                getChildren().add(horWindow);
+            }
+            else
+                System.out.println("Nothing works. It's all fucked.");
+
         }
         else if(state == "verWindow") {
             Rectangle verWindow = new Rectangle();
@@ -70,5 +97,4 @@ public class Square extends StackPane {
             Rectangle verDoor = new Rectangle();
         }
     }
-
 }

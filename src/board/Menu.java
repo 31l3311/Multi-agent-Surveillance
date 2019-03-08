@@ -21,8 +21,8 @@ public class Menu{
 	public VBox createMenu()
 	{
 		VBox menu = new VBox();
- 			Button clearBoard = new Button("Clear board");
- 			ChoiceBox chooseType = new ChoiceBox(FXCollections.observableArrayList("Building", "Sentry tower", "Tree"));
+		Button clearBoard = new Button("Clear board");
+		ChoiceBox chooseType = new ChoiceBox(FXCollections.observableArrayList("Building", "Sentry tower", "Tree"));
  		menu.getChildren().addAll(clearBoard,chooseType);
  		menu.setAlignment(Pos.TOP_CENTER);
  		menu.setSpacing(20);
