@@ -27,8 +27,7 @@ public class Menu {
 		Button clearBoard = new Button("Clear board");
 		ChoiceBox<String> chooseType = new ChoiceBox<>();
 		chooseType.getItems().add("Sentry");
-		chooseType.getItems().add("vertWall");
-		chooseType.getItems().add("horWall");
+		chooseType.getItems().add("Wall");
 		chooseType.getItems().add("verWindow");
 		chooseType.getItems().add("horWindow");
 		chooseType.getItems().add("horDoor");
