@@ -50,8 +50,11 @@ public class MainApp extends Application {
         }
         Run run = new Run();
         run.startTimer();
-        
-        	BorderPane pane = new BorderPane();
+
+        Run noiseTimer = new Run();
+        noiseTimer.startNoise();
+
+        BorderPane pane = new BorderPane();
         	Menu menu = new Menu(root);
         pane.setLeft(root);
         pane.setRight(menu.createMenu());
