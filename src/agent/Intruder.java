@@ -1,5 +1,4 @@
 
-
 public class Intruder extends Agent{
 	
 	private double baseSpeed = 1.4;
