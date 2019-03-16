@@ -61,9 +61,7 @@ public class MainApp extends Application {
         primaryStage.setResizable(true);
         primaryStage.sizeToScene();
         primaryStage.setTitle("Multi Agent Surveillance");
-        
-        
-        
+
     }
     static double windowWidth = 1000;
     static double windowHeight = 1000;

@@ -12,6 +12,7 @@ public class Run {
 	private SurveillanceAgent agent = new SurveillanceAgent(new Point(0,0));;
 	private int time = 50;
 	
+
 	public void startTimer() {
 	GameTimer = new Timeline();
 	KeyFrame mainFrame =
