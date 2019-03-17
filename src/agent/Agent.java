@@ -12,5 +12,6 @@ public abstract class Agent{
 	public abstract void walk(int time); 
 	
 	public abstract void turn(int angle);
+
 	
 }

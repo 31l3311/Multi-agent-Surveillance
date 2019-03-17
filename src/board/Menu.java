@@ -4,15 +4,24 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import agent.*;
+import main.*;
+import java.awt.Point;
 
 public class Menu{
 	public int menuWidth = 350;
 	public String state;
+	public static Agent agent1;
+	public static Agent agent2;
+	private Run run = new Run();
 	
 	public Menu(Group root) {
 		Group squares = root;
@@ -23,13 +32,57 @@ public class Menu{
 		VBox menu = new VBox();
  			Button clearBoard = new Button("Clear board");
  			ChoiceBox chooseType = new ChoiceBox(FXCollections.observableArrayList("Building", "Sentry tower", "Tree"));
- 		menu.getChildren().addAll(clearBoard,chooseType);
+ 			Button deployAgents = new Button("Deploy Agents");
+ 			Button deployIntruders = new Button("Deploy Intruders");
+ 			Button quit = new Button("Quit");
+			Button start = new Button("Start");
+
+ 			quit.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+
+				}
+			});
+
+ 			clearBoard.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+
+				}
+			});
+
+ 			deployAgents.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					agent1 = new SurveillanceAgent( new Point(10,10));
+
+
+				}
+			});
+
+ 			deployIntruders.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					agent2 = new Intruder( new Point(50, 50));
+
+				}
+			});
+
+			start.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					run.startTimer();
+
+				}
+			});
+
+ 		menu.getChildren().addAll(clearBoard,chooseType, deployAgents, deployIntruders, start, quit);
  		menu.setAlignment(Pos.TOP_CENTER);
  		menu.setSpacing(20);
  		menu.setMinWidth(menuWidth);
 	
  		return menu;
 	}
-	
+
 	
 }
