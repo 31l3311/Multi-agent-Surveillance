@@ -16,22 +16,42 @@ import agent.*;
 import main.*;
 import java.awt.Point;
 
-public class Menu{
+public class Menu {
+
 	public int menuWidth = 350;
-	public String state;
+
+	public static String state;
 	public static Agent agent1;
 	public static Agent agent2;
 	private Run run = new Run();
-	
+
 	public Menu(Group root) {
 		Group squares = root;
+	}
+
+	private void getChoice(ChoiceBox<String> chooseType) {
+		String state = chooseType.getValue();
 	}
 	
 	public VBox createMenu()
 	{
+		Button clearBoard = new Button("Clear board");
+		ChoiceBox<String> chooseType = new ChoiceBox<>();
+		chooseType.getItems().add("Sentry");
+		chooseType.getItems().add("vertWall");
+		chooseType.getItems().add("horWall");
+		chooseType.getItems().add("verWindow");
+		chooseType.getItems().add("horWindow");
+		chooseType.getItems().add("horDoor");
+		chooseType.getItems().add("verDoor");
+
+		//Listening for selection changes
+		chooseType.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> state = newValue);
+
 		VBox menu = new VBox();
- 			Button clearBoard = new Button("Clear board");
- 			ChoiceBox chooseType = new ChoiceBox(FXCollections.observableArrayList("Building", "Sentry tower", "Tree"));
+
+ 			//Button clearBoard = new Button("Clear board");
+ 			//ChoiceBox chooseType = new ChoiceBox(FXCollections.observableArrayList("Building", "Sentry tower", "Tree"));
  			Button deployAgents = new Button("Deploy Agents");
  			Button deployIntruders = new Button("Deploy Intruders");
  			Button quit = new Button("Quit");
@@ -77,6 +97,7 @@ public class Menu{
 			});
 
  		menu.getChildren().addAll(clearBoard,chooseType, deployAgents, deployIntruders, start, quit);
+
  		menu.setAlignment(Pos.TOP_CENTER);
  		menu.setSpacing(20);
  		menu.setMinWidth(menuWidth);

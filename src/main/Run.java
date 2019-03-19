@@ -1,9 +1,13 @@
 package main;
 
+
+
 import java.awt.Point;
 import java.util.ArrayList;
 
 import agent.*;
+
+import java.awt.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -18,6 +22,7 @@ public class Run {
 	private int time = 50;
 	private int[][] board = new int[200][200];
 	
+
 	public void startTimer() {
 	GameTimer = new Timeline();
 	KeyFrame mainFrame =
