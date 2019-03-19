@@ -36,6 +36,7 @@ public class MainApp extends Application {
         launch(args);
     }
 
+
     @Override
     public void start(Stage primaryStage) {
 
@@ -52,9 +53,8 @@ public class MainApp extends Application {
                 playfield[i][j] = node;
             }
         }
-        Run run = new Run();
-        run.startTimer();
-        
+        //run = new Run();
+        //run.startTimer();
         	BorderPane pane = new BorderPane();
         	Menu menu = new Menu(root);
         pane.setLeft(root);
@@ -66,9 +66,8 @@ public class MainApp extends Application {
         primaryStage.sizeToScene();
         primaryStage.setTitle("Multi Agent Surveillance");
         
-        
-        
     }
+
     static double windowWidth = 1000;
     static double windowHeight = 1000;
 
@@ -78,4 +77,5 @@ public class MainApp extends Application {
     public double gridWidth = windowWidth / rowCells;
     public double gridHeight = windowHeight / columnCells;
     private Square[][] playfield = new Square[rowCells][columnCells];
+
 }

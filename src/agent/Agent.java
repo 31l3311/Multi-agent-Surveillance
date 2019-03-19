@@ -13,6 +13,7 @@ public abstract class Agent{
 	
 	public abstract void turn(int angle);
 
+
 	public void walkingTurn(int newAngle, int time) {
 		// TODO Auto-generated method stub
 		
