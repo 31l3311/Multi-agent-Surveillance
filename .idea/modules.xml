@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Multi-agent-Surveillance.iml" filepath="$PROJECT_DIR$/.idea/Multi-agent-Surveillance.iml" />
-      <module fileurl="file://$PROJECT_DIR$/src/src.iml" filepath="$PROJECT_DIR$/src/src.iml" />
+      <module fileurl="file://$PROJECT_DIR$/board/board.iml" filepath="$PROJECT_DIR$/board/board.iml" />
     </modules>
   </component>
 </project>
