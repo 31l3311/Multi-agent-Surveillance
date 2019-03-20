@@ -1,8 +1,17 @@
+
+
+import com.sun.org.apache.regexp.internal.RE;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javax.swing.*;
+import java.awt.*;
+import java.util.Random;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,9 +26,21 @@ public class Square extends StackPane {
     public static boolean getCleared = false;
     List<Integer> objectProperties = new LinkedList<Integer>();
 
-    public Square(double x, double y, double width, double height, boolean getCleared) {
+
+    public Square(double x, double y, double width, double height) {
 
         // create rectangle
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+
+        rectangle.setStroke(Color.BLACK);
+        rectangle.setFill(Color.LIGHTGREEN);
+
+        setOnMousePressed(e->mousePressedOnSquare(e));
+
+        // set position
+        setTranslateX(x);
+        setTranslateY(y);
+        getChildren().addAll(rectangle);
         if(getCleared) {
             Rectangle rectangle = new Rectangle(x, y, width, height);
             rectangle.setStroke(Color.BLACK);
@@ -44,6 +65,23 @@ public class Square extends StackPane {
         }
     }
 
+    void pacmanPositioner(){
+
+        Circle pacman = new Circle((987 / w.getgridWidth()), 654 / w.getgridHeight(), 9);
+        pacman.setStroke(Color.LIGHTGREEN);
+        Image icon = new Image("/icons/pacman.png");
+        pacman.setFill(new ImagePattern(icon));
+
+        Circle ghost = new Circle((3 / w.getgridWidth()), 3 / w.getgridHeight(), 9);
+        ghost.setStroke(Color.LIGHTGREEN);
+        Image icon2 = new Image("/icons/ghost.png");
+        ghost.setFill(new ImagePattern(icon2));
+
+        getChildren().addAll(pacman);
+        getChildren().addAll(ghost);
+    }
+
+
     void mousePressedOnSquare(MouseEvent e) {
         if(Menu.state == "Sentry") {
             System.out.println("SENTRY SELECTED");
@@ -51,8 +89,6 @@ public class Square extends StackPane {
             sentry.setStroke(Color.BLACK);
             sentry.setFill(Color.RED);
             getChildren().add(sentry);
-
-
         }
         else if(Menu.state == "Wall") {
             Rectangle Wall = new Rectangle();
@@ -65,6 +101,7 @@ public class Square extends StackPane {
 
         }
         else if(Menu.state == "horWindow") {
+
             Rectangle horWindow = new Rectangle();
             horWindow.setHeight(w.gridHeight/4);
             horWindow.setWidth(w.gridWidth);

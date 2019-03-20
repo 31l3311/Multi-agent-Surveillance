@@ -1,3 +1,8 @@
+package agent;
+
+
+
+import java.awt.Point;
 
 public class Intruder extends Agent{
 	
@@ -5,8 +10,8 @@ public class Intruder extends Agent{
 	private int angle;
 	//visual range 7.5 m
 	
-	public Intruder() {
-		
+	public Intruder(Point position) {
+		this.position = position;
 	}
 	
 	@Override

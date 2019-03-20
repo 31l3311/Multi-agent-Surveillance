@@ -1,4 +1,3 @@
-
 import javax.swing.JComboBox;
 
 import javafx.application.Application;
@@ -28,10 +27,11 @@ public class MainApp extends Application {
     public double getgridHeight() {
         return gridHeight;
     }
+
     public static void main(String[] args) {
         launch(args);
     }
-    Group root = new Group();
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -57,17 +57,17 @@ public class MainApp extends Application {
             for( int j=1; j < 49; j++) {
 
                 // create node
-                Square node = new Square(i * gridWidth, j * gridHeight, gridWidth, gridHeight, false);
+                Square node = new Square( i * gridWidth, j * gridHeight, gridWidth, gridHeight);
                 // add node to group
                 root.getChildren().add(node);
+                // add to playfield for further reference using an array
                 playfield[i][j] = node;
             }
         }
-        Run run = new Run();
-        run.startTimer();
-        
-        BorderPane pane = new BorderPane();
-        Menu menu = new Menu(root);
+        //run = new Run();
+        //run.startTimer();
+        	BorderPane pane = new BorderPane();
+        	Menu menu = new Menu(root);
         pane.setLeft(root);
         pane.setRight(menu.createMenu());
         Scene scene = new Scene( pane, windowWidth+menu.menuWidth, windowHeight);
@@ -76,13 +76,13 @@ public class MainApp extends Application {
         primaryStage.setResizable(true);
         primaryStage.sizeToScene();
         primaryStage.setTitle("Multi Agent Surveillance");
-        
+
     }
     static double windowWidth = 1000;
     static double windowHeight = 1000;
 
-    public static int rowCells = 50;
-    public static int columnCells = 50;
+    static int rowCells = 50;
+    static int columnCells = 50;
 
     public double gridWidth = windowWidth / rowCells;
     public double gridHeight = windowHeight / columnCells;
