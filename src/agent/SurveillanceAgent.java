@@ -1,5 +1,6 @@
 package agent;
 
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -19,9 +20,9 @@ public class SurveillanceAgent extends Agent{
 	
 	private double tempAngle = 0;
 	private Point tempVector = new Point();
-	
+
 	private int[][] map = new int[200][200];
-	
+
 	public SurveillanceAgent(Point position) {
 		this.position = position;
 		vector = new Point(1, 1);
@@ -39,7 +40,7 @@ public class SurveillanceAgent extends Agent{
 		vector = movingTurn(newAngle, time, vector);
 		return look();
 	}
-	
+
 
 	public ArrayList look() {
 		seenSquares.clear();
@@ -50,7 +51,7 @@ public class SurveillanceAgent extends Agent{
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, position));
 		return seenSquares;
 	}
-	
+
 	public void updateMap(int x, int y, int i) {
 		map[x][y] = i;
 		if(i == 1) {
@@ -58,9 +59,6 @@ public class SurveillanceAgent extends Agent{
 			System.out.println("I see a tree!");
 		}
 	}
-	
-
-	
 	
 
 	@Override

@@ -1,4 +1,3 @@
-package board;
 
 
 import com.sun.org.apache.regexp.internal.RE;
@@ -13,11 +12,19 @@ import javafx.scene.image.ImageView;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
+import javafx.scene.shape.Shape;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 
 public class Square extends StackPane {
 
     MainApp w = new MainApp();
-    int sentryRange = 15;
+    Properties p = new Properties();
+   //ArrayList<Shapes> list = new ArrayList<Shapes>();
+    public static boolean getCleared = false;
+    List<Integer> objectProperties = new LinkedList<Integer>();
 
 
     public Square(double x, double y, double width, double height) {
@@ -34,6 +41,28 @@ public class Square extends StackPane {
         setTranslateX(x);
         setTranslateY(y);
         getChildren().addAll(rectangle);
+        if(getCleared) {
+            Rectangle rectangle = new Rectangle(x, y, width, height);
+            rectangle.setStroke(Color.BLACK);
+            rectangle.setFill(Color.LIGHTGREEN);
+            setOnMousePressed(e -> mousePressedOnSquare(e));
+            // set position
+            setTranslateX(x);
+            setTranslateY(y);
+            getChildren().removeAll(rectangle);
+            System.out.println("Break rectangles");
+        }
+        else if(getCleared = false){
+            Rectangle rectangle = new Rectangle(x, y, width, height);
+            rectangle.setStroke(Color.BLACK);
+            rectangle.setFill(Color.LIGHTGREEN);
+            setOnMousePressed(e -> mousePressedOnSquare(e));
+            // set position
+            setTranslateX(x);
+            setTranslateY(y);
+            getChildren().addAll(rectangle);
+            System.out.println("Build rectangles");
+        }
     }
 
     void pacmanPositioner(){
@@ -54,31 +83,22 @@ public class Square extends StackPane {
 
 
     void mousePressedOnSquare(MouseEvent e) {
-        //state = "Sentry";
-        /**Here the String state should be obtained from the menu.
-         * i.e. after clicking a button corresponding with an obstacle,
-         * the value of state is passed. For now it is hardcoded.
-         */
         if(Menu.state == "Sentry") {
             System.out.println("SENTRY SELECTED");
             Circle sentry = new Circle((e.getSceneX() / w.getgridWidth()), e.getSceneY() / w.getgridHeight(), 10);
             sentry.setStroke(Color.BLACK);
             sentry.setFill(Color.RED);
-
             getChildren().add(sentry);
         }
-        else if(Menu.state == "vertWall") {
-            Rectangle vertWall = new Rectangle();
-            /**Extra condition to see if you are closer to left or right side of square.
-             * If you are closer to the left, place on the left.
-             * If you are closer to the right, place on the right.
-             */
-        }
-        else if(Menu.state == "horWall") {
-            Rectangle horWall = new Rectangle();
-            /** Same applies as above.
-             * But this time check proximity to upper/lower bound.
-             */
+        else if(Menu.state == "Wall") {
+            Rectangle Wall = new Rectangle();
+            Wall.setHeight(w.gridHeight);
+            Wall.setWidth(w.gridWidth);
+            Wall.setFill(Color.GRAY);
+            Wall.setStroke(Color.BLACK);
+            getChildren().add(Wall);
+
+
         }
         else if(Menu.state == "horWindow") {
 
@@ -87,40 +107,34 @@ public class Square extends StackPane {
             horWindow.setWidth(w.gridWidth);
             horWindow.setStroke(Color.BLACK);
             horWindow.setFill(Color.WHITE);
-            double currentSquareY = ((int) ((e.getSceneY()/ w.getgridHeight())) * (getHeight()-1));
-            System.out.println("e.getsceneY() is " + e.getSceneY());
-            System.out.println("w.getgridHeight() is " + w.getgridHeight());
-            System.out.println("getHeight is " + getHeight());
-            System.out.println("currentsquareY is " + currentSquareY);
-
-            if((e.getSceneY()/w.getgridHeight()) * 20  < (currentSquareY/2) +5) {
-                System.out.println("First statement works");
-                System.out.println((e.getSceneY()/w.getgridHeight()) * 20 + "<" + ((currentSquareY)/(2) + 5));
-                horWindow.setX((int) (e.getSceneX()/w.getgridWidth()));
-                horWindow.setY((int) (e.getSceneY()/w.getgridHeight()));
-                getChildren().add(horWindow);
-            }
-            else if((e.getSceneY()/w.getgridHeight()) * 20 >= (currentSquareY/2) + 5) {
-                System.out.println("Second statement works");
-                System.out.println((e.getSceneY()/w.getgridHeight()) * 20 + ">=" + ((currentSquareY)/(2) + 5));
-                horWindow.setX((int) (e.getSceneX()/w.getgridWidth()));
-                horWindow.setY((int) (e.getSceneY() - w.getgridHeight())/ (w.getgridHeight()) + 0.5 * w.getgridHeight());
-                getChildren().add(horWindow);
-            }
-            else
-                System.out.println("Nothing works. It's all fucked.");
+            getChildren().add(horWindow);
 
         }
         else if(Menu.state == "verWindow") {
             Rectangle verWindow = new Rectangle();
-            //Same checking
+            verWindow.setHeight(w.gridHeight);
+            verWindow.setWidth(w.gridWidth/4);
+            verWindow.setFill(Color.WHITE);
+            verWindow.setStroke(Color.BLACK);
+            getChildren().add(verWindow);
+
         }
         else if(Menu.state == "horDoor") {
             Rectangle horDoor = new Rectangle();
-            //Doors can be placed up down left or right, unless bordered by walls.
+            horDoor.setHeight(w.gridHeight/3);
+            horDoor.setWidth(w.gridWidth);
+            horDoor.setFill(Color.BROWN);
+            horDoor.setStroke(Color.BLACK);
+            getChildren().add(horDoor);
         }
         else if(Menu.state == "verDoor") {
             Rectangle verDoor = new Rectangle();
+            verDoor.setHeight(w.gridHeight);
+            verDoor.setWidth(w.gridWidth/3);
+            verDoor.setFill(Color.BROWN);
+            verDoor.setStroke(Color.BLACK);
+            getChildren().add(verDoor);
+
         }
         else{System.out.println("FUCK");}
     }
