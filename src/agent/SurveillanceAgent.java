@@ -8,7 +8,8 @@ import java.util.Vector;
 public class SurveillanceAgent extends Agent{
 	
 	//speed per millisecond
-	private double baseSpeed = 0.0014;
+	public double baseSpeed = 0.0014;
+	public double speed;
 	private int seeLength = 6000;
 	private Point vector;
 	private double angle;
@@ -16,6 +17,7 @@ public class SurveillanceAgent extends Agent{
 	private Point position;
 	//looking vectors
 	ArrayList<Point> seenSquares;
+
 	//visual range 6 m
 	
 	private double tempAngle = 0;
@@ -51,6 +53,8 @@ public class SurveillanceAgent extends Agent{
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, position));
 		return seenSquares;
 	}
+	
+	
 
 	public void updateMap(int x, int y, int i) {
 		map[x][y] = i;

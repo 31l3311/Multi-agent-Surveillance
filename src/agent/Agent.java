@@ -4,12 +4,15 @@ package agent;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import org.apache.commons.math3.distribution.NormalDistribution;
+
 public abstract class Agent{
 	
 	public double angle;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> seenSquares = new ArrayList<Point>();
+	private double distance;
 	
 	public abstract void move(int time);
 	//public abstract void turn(int angle);
@@ -76,6 +79,21 @@ public abstract class Agent{
 		}}
 		return seenSquares;
 	}
+	
+	public void hear(ArrayList<SurveillanceAgent> agents, Point position) {
+		for(int i = 0; i<agents.size(); i++) {
+		distance = Math.sqrt(Math.pow((position.x + agents.get(i).getPosition().x), 2) + Math.pow((position.y + agents.get(i).getPosition().y), 2));
+		if((agents.get(i).speed < 0.5 && distance<1000) ||
+		   (agents.get(i).speed >= 0.5 && agents.get(i).speed<1 && distance<3000)	||
+		   (agents.get(i).speed >= 1 && agents.get(i).speed<2 && distance<5000) ||
+		   (agents.get(i).speed >= 2 && distance<10000)
+				) {
+			Point vector = new Point(position.x - agents.get(i).getPosition().x, position.y - agents.get(i).getPosition().y);
+			double angle = findAngle(vector);
+			NormalDistribution normal = new NormalDistribution(angle, 10);
+			double direction = normal.sample();
+		}
+	}}
 	
 	public double findAngle(Point vector) {
 		double tempAngle = 0;

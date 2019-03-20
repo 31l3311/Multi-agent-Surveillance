@@ -24,12 +24,12 @@ public class Intruder extends Agent{
 		this.position = position;
 	}
 	
-	public ArrayList update(int time, boolean sprint) {
-		if(this.sprint != sprint && sprint == true) {
+	public ArrayList update(int time, boolean s) {
+		if(sprint != s && s == true) {
 			if(timeWalked>= (10000/time)) {
 			timeSprinted = 0;
 			timeWalked = 0;
-			this.sprint = sprint;
+			sprint = s;
 			}
 		}
 		move(time);
