@@ -28,21 +28,20 @@ public class MainApp extends Application {
     public double getgridHeight() {
         return gridHeight;
     }
-
     public static void main(String[] args) {
         launch(args);
     }
+    Group root = new Group();
 
     @Override
     public void start(Stage primaryStage) {
 
-        Group root = new Group();
 
         // initialize playfield
         for( int i=0; i < rowCells; i++) {
             for (int j = 0; j < columnCells; j++) {
 //                if (i == 0|| i==50) {
-                Square test = new Square(i * gridWidth, j * gridHeight, gridWidth, gridHeight);
+                Square test = new Square(i * gridWidth, j * gridHeight, gridWidth, gridHeight, false);
                 root.getChildren().add(test);
                 Rectangle borderWalls = new Rectangle(i * gridWidth, j * gridHeight, gridWidth, gridHeight);
                 borderWalls.setHeight(gridHeight);
@@ -58,7 +57,7 @@ public class MainApp extends Application {
             for( int j=1; j < 49; j++) {
 
                 // create node
-                Square node = new Square(i * gridWidth, j * gridHeight, gridWidth, gridHeight);
+                Square node = new Square(i * gridWidth, j * gridHeight, gridWidth, gridHeight, false);
                 // add node to group
                 root.getChildren().add(node);
                 playfield[i][j] = node;
@@ -77,8 +76,6 @@ public class MainApp extends Application {
         primaryStage.setResizable(true);
         primaryStage.sizeToScene();
         primaryStage.setTitle("Multi Agent Surveillance");
-        
-        
         
     }
     static double windowWidth = 1000;

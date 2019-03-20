@@ -5,6 +5,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -13,21 +14,34 @@ public class Square extends StackPane {
     MainApp w = new MainApp();
     Properties p = new Properties();
    //ArrayList<Shapes> list = new ArrayList<Shapes>();
+    public static boolean getCleared = false;
+    List<Integer> objectProperties = new LinkedList<Integer>();
 
-
-    public Square(double x, double y, double width, double height) {
+    public Square(double x, double y, double width, double height, boolean getCleared) {
 
         // create rectangle
-        Rectangle rectangle = new Rectangle(x, y, width, height);
-        rectangle.setStroke(Color.BLACK);
-        rectangle.setFill(Color.LIGHTGREEN);
-
-        setOnMousePressed(e->mousePressedOnSquare(e));
-
-        // set position
-        setTranslateX(x);
-        setTranslateY(y);
-        getChildren().addAll(rectangle);
+        if(getCleared) {
+            Rectangle rectangle = new Rectangle(x, y, width, height);
+            rectangle.setStroke(Color.BLACK);
+            rectangle.setFill(Color.LIGHTGREEN);
+            setOnMousePressed(e -> mousePressedOnSquare(e));
+            // set position
+            setTranslateX(x);
+            setTranslateY(y);
+            getChildren().removeAll(rectangle);
+            System.out.println("Break rectangles");
+        }
+        else if(getCleared = false){
+            Rectangle rectangle = new Rectangle(x, y, width, height);
+            rectangle.setStroke(Color.BLACK);
+            rectangle.setFill(Color.LIGHTGREEN);
+            setOnMousePressed(e -> mousePressedOnSquare(e));
+            // set position
+            setTranslateX(x);
+            setTranslateY(y);
+            getChildren().addAll(rectangle);
+            System.out.println("Build rectangles");
+        }
     }
 
     void mousePressedOnSquare(MouseEvent e) {
@@ -38,6 +52,7 @@ public class Square extends StackPane {
             sentry.setFill(Color.RED);
             getChildren().add(sentry);
 
+
         }
         else if(Menu.state == "Wall") {
             Rectangle Wall = new Rectangle();
@@ -46,6 +61,7 @@ public class Square extends StackPane {
             Wall.setFill(Color.GRAY);
             Wall.setStroke(Color.BLACK);
             getChildren().add(Wall);
+
 
         }
         else if(Menu.state == "horWindow") {
