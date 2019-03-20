@@ -1,7 +1,5 @@
 package main;
 
-
-
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -40,7 +38,7 @@ public class Run {
 	
 	public void check(ArrayList<Point> squares) {
 		for(int i = 0; i<squares.size(); i++) {
-			System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
+			//System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			agent.updateMap(squares.get(i).x , squares.get(i).y, board[squares.get(i).x][squares.get(i).x]);
 		}
 	}
