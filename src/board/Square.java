@@ -1,3 +1,5 @@
+package board;
+
 
 
 import com.sun.org.apache.regexp.internal.RE;
@@ -27,7 +29,7 @@ public class Square extends StackPane {
     List<Integer> objectProperties = new LinkedList<Integer>();
 
 
-    public Square(double x, double y, double width, double height) {
+    public Square(double x, double y, double width, double height,boolean getCleared) {
 
         // create rectangle
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -42,7 +44,6 @@ public class Square extends StackPane {
         setTranslateY(y);
         getChildren().addAll(rectangle);
         if(getCleared) {
-            Rectangle rectangle = new Rectangle(x, y, width, height);
             rectangle.setStroke(Color.BLACK);
             rectangle.setFill(Color.LIGHTGREEN);
             setOnMousePressed(e -> mousePressedOnSquare(e));
@@ -53,7 +54,6 @@ public class Square extends StackPane {
             System.out.println("Break rectangles");
         }
         else if(getCleared = false){
-            Rectangle rectangle = new Rectangle(x, y, width, height);
             rectangle.setStroke(Color.BLACK);
             rectangle.setFill(Color.LIGHTGREEN);
             setOnMousePressed(e -> mousePressedOnSquare(e));

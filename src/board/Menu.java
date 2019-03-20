@@ -1,3 +1,5 @@
+package board;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
@@ -124,11 +126,7 @@ public class Menu {
  		menu.setSpacing(20);
  		menu.setMinWidth(menuWidth);
 	
- 		return menu;
-		menu.getChildren().addAll(clearBoard,chooseType);
-		menu.setAlignment(Pos.TOP_CENTER);
-		menu.setSpacing(20);
-		menu.setMinWidth(menuWidth);
+
 
 		return menu;
 	}

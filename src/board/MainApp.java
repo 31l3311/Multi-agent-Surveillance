@@ -1,3 +1,5 @@
+package board;
+
 import javax.swing.JComboBox;
 
 import javafx.application.Application;
@@ -36,6 +38,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+    	Group root = new Group();
 
         // initialize playfield
         for( int i=0; i < rowCells; i++) {
@@ -57,7 +60,7 @@ public class MainApp extends Application {
             for( int j=1; j < 49; j++) {
 
                 // create node
-                Square node = new Square( i * gridWidth, j * gridHeight, gridWidth, gridHeight);
+                Square node = new Square( i * gridWidth, j * gridHeight, gridWidth, gridHeight, false);
                 // add node to group
                 root.getChildren().add(node);
                 // add to playfield for further reference using an array
