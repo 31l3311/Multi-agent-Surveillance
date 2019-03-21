@@ -12,8 +12,6 @@ public class SurveillanceAgent extends Agent{
 	private Point vector;
 	private double angle;
 	//defined as coordinates x,y in millimeters
-	private Point position;
-	private Point initialPos;
 	//looking vectors
 	ArrayList<Point> seenSquares;
 	ArrayList<Point> myDirection = new ArrayList<Point>();
@@ -27,7 +25,6 @@ public class SurveillanceAgent extends Agent{
 
 	public SurveillanceAgent(Point position) {
 		this.position = position;
-		initialPos = position;
 		vector = new Point(1, 1);
 		angle = findAngle(vector);
 		seenSquares = new ArrayList<Point>();
@@ -50,12 +47,12 @@ public class SurveillanceAgent extends Agent{
 		seenSquares.clear();
 		myDirection.clear();
 		System.out.println("Position in sur agent: " + position.x + ", " + position.y);
-		myDirection = checkVectorSight(vector, seeLength, position);
+		myDirection = checkVectorSight(vector, seeLength);
 		seenSquares.addAll(myDirection);
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, position));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, position));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, position));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, position));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength));
 		return seenSquares;
 	}
 
@@ -72,7 +69,6 @@ public class SurveillanceAgent extends Agent{
 
 	@Override
 	public void move(int time) {
-		System.out.println("Initial Position: " + initialPos.x + ", " + initialPos.y);
 		System.out.println("Current Position: " + position.x + ", " + position.y);
 		double u = ((time*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		position.x += Math.round(1000*(u*vector.x));

@@ -56,11 +56,11 @@ public class Intruder extends Agent{
 	
 	public ArrayList look() {
 		seenSquares.clear();
-		seenSquares.addAll(checkVectorSight(vector, seeLength, position));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, position));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, position));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, position));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, position));
+		seenSquares.addAll(checkVectorSight(vector, seeLength));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength));
 		return seenSquares;
 	}
 
