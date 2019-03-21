@@ -17,9 +17,9 @@ public class Run {
 	private Timeline GameTimer;
 	private SurveillanceAgent agent = new SurveillanceAgent(new Point(0,0));;
 	private int time = 50;
-	private ArrayList<SurveillanceAgent> agents;
-	private ArrayList<Intruder> intruders;
-	private ArrayList<Point> positions;
+	private ArrayList<SurveillanceAgent> agents = new ArrayList<>();
+	private ArrayList<Intruder> intruders = new ArrayList<>();
+	private ArrayList<Point> positions = new ArrayList<>();
 
 
 	public Run(int[][] board) {
@@ -57,7 +57,7 @@ public class Run {
 
 	public void check(ArrayList<Point> squares, int j) {
 		for(int i = 0; i<squares.size(); i++) {
-			//System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
+			System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			agents.get(j).updateMap(squares.get(i).x , squares.get(i).y, board[squares.get(i).x][squares.get(i).x]);
 		}
 		}
@@ -67,7 +67,7 @@ public class Run {
 		positions.clear();
 		for(int i = 0; i<agents.size(); i++) {
 		check(agents.get(i).update(time), i);
-		//agents.get(i).hear(agents);	
+		//agents.get(i).hear(agents);
 		}
 		
 	}

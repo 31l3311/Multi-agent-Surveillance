@@ -83,7 +83,7 @@ public class Menu {
  			quit.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-
+					System.exit(0);
 				}
 			});
 
@@ -115,7 +115,6 @@ public class Menu {
 				@Override
 				public void handle(ActionEvent event) {
 					run.startTimer();
-
 				}
 			});
 
