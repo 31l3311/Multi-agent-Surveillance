@@ -1,30 +1,28 @@
 package board;
 
+import javafx.event.ActionEvent;
+
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
+
+import agent.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.BorderPane;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import agent.*;
-import main.*;
+import main.Run;
+
 import java.awt.Point;
-import javafx.scene.Node;
-import javafx.stage.Stage;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import java.awt.event.ActionListener;
+
 
 public class Menu {
 
@@ -35,7 +33,7 @@ public class Menu {
 
 	public static Agent agent1;
 	public static Agent agent2;
-	private Run run = new Run();
+	private Run run = new Run(Square.board);
 
 	public Menu(Group root) {
 		Group squares = root;
@@ -55,6 +53,7 @@ public class Menu {
 		chooseType.getItems().add("horWindow");
 		chooseType.getItems().add("horDoor");
 		chooseType.getItems().add("verDoor");
+		chooseType.getItems().add("Tree");
 
 		//Listening for selection changes
 		chooseType.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> state = newValue);
@@ -125,8 +124,6 @@ public class Menu {
  		menu.setAlignment(Pos.TOP_CENTER);
  		menu.setSpacing(20);
  		menu.setMinWidth(menuWidth);
-	
-
 
 		return menu;
 	}
