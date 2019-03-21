@@ -1,4 +1,5 @@
 import javafx.scene.input.MouseEvent;
+import com.sun.org.apache.regexp.internal.RE;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
