@@ -15,6 +15,7 @@ public class SurveillanceAgent extends Agent{
 	private Point position;
 	//looking vectors
 	ArrayList<Point> seenSquares;
+	ArrayList<Point> myDirection = new ArrayList<Point>();
 
 	//visual range 6 m
 	
@@ -44,7 +45,9 @@ public class SurveillanceAgent extends Agent{
 
 	public ArrayList look() {
 		seenSquares.clear();
-		seenSquares.addAll(checkVectorSight(vector, seeLength, position));
+		myDirection.clear();
+		myDirection = checkVectorSight(vector, seeLength, position);
+		seenSquares.addAll(myDirection);
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, position));
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, position));
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, position));

@@ -17,13 +17,14 @@ public class Run {
 	private Timeline GameTimer;
 	private SurveillanceAgent agent = new SurveillanceAgent(new Point(0,0));;
 	private int time = 50;
-	private ArrayList<SurveillanceAgent> agents;
+	private ArrayList<SurveillanceAgent> agents = new ArrayList<SurveillanceAgent>();
 	private ArrayList<Intruder> intruders;
-	private ArrayList<Point> positions;
+	private ArrayList<Point> positions = new ArrayList<Point>();
 
 
 	public Run(int[][] board) {
 		this.board = board;
+		agents.add(agent);
 	}
 
 
