@@ -5,8 +5,6 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import sun.management.resources.agent;
 
-
-
 public class Run {
 
 	int[][] board;
@@ -28,7 +26,6 @@ public class Run {
 	GameTimer.play();
 	}
 
-
 	public void printBoard() {
 		for(int i=0; i<50; i++) {
 			for(int j=0; j<50; j++) {
@@ -49,13 +46,15 @@ public class Run {
 
 	public void check(ArrayList<Point> squares) {
 		for(int i = 0; i<squares.size(); i++) {
-			System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
+			//System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			agent.updateMap(squares.get(i).x , squares.get(i).y, board[squares.get(i).x][squares.get(i).x]);
+
 		}
 	}
 
 	public void update() {
 		//setBoard();
 		check(agent.update(time));
+
 	}
 }
