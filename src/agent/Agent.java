@@ -10,6 +10,7 @@ public abstract class Agent{
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> seenSquares = new ArrayList<Point>();
 	private double distance;
+	private Point newSquare;
 	
 	public abstract void move(int time);
 	//public abstract void turn(int angle);
@@ -61,17 +62,19 @@ public abstract class Agent{
 	}
 	
 	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, Point position) {
+		System.out.println("position x and Y: " + position.x + ", " + position.y);
 		seenSquares.clear();
-		double u = (seeLength*0.1)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
+		//u creates a vector in same direction with correct length
+		double u = (seeLength)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		System.out.println("U: " + u);
 		for(int i = 0; i<10; i++) {
-			position.x += (u*seeVector.x);
-			position.y += (u*seeVector.y);
-		//System.out.println("posX and Y: " + posX + ", " + posY);
-		Point newSquare = new Point((int)(position.x/1000),(int)(position.y/1000));
+			position.x += 0.1*(u*seeVector.x);
+			position.y += 0.1*(u*seeVector.y);
+		System.out.println("posX and Y: " + position.x + ", " + position.y);
+		newSquare = new Point((int)(position.x/1000),(int)(position.y/1000));
 		if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
 			lastSquare = newSquare;
-			//System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
+			System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
 			seenSquares.add(lastSquare);
 		}}
 		return seenSquares;
