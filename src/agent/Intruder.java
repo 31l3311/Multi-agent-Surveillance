@@ -1,7 +1,3 @@
-package agent;
-
-
-
 import java.awt.Point;
 
 public class Intruder extends Agent{

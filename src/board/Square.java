@@ -1,6 +1,3 @@
-
-
-import com.sun.org.apache.regexp.internal.RE;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -8,26 +5,18 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javax.swing.*;
-import java.awt.*;
-import java.util.Random;
-import javafx.scene.shape.Shape;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
 
 public class Square extends StackPane {
 
     MainApp w = new MainApp();
     Properties p = new Properties();
-   //ArrayList<Shapes> list = new ArrayList<Shapes>();
+    Run r = new Run(board);
     public static boolean getCleared = false;
-    List<Integer> objectProperties = new LinkedList<Integer>();
+    public static int[][] board = new int[50][50];
 
 
-    public Square(double x, double y, double width, double height) {
+    public Square(double x, double y, double width, double height, boolean getCleared) {
 
         // create rectangle
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -42,7 +31,6 @@ public class Square extends StackPane {
         setTranslateY(y);
         getChildren().addAll(rectangle);
         if(getCleared) {
-            Rectangle rectangle = new Rectangle(x, y, width, height);
             rectangle.setStroke(Color.BLACK);
             rectangle.setFill(Color.LIGHTGREEN);
             setOnMousePressed(e -> mousePressedOnSquare(e));
@@ -53,7 +41,6 @@ public class Square extends StackPane {
             System.out.println("Break rectangles");
         }
         else if(getCleared = false){
-            Rectangle rectangle = new Rectangle(x, y, width, height);
             rectangle.setStroke(Color.BLACK);
             rectangle.setFill(Color.LIGHTGREEN);
             setOnMousePressed(e -> mousePressedOnSquare(e));
@@ -84,11 +71,11 @@ public class Square extends StackPane {
 
     void mousePressedOnSquare(MouseEvent e) {
         if(Menu.state == "Sentry") {
-            System.out.println("SENTRY SELECTED");
             Circle sentry = new Circle((e.getSceneX() / w.getgridWidth()), e.getSceneY() / w.getgridHeight(), 10);
             sentry.setStroke(Color.BLACK);
             sentry.setFill(Color.RED);
             getChildren().add(sentry);
+            board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 1;
         }
         else if(Menu.state == "Wall") {
             Rectangle Wall = new Rectangle();
@@ -97,7 +84,7 @@ public class Square extends StackPane {
             Wall.setFill(Color.GRAY);
             Wall.setStroke(Color.BLACK);
             getChildren().add(Wall);
-
+            board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 2;
 
         }
         else if(Menu.state == "horWindow") {
@@ -108,6 +95,7 @@ public class Square extends StackPane {
             horWindow.setStroke(Color.BLACK);
             horWindow.setFill(Color.WHITE);
             getChildren().add(horWindow);
+            board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 3;
 
         }
         else if(Menu.state == "verWindow") {
@@ -117,6 +105,7 @@ public class Square extends StackPane {
             verWindow.setFill(Color.WHITE);
             verWindow.setStroke(Color.BLACK);
             getChildren().add(verWindow);
+            board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 3;
 
         }
         else if(Menu.state == "horDoor") {
@@ -126,6 +115,9 @@ public class Square extends StackPane {
             horDoor.setFill(Color.BROWN);
             horDoor.setStroke(Color.BLACK);
             getChildren().add(horDoor);
+            board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 4;
+
+
         }
         else if(Menu.state == "verDoor") {
             Rectangle verDoor = new Rectangle();
@@ -134,8 +126,19 @@ public class Square extends StackPane {
             verDoor.setFill(Color.BROWN);
             verDoor.setStroke(Color.BLACK);
             getChildren().add(verDoor);
+            board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 4;
+
 
         }
-        else{System.out.println("FUCK");}
+        else if(Menu.state == "Tree") {
+            Circle tree = new Circle((e.getSceneX() / w.getgridWidth()), e.getSceneY() / w.getgridHeight(), 10);
+            tree.setStroke(Color.BLACK);
+            tree.setFill(Color.DARKGREEN);
+            getChildren().add(tree);
+            board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 5;
+            //r.printBoard();
+            //Uncommment above if you want to print the 2d array containing the objects, for some reason
+
+        }
     }
 }

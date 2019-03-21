@@ -1,24 +1,20 @@
-
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-import agent.*;
-
-import java.awt.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-import sun.management.resources.agent;
-import board.Menu;
 
 
 public class Run {
 
+	int[][] board;
 	private Timeline GameTimer;
 	private SurveillanceAgent agent = new SurveillanceAgent(new Point(0,0));;
 	private int time = 50;
-	private int[][] board = new int[200][200];
+
+	public Run(int[][] board) {
+		this.board = board;
+	}
 
 
 	public void startTimer() {
@@ -28,12 +24,25 @@ public class Run {
 	GameTimer.getKeyFrames().add(mainFrame);
 	GameTimer.setCycleCount(Timeline.INDEFINITE);
 	GameTimer.play();
-
-	//GameTimer.stop();
 	}
-	
-	public void setBoard() {
-		board[20][20] = 1;
+
+
+	public void printBoard() {
+		for(int i=0; i<50; i++) {
+			for(int j=0; j<50; j++) {
+				//Sentry = 1, Wall = 2, horWindow/verWindow = 3, horDoor/verDoor = 4, Tree = 5
+				if((board[1][j] == 1) || (board[i][j] == 2) || (board[i][j] == 3) || (board[i][j] == 4) || (board[i][j] == 5)) {
+					//do nothing
+				}
+				else {
+					board[i][j] = 0;
+				}
+			}
+		}
+	}
+
+	public int[][] getBoard() {
+		return board;
 	}
 
 	public void check(ArrayList<Point> squares) {
@@ -43,10 +52,8 @@ public class Run {
 		}
 	}
 
-
 	public void update() {
-		setBoard();
+		//setBoard();
 		check(agent.update(time));
-
 	}
 }
