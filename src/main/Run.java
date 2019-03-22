@@ -2,20 +2,21 @@ import java.awt.Point;
 import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import sun.management.resources.agent;
 
 public class Run {
 
 	int[][] board;
 	private Timeline GameTimer;
 	private SurveillanceAgent agent = new SurveillanceAgent(new Point(0,0));;
+	private MainApp main = new MainApp();
 	private int time = 50;
 
 	public Run(int[][] board) {
 		this.board = board;
 	}
-
 
 	public void startTimer() {
 	GameTimer = new Timeline();
@@ -55,6 +56,23 @@ public class Run {
 	public void update() {
 		//setBoard();
 		check(agent.update(time));
+		agent.move(time);
 
+		//Creation surveillance agent graphic
+
+		Rectangle surveillance = new Rectangle();
+		surveillance.setWidth(20);
+		surveillance.setHeight(20);
+		surveillance.setFill(Color.BLUE);
+		surveillance.setStroke(Color.BLACK);
+
+		//assigning translation values from fixed in node to anywhere on the board
+
+		int translateX_value = (int) agent.getTranslation()[0];
+		int translateY_value = (int) agent.getTranslation()[2];
+
+		//pass to a method in square that uses these values to translate
+
+		System.out.println("GETS HERE!");
 	}
 }

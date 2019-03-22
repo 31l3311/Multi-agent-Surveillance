@@ -31,6 +31,7 @@ public class SurveillanceAgent extends Agent{
 	public ArrayList update(int time) {
 		move(time);
 		return look();
+
 	}
 
 	public ArrayList update(int time, double newAngle) {
@@ -38,7 +39,6 @@ public class SurveillanceAgent extends Agent{
 		vector = movingTurn(newAngle, time, vector);
 		return look();
 	}
-
 
 	public ArrayList look() {
 		seenSquares.clear();
@@ -51,7 +51,6 @@ public class SurveillanceAgent extends Agent{
 	}
 
 
-
 	public void updateMap(int x, int y, int i) {
 		map[x][y] = i;
 		if(i == 1) {
@@ -60,7 +59,6 @@ public class SurveillanceAgent extends Agent{
 		}
 	}
 
-
 	@Override
 	public void move(int time) {
 		double u = ((time*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
@@ -68,8 +66,26 @@ public class SurveillanceAgent extends Agent{
 		position.y += Math.round(1000*(u*vector.y));
 	}
 
+	public int[] getTranslation() {
 
+		int[] translation = new int[2];
+		int actual_x = (int) getPosition().getX();
+		int actual_y = (int) getPosition().getY();
 
+		int locX = ( (int) (getPosition().getX())/1000);
+		int locY = ( (int) (getPosition().getY())/1000);
 
-	
+		//calculation of pixels to square
+
+		int closest_x = (locX - 1) * 20 * 50;
+		int closest_y = (locY - 1) * 20 * 50;
+
+		int x_in_pix = Math.abs(closest_x - actual_x);
+		int y_in_pix = Math.abs(closest_y - actual_y);
+
+		translation[0] = x_in_pix;
+		translation[1] = y_in_pix;
+		System.out.println("GETS HERE 2!");
+		return translation;
+	}
 }

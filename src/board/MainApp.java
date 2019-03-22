@@ -1,7 +1,4 @@
 import javafx.application.Application;
-
-import javax.swing.JComboBox;
-
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -28,21 +25,6 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
 
         Group root = new Group();
-        // initialize playfield
-        for( int i=0; i < rowCells; i++) {
-            for (int j = 0; j < columnCells; j++) {
-//                if (i == 0|| i==50) {
-                Square test = new Square(i * gridWidth, j * gridHeight, gridWidth, gridHeight, false);
-                root.getChildren().add(test);
-                Rectangle borderWalls = new Rectangle(i * gridWidth, j * gridHeight, gridWidth, gridHeight);
-                borderWalls.setHeight(gridHeight);
-                borderWalls.setWidth(gridWidth);
-                borderWalls.setStroke(Color.DARKSLATEGREY);
-                borderWalls.setFill(Color.DARKSLATEGREY);
-                root.getChildren().addAll(borderWalls);
-                playfield[i][j] = test;
-            }
-        }
 
         for( int i=1; i < 49; i++) {
             for( int j=1; j < 49; j++) {
@@ -57,10 +39,11 @@ public class MainApp extends Application {
         }
         //run = new Run();
         //run.startTimer();
-        	BorderPane pane = new BorderPane();
-        	Menu menu = new Menu(root);
+        BorderPane pane = new BorderPane();
+        Menu menu = new Menu(root);
         pane.setLeft(root);
         pane.setRight(menu.createMenu());
+
         Scene scene = new Scene( pane, windowWidth+menu.menuWidth, windowHeight);
         primaryStage.setScene( scene);
         primaryStage.show();

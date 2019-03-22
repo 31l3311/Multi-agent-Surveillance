@@ -1,6 +1,6 @@
 import java.awt.Point;
 import java.util.ArrayList;
-import org.apache.commons.math3.distribution.NormalDistribution;
+//import org.apache.commons.math3.distribution.NormalDistribution;
 
 public abstract class Agent{
 	
@@ -86,8 +86,8 @@ public abstract class Agent{
 				) {
 			Point vector = new Point(position.x - agents.get(i).getPosition().x, position.y - agents.get(i).getPosition().y);
 			double angle = findAngle(vector);
-			NormalDistribution normal = new NormalDistribution(angle, 10);
-			double direction = normal.sample();
+			//NormalDistribution normal = new NormalDistribution(angle, 10);
+			//double direction = normal.sample();
 		}
 	}}
 	
@@ -141,5 +141,5 @@ public abstract class Agent{
 	public Point getPosition() {
 		return position;
 	}
-	
+
 }

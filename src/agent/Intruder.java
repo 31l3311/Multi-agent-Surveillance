@@ -12,7 +12,6 @@ public class Intruder extends Agent{
 	private int timeSprinted;
 	private int timeWalked;
 	private boolean sprint;
-	
 	private ArrayList<Point> seenSquares;
 	//visual range 7.5 m
 	
@@ -77,6 +76,4 @@ public class Intruder extends Agent{
 		position.x += Math.round(1000*(u*vector.x));
 		position.y += Math.round(1000*(u*vector.y));
 	}
-
-	
 }
