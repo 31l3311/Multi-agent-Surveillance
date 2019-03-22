@@ -1,11 +1,12 @@
+package board;
 
+import com.sun.prism.paint.Color;
 import javafx.event.ActionEvent;
 
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -17,8 +18,10 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
+import agent.*;
+import main.Run;
 
-import java.awt.Point;
+import java.awt.*;
 
 
 public class Menu {
@@ -96,7 +99,6 @@ public class Menu {
 				public void handle(ActionEvent event) {
 					agent1 = new SurveillanceAgent( new Point(10,10));
 
-
 				}
 			});
 
@@ -112,6 +114,7 @@ public class Menu {
 				@Override
 				public void handle(ActionEvent event) {
 					run.startTimer();
+					MainApp.circle.setRadius(10);
 				}
 			});
 

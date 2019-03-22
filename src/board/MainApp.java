@@ -1,9 +1,12 @@
+package board;
 
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -38,6 +41,14 @@ public class MainApp extends Application {
                 playfield[i][j] = node;
             }
         }
+
+        circle = new Circle();
+        circle.setCenterX(gridWidth);
+        circle.setCenterY(gridHeight);
+        circle.setRadius(0);
+        circle.setFill(Color.BLUE);
+        root.getChildren().add(circle);
+
         //run = new Run();
         //run.startTimer();
         BorderPane pane = new BorderPane();
@@ -52,6 +63,7 @@ public class MainApp extends Application {
         primaryStage.sizeToScene();
         primaryStage.setTitle("Multi Agent Surveillance");
 
+
     }
     static double windowWidth = 1000;
     static double windowHeight = 1000;
@@ -59,7 +71,8 @@ public class MainApp extends Application {
     static int rowCells = 50;
     static int columnCells = 50;
 
-    public double gridWidth = windowWidth / rowCells;
-    public double gridHeight = windowHeight / columnCells;
+    public static double gridWidth = windowWidth / rowCells;
+    public static double gridHeight = windowHeight / columnCells;
     private Square[][] playfield = new Square[rowCells][columnCells];
+    public static Circle circle;
 }
