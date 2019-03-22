@@ -1,9 +1,11 @@
+
 import javafx.event.ActionEvent;
 
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -15,6 +17,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
+
 import java.awt.Point;
 
 
@@ -77,7 +80,7 @@ public class Menu {
  			quit.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-
+					System.exit(0);
 				}
 			});
 
@@ -109,7 +112,6 @@ public class Menu {
 				@Override
 				public void handle(ActionEvent event) {
 					run.startTimer();
-
 				}
 			});
 

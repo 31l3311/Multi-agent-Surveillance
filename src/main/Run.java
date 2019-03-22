@@ -8,14 +8,22 @@ import javafx.util.Duration;
 
 public class Run {
 
-	int[][] board;
+	private int[][] board;
 	private Timeline GameTimer;
 	private SurveillanceAgent agent = new SurveillanceAgent(new Point(0,0));;
 	private MainApp main = new MainApp();
 	private int time = 50;
 
+	private ArrayList<SurveillanceAgent> agents = new ArrayList<>();
+	private ArrayList<Intruder> intruders = new ArrayList<>();
+	private ArrayList<Point> positions = new ArrayList<>();
+
+
+
 	public Run(int[][] board) {
+		SurveillanceAgent agent = new SurveillanceAgent(new Point(0,0));
 		this.board = board;
+		agents.add(agent);
 	}
 
 	public void startTimer() {
@@ -45,34 +53,20 @@ public class Run {
 		return board;
 	}
 
-	public void check(ArrayList<Point> squares) {
+	public void check(ArrayList<Point> squares, int j) {
 		for(int i = 0; i<squares.size(); i++) {
-			//System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
-			agent.updateMap(squares.get(i).x , squares.get(i).y, board[squares.get(i).x][squares.get(i).x]);
-
+			System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
+			agents.get(j).updateMap(squares.get(i).x , squares.get(i).y, board[squares.get(i).x][squares.get(i).x]);
 		}
-	}
+		}
+
 
 	public void update() {
-		//setBoard();
-		check(agent.update(time));
-		agent.move(time);
+		positions.clear();
+		for(int i = 0; i<agents.size(); i++) {
+		check(agents.get(i).update(time), i);
+		//agents.get(i).hear(agents);
+		}
 
-		//Creation surveillance agent graphic
-
-		Rectangle surveillance = new Rectangle();
-		surveillance.setWidth(20);
-		surveillance.setHeight(20);
-		surveillance.setFill(Color.BLUE);
-		surveillance.setStroke(Color.BLACK);
-
-		//assigning translation values from fixed in node to anywhere on the board
-
-		int translateX_value = (int) agent.getTranslation()[0];
-		int translateY_value = (int) agent.getTranslation()[2];
-
-		//pass to a method in square that uses these values to translate
-
-		System.out.println("GETS HERE!");
 	}
 }
