@@ -53,6 +53,8 @@ public class Square extends StackPane {
         }
     }
 
+
+
     void pacmanPositioner(){
 
         Circle pacman = new Circle((987 / w.getgridWidth()), 654 / w.getgridHeight(), 9);
@@ -75,6 +77,8 @@ public class Square extends StackPane {
             Circle sentry = new Circle((e.getSceneX() / w.getgridWidth()), e.getSceneY() / w.getgridHeight(), 10);
             sentry.setStroke(Color.BLACK);
             sentry.setFill(Color.RED);
+            //setTranslateX(e.getSceneX() - 300 );
+            //setTranslateY(e.getSceneY() - 300 );
             getChildren().add(sentry);
             board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 1;
         }
@@ -82,7 +86,7 @@ public class Square extends StackPane {
             Rectangle Wall = new Rectangle();
             Wall.setHeight(w.gridHeight);
             Wall.setWidth(w.gridWidth);
-            Wall.setFill(Color.GRAY);
+            Wall.setFill(Color.RED);
             Wall.setStroke(Color.BLACK);
             getChildren().add(Wall);
             board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 2;
@@ -138,7 +142,7 @@ public class Square extends StackPane {
             getChildren().add(tree);
             board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 5;
             //r.printBoard();
-            //Uncommment above if you want to print the 2d array containing the objects, for some reason
+            //Uncomment above if you want to print the 2d array containing the objects, for some reason
 
         }
     }
