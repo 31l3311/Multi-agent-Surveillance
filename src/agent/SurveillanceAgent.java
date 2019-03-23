@@ -8,11 +8,9 @@ import java.util.ArrayList;
 public class SurveillanceAgent extends Agent{
 	
 	//speed per millisecond
-	public double baseSpeed = 0.0014;
 	public double speed;
 	private int seeLength = 6000;
-	private Point vector;
-	private double angle;
+	
 	//defined as coordinates x,y in millimeters
 	//looking vectors
 	
@@ -23,12 +21,13 @@ public class SurveillanceAgent extends Agent{
 	private Point tempVector = new Point();
 
 
-	public SurveillanceAgent(Point position, int time) {
+	public SurveillanceAgent(Point position, int time, Point size) {
 		this.position = position;
 		vector = new Point(1, 1);
 		angle = findAngle(vector);
 		seenSquares = new ArrayList<Point>();
 		this.time = time;
+		this.size = size;
 	}
 	
 	public ArrayList update() {
@@ -39,7 +38,12 @@ public class SurveillanceAgent extends Agent{
 
 	public ArrayList update(double newAngle) {
 		move(time);
-		vector = movingTurn(newAngle, time, vector);
+		vector = movingTurn(gon(newAngle), time, vector);
+		return look();
+	}
+	
+	public ArrayList update(boolean stop, double newAngle) {
+		vector = movingTurn(gon(newAngle), time, vector);
 		return look();
 	}
 
@@ -47,7 +51,7 @@ public class SurveillanceAgent extends Agent{
 		System.runFinalization();
 		seenSquares.clear();
 		myDirection.clear();
-		System.out.println("Position in sur agent: " + position.x + ", " + position.y);
+		//System.out.println("Position in sur agent: " + position.x + ", " + position.y);
 		myDirection = checkVectorSight(vector, seeLength);
 		seenSquares.addAll(myDirection);
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength));
@@ -60,11 +64,11 @@ public class SurveillanceAgent extends Agent{
 
 	@Override
 	public void move(int time) {
-		System.out.println("Current Position: " + position.x + ", " + position.y);
+		//System.out.println("Current Position: " + position.x + ", " + position.y);
 		double u = ((time*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		position.x += Math.round(1000*(u*vector.x));
 		position.y += Math.round(1000*(u*vector.y));
-		System.out.println("Updated Position: " + position.x + ", " + position.y);
+		//System.out.println("Updated Position: " + position.x + ", " + position.y);
 	}
 
 	public int[] getTranslation() {
@@ -86,7 +90,8 @@ public class SurveillanceAgent extends Agent{
 
 		translation[0] = x_in_pix;
 		translation[1] = y_in_pix;
-		System.out.println("GETS HERE 2!");
+		//System.out.println("GETS HERE 2!");
+		
 		return translation;
 	}
 }

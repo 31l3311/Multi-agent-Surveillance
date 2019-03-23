@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import agent.*;
+import apple.laf.JRSUIConstants.Direction;
 import board.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -32,7 +34,7 @@ public class Run {
 
 
 	public Run(int[][] board) {
-		RandomBot bot = new RandomBot(true, new Point(1000,1000), time, new Point(board.length, board[0].length));
+		RandomBot bot = new RandomBot(true, new Point(7000,7000), time, new Point(board.length, board[0].length));
 		this.board = board;
 		bots.add(bot);
 	}
@@ -76,7 +78,7 @@ public class Run {
 		}
 
 		//print array:
-		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		//System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
 	public int[][] getBoard() {
@@ -85,7 +87,7 @@ public class Run {
 
 	public void check(ArrayList<Point> squares, int j) {
 		for(int i = 0; i<squares.size(); i++) {
-			System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
+			//System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).x]);
 		}
 		}
@@ -97,6 +99,10 @@ public class Run {
 			check(bots.get(i).update(), i);
 			MainApp.circle.setCenterX(bots.get(i).agent.position.x*main.gridWidth/1000);
 			MainApp.circle.setCenterY(bots.get(i).agent.position.y*main.gridHeight/1000);
+			MainApp.line.setStartX(bots.get(i).agent.position.x*main.gridWidth/1000);
+			MainApp.line.setStartY(bots.get(i).agent.position.y*main.gridHeight/1000);
+			MainApp.line.setEndX(bots.get(i).agent.direction().x*main.gridWidth/1000);
+			MainApp.line.setEndY(bots.get(i).agent.direction().y*main.gridWidth/1000);
 			//MainApp.circle.setCenterX(Math.random()*4000*gridWidth);
 			//MainApp.circle.setCenterY(Math.random()*4000*gridHeight);
 		//agents.get(i).hear(agents);

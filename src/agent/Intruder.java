@@ -9,19 +9,18 @@ public class Intruder extends Agent{
 	
 	private double baseSpeed = 1.4;
 	private double sprintSpeed = 3;
-	private double angle;
 	private double sprintAngle;
 	private int seeLength = 7500;
-	private Point vector;
 	private int timeSprinted;
 	private int timeWalked;
 	private boolean sprint;
 	private ArrayList<Point> seenSquares;
 	//visual range 7.5 m
 	
-	public Intruder(Point position, int time) {
+	public Intruder(Point position, int time, Point size) {
 		this.position = position;
 		this.time = time;
+		this.size = size;
 	}
 	
 	public ArrayList update() {
@@ -77,5 +76,11 @@ public class Intruder extends Agent{
 		}
 		position.x += Math.round(1000*(u*vector.x));
 		position.y += Math.round(1000*(u*vector.y));
+	}
+
+	@Override
+	public ArrayList update(boolean stop, double newAngle) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

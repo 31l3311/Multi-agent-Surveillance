@@ -10,6 +10,8 @@ import org.apache.commons.math3.*;
 public abstract class Agent{
 	
 	public double angle;
+	protected Point vector;
+	public double baseSpeed = 0.0014;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> checkSight = new ArrayList<Point>();
@@ -17,6 +19,8 @@ public abstract class Agent{
 	private Point newSquare;
 	private Point temppos = new Point();
 	protected int time;
+	protected Point size;
+	private Point direction = new Point();
 	
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
@@ -26,24 +30,23 @@ public abstract class Agent{
 	
 	public abstract ArrayList update();
 	public abstract ArrayList update(double angle);
+	public abstract ArrayList update(boolean stop, double newAngle);
 	
 	public Point movingTurn(double newAngle, int time, Point vector) {
 		angle = findAngle(vector);
 		if(angle<=180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
-			if(newAngle-angle < 0.180*time)
-				angle = newAngle;
+			if(newAngle-angle < 0.180*time) {
+				angle = newAngle;}
 			else {
 				angle = angle + 0.180*time;
 			}
 		}
 		else {
-			if(newAngle > angle)
-				newAngle = 360 - newAngle;
-			if(angle-newAngle < 0.180*time)
-				angle = gon(newAngle);
-				//if(angle<0)
-					//angle = angle+360;
+			if(newAngle > angle) {
+				newAngle = 360 - newAngle;}
+			if(angle-newAngle < 0.180*time) {
+				angle = gon(newAngle);}
 			else {
 				angle = angle - 0.180*time;
 			}
@@ -51,17 +54,17 @@ public abstract class Agent{
 		//angle is bigger than 180
 		else {
 			if(newAngle<angle && newAngle>(angle-180)) {
-				if(newAngle-angle < 0.180*time)
-					angle = newAngle;
+				if(newAngle-angle < 0.180*time) {
+					angle = newAngle;}
 				else {
 					angle = angle + 0.180*time;
 				}
 			}
 			else {
-				if(newAngle < angle)
-					newAngle = 360 + newAngle;
-				if(newAngle- angle < 0.180*time)
-					angle = gon(newAngle);
+				if(newAngle < angle) {
+					newAngle = 360 + newAngle;}
+				if(newAngle- angle < 0.180*time) {
+					angle = gon(newAngle);}
 					//if(angle>360)
 						//angle = angle-360;
 				else {
@@ -74,23 +77,25 @@ public abstract class Agent{
 	}
 	
 	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength) {
-		System.out.println("position x and Y: " + position.x + ", " + position.y);
+		//System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
 		temppos.x = position.x;
 		temppos.y = position.y;
 		//u creates a vector in same direction with correct length
 		double u = (seeLength)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
-		System.out.println("U: " + u);
+		//System.out.println("U: " + u);
 		for(int i = 0; i<10; i++) {
 			temppos.x += 0.1*(u*seeVector.x);
 			temppos.y += 0.1*(u*seeVector.y);
-		System.out.println("posX and Y: " + temppos.x + ", " + temppos.y);
+		//System.out.println("posX and Y: " + temppos.x + ", " + temppos.y);
 		newSquare = new Point((int)(temppos.x/1000),(int)(temppos.y/1000));
 		if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
 			lastSquare = newSquare;
-			System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
-			checkSight.add(lastSquare);
-		}}
+			//System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
+		if(lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+			checkSight.add(lastSquare);}
+		}
+		}
 		return checkSight;
 	}
 	
@@ -158,6 +163,17 @@ public abstract class Agent{
 	
 	public Point getPosition() {
 		return position;
+	}
+	
+	public double getAngle() {
+		return angle;
+	}
+	
+	public Point direction() {
+		double u = ((1000*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
+		direction.x = (int) (position.x + Math.round(1000*(u*vector.x)));
+		direction.y = (int) (position.y + Math.round(1000*(u*vector.y)));
+		return direction;
 	}
 	
 }

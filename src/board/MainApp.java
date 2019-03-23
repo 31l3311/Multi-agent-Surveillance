@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -50,6 +51,9 @@ public class MainApp extends Application {
         circle.setRadius(0);
         circle.setFill(Color.BLUE);
         root.getChildren().add(circle);
+        
+        line = new Line();
+        root.getChildren().add(line);
 
         //run = new Run();
         //run.startTimer();
@@ -77,4 +81,5 @@ public class MainApp extends Application {
     public static double gridHeight = windowHeight / columnCells;
     private Square[][] playfield = new Square[rowCells][columnCells];
     public static Circle circle;
+    public static Line line;
 }
