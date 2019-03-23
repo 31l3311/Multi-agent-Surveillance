@@ -1,5 +1,6 @@
 package board;
 
+
 import com.sun.prism.paint.Color;
 import javafx.event.ActionEvent;
 
@@ -18,7 +19,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-import agent.*;
 import main.Run;
 
 import java.awt.*;
@@ -31,8 +31,7 @@ public class Menu {
 	MainApp mainApp = new MainApp();
 	public static boolean getCleared = true;
 
-	public static Agent agent1;
-	public static Agent agent2;
+	
 	private Run run = new Run(Square.board);
 
 	public Menu(Group root) {
@@ -97,7 +96,7 @@ public class Menu {
  			deployAgents.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					agent1 = new SurveillanceAgent( new Point(10,10));
+					//agent1 = new SurveillanceAgent( new Point(10,10));
 
 				}
 			});
@@ -105,7 +104,7 @@ public class Menu {
  			deployIntruders.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					agent2 = new Intruder( new Point(50, 50));
+					//agent2 = new Intruder( new Point(50, 50));
 
 				}
 			});

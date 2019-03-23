@@ -19,6 +19,8 @@ public class MainApp extends Application {
     public double getgridHeight() {
         return gridHeight;
     }
+    public int getRowCells() {return rowCells;}
+    public int getColumnCells() {return columnCells;}
 
     public static void main(String[] args) {
         launch(args);
@@ -30,8 +32,8 @@ public class MainApp extends Application {
 
         Group root = new Group();
 
-        for( int i=1; i < 49; i++) {
-            for( int j=1; j < 49; j++) {
+        for( int i=0; i < 50; i++) {
+            for( int j=0; j < 50; j++) {
 
                 // create node
                 Square node = new Square( i * gridWidth, j * gridHeight, gridWidth, gridHeight, false);
