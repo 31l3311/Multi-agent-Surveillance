@@ -1,23 +1,23 @@
-package main;
+
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import agent.*;
-import board.*;
 
-import static board.MainApp.gridHeight;
-import static board.MainApp.gridWidth;
+
+//import static board.MainApp.gridHeight;
+//import static board.MainApp.gridWidth;
 
 public class Run {
 
 	private int[][] board;
 	private Timeline GameTimer;
-	private SurveillanceAgent agent = new SurveillanceAgent(new Point(50,50));;
 	private MainApp main = new MainApp();
 	private int time = 50;
 
@@ -28,7 +28,7 @@ public class Run {
 
 
 	public Run(int[][] board) {
-		SurveillanceAgent agent = new SurveillanceAgent(new Point(1000,1000));
+		SurveillanceAgent agent = new SurveillanceAgent(new Point(1750,1750));
 		this.board = board;
 		agents.add(agent);
 	}
@@ -46,7 +46,7 @@ public class Run {
 		for(int i=0; i<50; i++) {
 			for(int j=0; j<50; j++) {
 				//Sentry = 1, Wall = 2, horWindow/verWindow = 3, horDoor/verDoor = 4, Tree = 5
-				if((board[1][j] == 1) || (board[i][j] == 2) || (board[i][j] == 3) || (board[i][j] == 4) || (board[i][j] == 5)) {
+				if((board[i][j] == 1) || (board[i][j] == 2) || (board[i][j] == 3) || (board[i][j] == 4) || (board[i][j] == 5)) {
 					//do nothing
 				}
 				else {
@@ -54,6 +54,25 @@ public class Run {
 				}
 			}
 		}
+		//Top outer wall
+		for(int i = 0; i<main.getRowCells(); i++) {
+			board[i][0] = 2;
+		}
+		//Bottom outer wall
+		for(int j = 0; j< main.getRowCells(); j++) {
+			board[j][49] = 2;
+		}
+		//Left outer wall
+		for(int x = 1; x < main.getColumnCells()-1; x++) {
+			board[0][x] = 2;
+		}
+		//Right outer wall
+		for(int y = 1; y < main.getColumnCells()-1; y++) {
+			board[49][y] = 2;
+		}
+
+		//print array:
+		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
 	public int[][] getBoard() {
@@ -72,12 +91,9 @@ public class Run {
 		positions.clear();
 		for(int i = 0; i<agents.size(); i++) {
 			check(agents.get(i).update(time), i);
-			MainApp.circle.setCenterX(agents.get(i).position.x*gridWidth/1000);
-			MainApp.circle.setCenterY(agents.get(i).position.y*gridHeight/1000);
-			//MainApp.circle.setCenterX(Math.random()*4000*gridWidth);
-			//MainApp.circle.setCenterY(Math.random()*4000*gridHeight);
-		//agents.get(i).hear(agents);
-		}
+			MainApp.circle.setCenterX(agents.get(i).position.x*main.gridWidth/1000);
+			MainApp.circle.setCenterY(agents.get(i).position.y*main.gridHeight/1000);
 
+		}
 	}
 }
