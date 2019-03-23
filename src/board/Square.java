@@ -1,3 +1,5 @@
+package board;
+
 
 import javafx.scene.input.MouseEvent;
 import com.sun.org.apache.regexp.internal.RE;
@@ -6,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import main.Run;
 import javafx.scene.image.Image;
 import java.util.Properties;
 

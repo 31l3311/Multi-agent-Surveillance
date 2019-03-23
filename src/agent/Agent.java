@@ -10,13 +10,20 @@ public abstract class Agent{
 	public double angle;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
-	private ArrayList<Point> seenSquares = new ArrayList<Point>();
+	private ArrayList<Point> checkSight = new ArrayList<Point>();
 	private double distance;
 	private Point newSquare;
 	private Point temppos = new Point();
+	protected int time;
+	
+	ArrayList<Point> seenSquares;
+	public ArrayList<Point> myDirection = new ArrayList<Point>();
 
 	public abstract void move(int time);
 	//public abstract void turn(int angle);
+	
+	public abstract ArrayList update();
+	public abstract ArrayList update(double angle);
 	
 	public Point movingTurn(double newAngle, int time, Point vector) {
 		angle = findAngle(vector);
@@ -66,7 +73,7 @@ public abstract class Agent{
 	
 	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength) {
 		System.out.println("position x and Y: " + position.x + ", " + position.y);
-		seenSquares.clear();
+		checkSight.clear();
 		temppos.x = position.x;
 		temppos.y = position.y;
 		//u creates a vector in same direction with correct length
@@ -80,9 +87,9 @@ public abstract class Agent{
 		if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
 			lastSquare = newSquare;
 			System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
-			seenSquares.add(lastSquare);
+			checkSight.add(lastSquare);
 		}}
-		return seenSquares;
+		return checkSight;
 	}
 	
 	public void hear(ArrayList<SurveillanceAgent> agents, Point position) {

@@ -13,30 +13,29 @@ public class SurveillanceAgent extends Agent{
 	private double angle;
 	//defined as coordinates x,y in millimeters
 	//looking vectors
-	ArrayList<Point> seenSquares;
-	ArrayList<Point> myDirection = new ArrayList<Point>();
+	
 
 	//visual range 6 m
 	
 	private double tempAngle = 0;
 	private Point tempVector = new Point();
 
-	private int[][] map = new int[200][200];
 
-	public SurveillanceAgent(Point position) {
+	public SurveillanceAgent(Point position, int time) {
 		this.position = position;
 		vector = new Point(1, 1);
 		angle = findAngle(vector);
 		seenSquares = new ArrayList<Point>();
+		this.time = time;
 	}
 	
-	public ArrayList update(int time) {
+	public ArrayList update() {
 		move(time);
 		return look();
 
 	}
 
-	public ArrayList update(int time, double newAngle) {
+	public ArrayList update(double newAngle) {
 		move(time);
 		vector = movingTurn(newAngle, time, vector);
 		return look();
@@ -56,14 +55,6 @@ public class SurveillanceAgent extends Agent{
 		return seenSquares;
 	}
 
-
-	public void updateMap(int x, int y, int i) {
-		map[x][y] = i;
-		if(i == 1) {
-			// implement method to avoid tree or shit
-			System.out.println("I see a tree!");
-		}
-	}
 
 	@Override
 	public void move(int time) {

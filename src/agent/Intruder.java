@@ -17,31 +17,18 @@ public class Intruder extends Agent{
 	private ArrayList<Point> seenSquares;
 	//visual range 7.5 m
 	
-	public Intruder(Point position) {
+	public Intruder(Point position, int time) {
 		this.position = position;
+		this.time = time;
 	}
 	
-	public ArrayList update(int time, boolean s) {
-		if(sprint != s && s == true) {
-			if(timeWalked>= (10000/time)) {
-			timeSprinted = 0;
-			timeWalked = 0;
-			sprint = s;
-			}
-		}
+	public ArrayList update() {
 		move(time);
 		return look();
 	}
 	
-	public ArrayList update(int time, boolean s, double newAngle) {
-		if(sprint != s && s == true) {
-			if(timeWalked>= (10000/time)) {
-			timeSprinted = 0;
-			timeWalked = 0;
-			sprint = s;
-			sprintAngle = 0;
-			}
-		}
+	public ArrayList update(double newAngle) {
+	
 		move(time);
 		if(sprint == true && (sprintAngle + Math.abs(newAngle - angle))<10) {
 			vector = movingTurn(newAngle, time, vector);
@@ -51,6 +38,17 @@ public class Intruder extends Agent{
 			vector = movingTurn(newAngle, time, vector);}
 		
 		return look();
+	}
+	
+	public void changeSprint(boolean s) {
+		if(sprint != s && s == true) {
+			if(timeWalked>= (10000/time)) {
+			timeSprinted = 0;
+			timeWalked = 0;
+			sprint = s;
+			sprintAngle = 0;
+			}
+		}
 	}
 	
 	public ArrayList look() {

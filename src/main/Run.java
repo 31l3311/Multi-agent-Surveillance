@@ -17,20 +17,19 @@ public class Run {
 
 	private int[][] board;
 	private Timeline GameTimer;
-	private SurveillanceAgent agent = new SurveillanceAgent(new Point(50,50));;
 	private MainApp main = new MainApp();
 	private int time = 50;
 
-	private ArrayList<SurveillanceAgent> agents = new ArrayList<>();
+	private ArrayList<RandomBot> bots = new ArrayList<>();
 	private ArrayList<Intruder> intruders = new ArrayList<>();
 	private ArrayList<Point> positions = new ArrayList<>();
 
 
 
 	public Run(int[][] board) {
-		SurveillanceAgent agent = new SurveillanceAgent(new Point(1000,1000));
+		RandomBot bot = new RandomBot(true, new Point(1000,1000), time, new Point(board.length, board[0].length));
 		this.board = board;
-		agents.add(agent);
+		bots.add(bot);
 	}
 
 	public void startTimer() {
@@ -63,17 +62,17 @@ public class Run {
 	public void check(ArrayList<Point> squares, int j) {
 		for(int i = 0; i<squares.size(); i++) {
 			System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
-			agents.get(j).updateMap(squares.get(i).x , squares.get(i).y, board[squares.get(i).x][squares.get(i).x]);
+			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).x]);
 		}
 		}
 
 
 	public void update() {
 		positions.clear();
-		for(int i = 0; i<agents.size(); i++) {
-			check(agents.get(i).update(time), i);
-			MainApp.circle.setCenterX(agents.get(i).position.x*gridWidth/1000);
-			MainApp.circle.setCenterY(agents.get(i).position.y*gridHeight/1000);
+		for(int i = 0; i<bots.size(); i++) {
+			check(bots.get(i).update(), i);
+			MainApp.circle.setCenterX(bots.get(i).agent.position.x*gridWidth/1000);
+			MainApp.circle.setCenterY(bots.get(i).agent.position.y*gridHeight/1000);
 			//MainApp.circle.setCenterX(Math.random()*4000*gridWidth);
 			//MainApp.circle.setCenterY(Math.random()*4000*gridHeight);
 		//agents.get(i).hear(agents);
