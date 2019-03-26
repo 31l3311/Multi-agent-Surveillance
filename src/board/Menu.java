@@ -32,7 +32,7 @@ public class Menu {
 	public static boolean getCleared = true;
 
 	
-	private Run run = new Run(Square.board);
+	private Run run;
 
 	public Menu(Group root) {
 		Group squares = root;
@@ -112,6 +112,7 @@ public class Menu {
 			start.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
+					run = new Run(Square.board);
 					run.startTimer();
 					MainApp.circle.setRadius(10);
 				}

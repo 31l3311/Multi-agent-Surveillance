@@ -16,7 +16,6 @@ public class Square extends StackPane {
 
     MainApp w = new MainApp();
     Properties p = new Properties();
-    Run r = new Run(board);
     public static boolean getCleared = false;
     public static int[][] board = new int[50][50];
 

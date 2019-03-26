@@ -10,6 +10,7 @@ public class SurveillanceAgent extends Agent{
 	//speed per millisecond
 	public double speed;
 	private int seeLength = 6000;
+	private boolean stop;
 	
 	//defined as coordinates x,y in millimeters
 	//looking vectors
@@ -31,19 +32,28 @@ public class SurveillanceAgent extends Agent{
 	}
 	
 	public ArrayList update() {
-		move(time);
+		if(stop == false) {
+		move(time);}
+		if(angle != newAngle) {
+			vector = movingTurn(newAngle);
+		}
+		else {
+			stop = false;
+		}
 		return look();
 
 	}
 
-	public ArrayList update(double newAngle) {
+	public ArrayList update(double newA) {
 		move(time);
-		vector = movingTurn(gon(newAngle), time, vector);
+		this.newAngle = gon(newA);
+		vector = movingTurn(newAngle);
 		return look();
 	}
 	
 	public ArrayList update(boolean stop, double newAngle) {
-		vector = movingTurn(gon(newAngle), time, vector);
+		this.stop = stop;
+		vector = movingTurn(gon(newAngle));
 		return look();
 	}
 

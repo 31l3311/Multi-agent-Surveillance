@@ -23,7 +23,7 @@ public class RandomBot{
 	}
 	
 	public ArrayList update() {
-		if(agent.myDirection.size()>1) {
+		if(agent.myDirection.size()>2) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
 			System.out.println("I should turn around now!");
 			return agent.update(true,(agent.getAngle() + 160));
@@ -38,7 +38,7 @@ public class RandomBot{
 	
 	public double changeAngle() {
 		double angle = (360*Math.random());
-		System.out.println("New angle = " + angle);
+		//System.out.println("New angle = " + angle);
 		return angle;
 	}
 	
@@ -46,7 +46,7 @@ public class RandomBot{
 		map[loc.x][loc.y] = i;
 		if(i == 1) {
 			// implement method to avoid tree or shit
-			System.out.println("I see a tree!");
+			//System.out.println("I see a tree!");
 		}
 	}
 	

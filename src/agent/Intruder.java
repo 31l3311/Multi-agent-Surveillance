@@ -32,11 +32,11 @@ public class Intruder extends Agent{
 	
 		move(time);
 		if(sprint == true && (sprintAngle + Math.abs(newAngle - angle))<10) {
-			vector = movingTurn(newAngle, time, vector);
+			vector = movingTurn(newAngle);
 			sprintAngle += Math.abs(newAngle - angle);
 			}
 		else if (sprint == false) {
-			vector = movingTurn(newAngle, time, vector);}
+			vector = movingTurn(newAngle);}
 		
 		return look();
 	}
