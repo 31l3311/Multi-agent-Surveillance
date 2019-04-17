@@ -34,7 +34,7 @@ public class Run {
 
 
 	public Run(int[][] board) {
-		RandomBot bot = new RandomBot(true, new Point(7000,7000), time, new Point(board.length, board[0].length));
+		RandomBot bot = new RandomBot(true, new Point(25000,25000), time, new Point(board.length, board[0].length));
 		this.board = board;
 		setOuterWall();
 		bots.add(bot);
@@ -54,12 +54,9 @@ public class Run {
 		for(int i = 0; i< board.length; i++) {
 			board[i][0] = 2;
 			board[i][board.length - 1] = 2;
-		}
-		for(int i = 0; i< board.length; i++) {
 			board[0][i] = 2;
 			board[board.length - 1][i] = 2;
-		}
-	}
+	}}
 	
 	public void printBoard() {
 		for(int i=0; i<50; i++) {

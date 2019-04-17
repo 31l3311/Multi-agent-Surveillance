@@ -89,7 +89,7 @@ public class Square extends StackPane {
             Rectangle Wall = new Rectangle();
             Wall.setHeight(w.gridHeight);
             Wall.setWidth(w.gridWidth);
-            Wall.setFill(Color.RED);
+            Wall.setFill(Color.GRAY);
             Wall.setStroke(Color.BLACK);
             getChildren().add(Wall);
             board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 2;
