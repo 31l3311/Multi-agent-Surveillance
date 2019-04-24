@@ -1,17 +1,22 @@
-package agent;
+package Bots;
 
 
 
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class RandomBot{
+import agent.Agent;
+import agent.Intruder;
+import agent.SurveillanceAgent;
+
+public class RandomBot extends Bot{
 	public Agent agent;
 	private boolean surveillance;
 	private int[][] map;
 	private int counter = 0;
+	private ArrayList bots;
 	
-	public RandomBot(boolean surveillance, Point position, int time, Point size) {
+	public RandomBot(boolean surveillance, Point position, int time, Point size){
 		this.surveillance = surveillance;
 		map = new int[size.x][size.y];
 		if(surveillance) {
@@ -20,6 +25,14 @@ public class RandomBot{
 		else {
 			agent = new Intruder(position, time, size);
 		}
+	}
+	
+	public void setBots(ArrayList bots) {
+		this.bots = bots;
+	}
+	
+	public ArrayList<Bot> getBots(){
+		return bots;
 	}
 	
 	public ArrayList update() {
@@ -48,6 +61,11 @@ public class RandomBot{
 			// implement method to avoid tree or shit
 			//System.out.println("I see a tree!");
 		}
+	}
+	
+	public void updateAgent() {
+		agent.update();
+		agent.hear(getBots());
 	}
 	
 	public boolean avoidObjects() {

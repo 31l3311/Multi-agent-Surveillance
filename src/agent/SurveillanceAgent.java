@@ -20,7 +20,7 @@ public class SurveillanceAgent extends Agent{
 	
 	private double tempAngle = 0;
 	private Point tempVector = new Point();
-
+	private ArrayList info = new ArrayList();
 
 	public SurveillanceAgent(Point position, int time, Point size) {
 		this.position = position;

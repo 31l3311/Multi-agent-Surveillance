@@ -6,8 +6,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Bots.RandomBot;
 import agent.*;
-import apple.laf.JRSUIConstants.Direction;
+//import apple.laf.JRSUIConstants.Direction;
 import board.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,8 +29,6 @@ public class Run {
 	private int time = 50;
 
 	private ArrayList<RandomBot> bots = new ArrayList<>();
-	private ArrayList<Intruder> intruders = new ArrayList<>();
-	private ArrayList<Point> positions = new ArrayList<>();
 
 
 
@@ -38,6 +37,9 @@ public class Run {
 		this.board = board;
 		setOuterWall();
 		bots.add(bot);
+		for(int i = 0; i<bots.size(); i++) {
+			bots.get(i).setBots(bots);
+		}
 		printMap();
 	}
 
@@ -58,38 +60,6 @@ public class Run {
 			board[board.length - 1][i] = 2;
 	}}
 	
-	public void printBoard() {
-		for(int i=0; i<50; i++) {
-			for(int j=0; j<50; j++) {
-				//Sentry = 1, Wall = 2, horWindow/verWindow = 3, horDoor/verDoor = 4, Tree = 5
-				if((board[i][j] == 1) || (board[i][j] == 2) || (board[i][j] == 3) || (board[i][j] == 4) || (board[i][j] == 5)) {
-					//do nothing
-				}
-				else {
-					board[i][j] = 0;
-				}
-			}
-		}
-		//Top outer wall
-		for(int i = 0; i<main.getRowCells(); i++) {
-			board[i][0] = 2;
-		}
-		//Bottom outer wall
-		for(int j = 0; j< main.getRowCells(); j++) {
-			board[j][49] = 2;
-		}
-		//Left outer wall
-		for(int x = 1; x < main.getColumnCells()-1; x++) {
-			board[0][x] = 2;
-		}
-		//Right outer wall
-		for(int y = 1; y < main.getColumnCells()-1; y++) {
-			board[49][y] = 2;
-		}
-
-		//print array:
-		//System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-	}
 
 	public int[][] getBoard() {
 		return board;
@@ -104,7 +74,6 @@ public class Run {
 
 
 	public void update() {
-		positions.clear();
 		for(int i = 0; i<bots.size(); i++) {
 			check(bots.get(i).update(), i);
 			MainApp.circle.setCenterX(bots.get(i).agent.position.x*main.gridWidth/1000);
