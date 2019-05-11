@@ -99,10 +99,10 @@ public abstract class Agent{
 	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength) {
 		//System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
-		temppos.x = position.x;
-		temppos.y = position.y;
 		//u creates a vector in same direction with correct length
 		double u = (seeLength)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
+		temppos.x = position.x;
+		temppos.y = position.y;
 		//System.out.println("U: " + u);
 		for(int i = 0; i<10; i++) {
 			temppos.x += 0.1*(u*seeVector.x);

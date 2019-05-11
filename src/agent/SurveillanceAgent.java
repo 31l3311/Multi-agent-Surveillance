@@ -71,6 +71,12 @@ public class SurveillanceAgent extends Agent{
 		return seenSquares;
 	}
 
+	public void enterTower() {
+		//delay three seconds
+		
+		
+		
+	}
 
 	@Override
 	public void move(int time) {
