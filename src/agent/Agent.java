@@ -189,6 +189,10 @@ public abstract class Agent{
 		return position;
 	}
 	
+	public Point getCoordinates() {
+		return new Point((int)(position.x/1000),(int)(position.y/1000));
+	}
+	
 	public double getAngle() {
 		return angle;
 	}

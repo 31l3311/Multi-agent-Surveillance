@@ -3,13 +3,19 @@ package Bots;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class surveillance  extends Bot{
+import agent.SurveillanceAgent;
+
+public class surveillanceBot  extends Bot{
 	
+	private SurveillanceAgent agent;
 	private int[][] map;
 	private int[][] sectionMap;
 	private int[][] pheromoneMap;
 	private int max;
 	private Point bestLoc;
+	
+	//walking
+	int pathPosition;
 	
 	//astar
 	private ArrayList<Node> closedNodes;
@@ -24,10 +30,36 @@ public class surveillance  extends Bot{
 	
 	
 	
-	public surveillance(Point topLeft, Point bottomRight){
+	public surveillanceBot(Point topLeft, Point bottomRight, int time, Point size){
 		sectionMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
+		agent = new SurveillanceAgent(topLeft, time, size );
+		pheromoneMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
+		for(int i = 0; i<pheromoneMap.length; i++ ) {
+			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
+				if(sectionMap[i][j]!= 0) 
+					{pheromoneMap[i][j] = -1;}
+			}
+		}
+		
 		
 	}
+	
+	public void update() {
+		//update pheromonemap
+		for(int i = 0; i<pheromoneMap.length; i++ ) {
+			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
+				if(pheromoneMap[i][j]!= -1) {
+				pheromoneMap[i][j]+=1;}
+			
+		}
+		
+		//update agent
+		if(agent.getCoordinates != path[pathPosition]) {
+			pathPosition -=1;
+			//vector (agent.getCoordinates path[pathPosition])
+			agent.update();
+		}
+		}}
 	
 	public void surveil() {
 		max = 0;
@@ -45,7 +77,7 @@ public class surveillance  extends Bot{
 	
 	public void aStar() {
 		//f = g+h
-		startPos = new Point((int)(agent.getPosition().x/1000),(int)(agent.getPosition().y/1000));
+		startPos = agent.getCoordinates();
 		startNode = new Node(startPos, distance(startPos, bestLoc));
 		openNodes.add(startNode);
 		
