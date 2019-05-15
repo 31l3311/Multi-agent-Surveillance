@@ -86,7 +86,8 @@ public class surveillance  extends Bot{
 								}
 							}}
 							if(checked == false) {
-							openNodes.add(tempNode);}
+								if(map[tempNode.position.x][tempNode.position.y] == 0){
+									openNodes.add(tempNode);}}
 						}
 					}
 				}
