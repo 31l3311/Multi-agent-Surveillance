@@ -184,6 +184,10 @@ public abstract class Agent{
 			angle = angle + 360;
 	return angle;
 	}
+
+	public Point findVectorPath(Point targetPos){
+		return new Point(targetPos.x - this.position.x, targetPos.y - this.position.y);
+	}
 	
 	public Point getPosition() {
 		return position;
