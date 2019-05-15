@@ -1,13 +1,5 @@
-package Bots;
-
-
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-import agent.Agent;
-import agent.Intruder;
-import agent.SurveillanceAgent;
 
 public class RandomBot extends Bot{
 	public Agent agent;
@@ -35,10 +27,10 @@ public class RandomBot extends Bot{
 		return bots;
 	}
 	
-	public ArrayList update() {
+	public ArrayList updateRandomBot() {
 		if(agent.myDirection.size()>2) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
-			System.out.println("I should turn around now!");
+			System.out.println("I should turn around now (AGENT)!");
 			return agent.update(true,(agent.getAngle() + 160));
 		}}
 		if(counter >= 100 || avoidObjects()) {
@@ -77,12 +69,4 @@ public class RandomBot extends Bot{
 		}
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }

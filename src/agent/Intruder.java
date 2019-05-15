@@ -1,7 +1,3 @@
-package agent;
-
-
-
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -15,14 +11,19 @@ public class Intruder extends Agent{
 	private int timeWalked;
 	private boolean sprint;
 	private ArrayList<Point> seenSquares;
+	private ArrayList intruders;
 	//visual range 7.5 m
-	
+
 	public Intruder(Point position, int time, Point size) {
 		this.position = position;
 		this.time = time;
 		this.size = size;
 	}
-	
+	public void setIntruders(ArrayList intruders) {
+		this.intruders = intruders;
+	}
+
+
 	public ArrayList update() {
 		move(time);
 		return look();

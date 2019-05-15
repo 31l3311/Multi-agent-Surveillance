@@ -1,10 +1,5 @@
-package board;
-
-
 import com.sun.prism.paint.Color;
 import javafx.event.ActionEvent;
-
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
@@ -19,9 +14,8 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-import main.Run;
-
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class Menu {
@@ -30,8 +24,6 @@ public class Menu {
 	public static String state;
 	MainApp mainApp = new MainApp();
 	public static boolean getCleared = true;
-
-	
 	private Run run;
 
 	public Menu(Group root) {
@@ -96,36 +88,33 @@ public class Menu {
  			deployAgents.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					//agent1 = new SurveillanceAgent( new Point(10,10));
-
+					MainApp.circle.setRadius(10);
+					System.out.println("Got here 1");
 				}
 			});
 
  			deployIntruders.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					//agent2 = new Intruder( new Point(50, 50));
-
+					MainApp.circleIntruder.setRadius(10);
+					System.out.println("Got here 2");
 				}
 			});
 
 			start.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					run = new Run(Square.board);
+					run = new Run(Square.board, "Intruder");
+					run = new Run(Square.board, "Agent");
 					run.startTimer();
-					MainApp.circle.setRadius(10);
+
 				}
 			});
 
  		menu.getChildren().addAll(clearBoard,chooseType, deployAgents, deployIntruders, start, quit);
-
  		menu.setAlignment(Pos.TOP_CENTER);
  		menu.setSpacing(20);
  		menu.setMinWidth(menuWidth);
-
 		return menu;
 	}
-	
-	
 }

@@ -1,7 +1,3 @@
-package agent;
-
-
-
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -11,13 +7,9 @@ public class SurveillanceAgent extends Agent{
 	public double speed;
 	private int seeLength = 6000;
 	private boolean stop;
-	
 	//defined as coordinates x,y in millimeters
 	//looking vectors
-	
-
 	//visual range 6 m
-	
 	private double tempAngle = 0;
 	private Point tempVector = new Point();
 	private ArrayList info = new ArrayList();
@@ -41,7 +33,6 @@ public class SurveillanceAgent extends Agent{
 			stop = false;
 		}
 		return look();
-
 	}
 
 	public ArrayList update(double newA) {

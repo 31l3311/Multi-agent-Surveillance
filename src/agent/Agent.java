@@ -1,14 +1,7 @@
-package agent;
-
-
-
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
-import Bots.Bot;
-
-import org.apache.commons.math3.*;
 
 public abstract class Agent{
 	
@@ -25,14 +18,10 @@ public abstract class Agent{
 	protected int time;
 	protected Point size;
 	private Point direction = new Point();
-	
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
 	private double speed;
-
 	public abstract void move(int time);
-	//public abstract void turn(int angle);
-	
 	public abstract ArrayList update();
 	public abstract ArrayList update(double angle);
 	public abstract ArrayList update(boolean stop, double newAngle);
@@ -126,8 +115,8 @@ public abstract class Agent{
 		if((curAgent.speed < 0.5 && distance<1000) ||
 		   (curAgent.speed >= 0.5 && curAgent.speed<1 && distance<3000)	||
 		   (curAgent.speed >= 1 && curAgent.speed<2 && distance<5000) ||
-		   (curAgent.speed >= 2 && distance<10000)
-				) {
+		   (curAgent.speed >= 2 && distance<10000))
+				 {
 			Point vector = new Point(position.x - curAgent.getPosition().x, position.y - curAgent.getPosition().y);
 			double angle = findAngle(vector);
 			NormalDistribution normal = new NormalDistribution(angle, 10);

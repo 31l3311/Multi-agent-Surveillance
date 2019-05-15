@@ -1,4 +1,3 @@
-package board;
 
 
 import javafx.scene.input.MouseEvent;
@@ -8,7 +7,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import main.Run;
 import javafx.scene.image.Image;
 import java.util.Properties;
 
@@ -54,24 +52,6 @@ public class Square extends StackPane {
             getChildren().addAll(rectangle);
             System.out.println("Build rectangles");
         }
-    }
-
-
-
-    void pacmanPositioner(){
-
-        Circle pacman = new Circle((987 / w.getgridWidth()), 654 / w.getgridHeight(), 9);
-        pacman.setStroke(Color.LIGHTGREEN);
-        Image icon = new Image("/icons/pacman.png");
-        pacman.setFill(new ImagePattern(icon));
-
-        Circle ghost = new Circle((3 / w.getgridWidth()), 3 / w.getgridHeight(), 9);
-        ghost.setStroke(Color.LIGHTGREEN);
-        Image icon2 = new Image("/icons/ghost.png");
-        ghost.setFill(new ImagePattern(icon2));
-
-        getChildren().addAll(pacman);
-        getChildren().addAll(ghost);
     }
 
 
