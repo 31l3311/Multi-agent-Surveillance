@@ -15,7 +15,7 @@ public class surveillanceBot  extends Bot{
 	private Point bestLoc;
 	
 	//walking
-	int pathPosition;
+	int nextPathpos;
 	
 	//astar
 	private ArrayList<Node> closedNodes;
@@ -51,15 +51,21 @@ public class surveillanceBot  extends Bot{
 				if(pheromoneMap[i][j]!= -1) {
 				pheromoneMap[i][j]+=1;}
 			
-		}
+		}}
 		
 		//update agent
-		if(agent.getCoordinates != path[pathPosition]) {
-			pathPosition -=1;
-			//vector (agent.getCoordinates path[pathPosition])
+		if(agent.getCoordinates() == path.get(0)) {
+			aStar();
+		}
+		else if(agent.getCoordinates() == path.get(nextPathpos)) {
+			nextPathpos -=1;
+			agent.update(agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
+		}
+		else {
 			agent.update();
 		}
-		}}
+		
+		}
 	
 	public void surveil() {
 		max = 0;
@@ -77,6 +83,12 @@ public class surveillanceBot  extends Bot{
 	
 	public void aStar() {
 		//f = g+h
+		//reset values
+		path.clear();
+		openNodes.clear();
+		closedNodes.clear();
+		
+		
 		startPos = agent.getCoordinates();
 		startNode = new Node(startPos, distance(startPos, bestLoc));
 		openNodes.add(startNode);
@@ -92,6 +104,7 @@ public class surveillanceBot  extends Bot{
 			
 			if(bestNode.position == bestLoc) {
 				findPath(bestNode);
+				nextPathpos = path.size() - 1;
 			}
 			else {
 				for(int i = -1; i<=1; i++) {
