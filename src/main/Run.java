@@ -20,25 +20,28 @@ public class Run {
 	private MainApp main = new MainApp();
 	private int time = 50;
 	private ArrayList<RandomBot> bots = new ArrayList<>();
-	private ArrayList<IntruderBot> intruders = new ArrayList<>();
+	private ArrayList<RandomBot> intruders = new ArrayList<>();
+	private ArrayList<RandomBot> agents = new ArrayList<>();
 
 	public Run(int[][] board, String type) {
 		if(type.equals("Agent")) {
 			RandomBot bot = new RandomBot(true, new Point(25000, 25000), time, new Point(board.length, board[0].length));
 			this.board = board;
 			setOuterWall();
+			agents.add(bot);
 			bots.add(bot);
-			for (int i = 0; i < bots.size(); i++) {
-				bots.get(i).setBots(bots);
+			for (int i = 0; i < agents.size(); i++) {
+				agents.get(i).setBots(agents);
 			}
 			printMap();
 		}
 
 		if(type.equals("Intruder")) {
-			IntruderBot intruder = new IntruderBot(true, new Point(5000, 5000), time, new Point(board.length, board[0].length));
+			RandomBot intruder = new RandomBot(false, new Point(5000, 5000), time, new Point(board.length, board[0].length));
 			this.board = board;
 			setOuterWall();
 			intruders.add(intruder);
+			bots.add(intruder);
 
 			for (int i = 0; i < intruders.size(); i++) {
 				intruders.get(i).setIntruders(intruders);
@@ -69,63 +72,30 @@ public class Run {
 		return board;
 	}
 
-	public void checkAgent(ArrayList<Point> squares, int j) {
+	public void check(ArrayList<Point> squares, int j) {
 		for(int i = 0; i<squares.size(); i++) {
-			//System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).x]);
-//			System.out.println("XXXXXXXXXXXXXXXXXXXX: " + squares.get(i));
-//			System.out.println("YYYYYYYYYYYYYYYYYYYY: " + board[squares.get(i).x][squares.get(i).x]);
-
-		}
-	}
-
-	public void checkIntruder(ArrayList<Point> squares, int j) {
-		//System.out.println("SIZE OF SQUARES.SIZE IS " + squares.size());
-		for(int i = 0; i<squares.size(); i++) {
-			//System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
-			intruders.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).x]);
-//			System.out.println("XXXXXXXXXXXXXXXXXXXX: " + squares.get(i));
-//			System.out.println("YYYYYYYYYYYYYYYYYYYY: " + board[squares.get(i).x][squares.get(i).x]);
 		}
 	}
 
 	public void update() {
-		updateAgent();
-		updateIntruder();
+		for(int i=0; i<agents.size(); i++) {
+
+			MainApp.circle.setCenterX(bots.get(i).agent.position.x * main.gridWidth / 1000);
+			MainApp.circle.setCenterY(bots.get(i).agent.position.y * main.gridHeight / 1000);
+			MainApp.line.setStartX(bots.get(i).agent.position.x * main.gridWidth / 1000);
+			MainApp.line.setStartY(bots.get(i).agent.position.y * main.gridHeight / 1000);
+			MainApp.line.setEndX(bots.get(i).agent.direction().x * main.gridWidth / 1000);
+			MainApp.line.setEndY(bots.get(i).agent.direction().y * main.gridWidth / 1000);
+		}
+		System.out.println("SIZE OF INTRUDER IS " + intruders.size());
+		for(int i=0; i<intruders.size();i++) {
+
+			MainApp.circleIntruder.setCenterX(bots.get(i).intruder.position.x * main.gridWidth / 1000);
+			MainApp.circleIntruder.setCenterY(bots.get(i).intruder.position.y * main.gridHeight / 1000);
+		}
 	}
 
-	public void updateAgent() {
-
-		for(int i = 0; i<bots.size(); i++) {
-			checkAgent(bots.get(i).updateRandomBot(), i);
-			MainApp.circle.setCenterX(bots.get(i).agent.position.x*main.gridWidth/1000);
-			MainApp.circle.setCenterY(bots.get(i).agent.position.y*main.gridHeight/1000);
-			MainApp.line.setStartX(bots.get(i).agent.position.x*main.gridWidth/1000);
-			MainApp.line.setStartY(bots.get(i).agent.position.y*main.gridHeight/1000);
-			MainApp.line.setEndX(bots.get(i).agent.direction().x*main.gridWidth/1000);
-			MainApp.line.setEndY(bots.get(i).agent.direction().y*main.gridWidth/1000);
-		}
-	}
-
-	public void updateIntruder() {
-		System.out.println("GOT HERE 1");
-		if(intruders.size() < 0) {
-			System.out.println("Size SMALLER than 0");
-		}
-		if(intruders.size() > 0) {
-			System.out.println("Size LARGER than 0");
-		}
-		if(intruders.size() == 0) {
-			System.out.println("Size EQUAL to 0");
-		}
-		for(int i = 0; i<intruders.size(); i++) {
-			System.out.println("Size of  intruders array is " + intruders.size());
-			checkIntruder(intruders.get(i).updateIntruderBot(), i);
-			MainApp.circleIntruder.setCenterX(intruders.get(i).intruder.position.x*main.gridWidth/1000);
-			MainApp.circleIntruder.setCenterY(intruders.get(i).intruder.position.y*main.gridHeight/1000);
-		}
-	}
-	
 	public void printMap() {
 		for(int j = 0; j<board[0].length; j++) {
 			for(int i = 0; i< board.length; i++) {

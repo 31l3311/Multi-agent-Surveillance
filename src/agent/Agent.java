@@ -111,7 +111,7 @@ public abstract class Agent{
 	public double hear(ArrayList<Bot> bots) {
 		for(int i = 0; i<bots.size(); i++) {
 			Agent curAgent = bots.get(i).agent;
-		distance = Math.sqrt(Math.pow((position.x + curAgent.getPosition().x), 2) + Math.pow((position.y + curAgent.getPosition().y), 2));
+			distance = Math.sqrt(Math.pow((position.x + curAgent.getPosition().x), 2) + Math.pow((position.y + curAgent.getPosition().y), 2));
 		if((curAgent.speed < 0.5 && distance<1000) ||
 		   (curAgent.speed >= 0.5 && curAgent.speed<1 && distance<3000)	||
 		   (curAgent.speed >= 1 && curAgent.speed<2 && distance<5000) ||

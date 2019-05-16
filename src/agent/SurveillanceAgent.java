@@ -62,7 +62,6 @@ public class SurveillanceAgent extends Agent{
 		return seenSquares;
 	}
 
-
 	@Override
 	public void move(int time) {
 		//System.out.println("Current Position: " + position.x + ", " + position.y);
