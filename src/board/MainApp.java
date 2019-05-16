@@ -59,6 +59,8 @@ public class MainApp extends Application {
         root.getChildren().add(circleIntruder);
         
         line = new Line();
+        lineIntruder = new Line();
+        root.getChildren().add(lineIntruder);
         root.getChildren().add(line);
 
         //run = new Run();
@@ -89,4 +91,5 @@ public class MainApp extends Application {
     public static Circle circle;
     public static Circle circleIntruder;
     public static Line line;
+    public static Line lineIntruder;
 }

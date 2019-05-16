@@ -25,14 +25,14 @@ public class Run {
 
 	public Run(int[][] board, String type) {
 		if(type.equals("Agent")) {
-			RandomBot bot = new RandomBot(true, new Point(25000, 25000), time, new Point(board.length, board[0].length));
+			RandomBot agent = new RandomBot(true, new Point(25000, 25000), time, new Point(board.length, board[0].length));
 			this.board = board;
 			setOuterWall();
-			agents.add(bot);
-			bots.add(bot);
-			for (int i = 0; i < agents.size(); i++) {
-				agents.get(i).setBots(agents);
-			}
+			agents.add(agent);
+			bots.add(agent);
+//			for (int i = 0; i < agents.size(); i++) {
+//				agents.get(i).setBots(agents);
+//			}
 			printMap();
 		}
 
@@ -43,9 +43,9 @@ public class Run {
 			intruders.add(intruder);
 			bots.add(intruder);
 
-			for (int i = 0; i < intruders.size(); i++) {
-				intruders.get(i).setIntruders(intruders);
-			}
+//			for (int i = 0; i < intruders.size(); i++) {
+//				intruders.get(i).setIntruders(intruders);
+//			}
 			printMap();
 		}
 	}
@@ -79,20 +79,24 @@ public class Run {
 	}
 
 	public void update() {
+
 		for(int i=0; i<agents.size(); i++) {
-
-			MainApp.circle.setCenterX(bots.get(i).agent.position.x * main.gridWidth / 1000);
-			MainApp.circle.setCenterY(bots.get(i).agent.position.y * main.gridHeight / 1000);
-			MainApp.line.setStartX(bots.get(i).agent.position.x * main.gridWidth / 1000);
-			MainApp.line.setStartY(bots.get(i).agent.position.y * main.gridHeight / 1000);
-			MainApp.line.setEndX(bots.get(i).agent.direction().x * main.gridWidth / 1000);
-			MainApp.line.setEndY(bots.get(i).agent.direction().y * main.gridWidth / 1000);
+			check(agents.get(i).updateRandomBot(), i);
+			MainApp.circle.setCenterX(agents.get(i).agent.position.x * main.gridWidth / 1000);
+			MainApp.circle.setCenterY(agents.get(i).agent.position.y * main.gridHeight / 1000);
+			MainApp.line.setStartX(agents.get(i).agent.position.x * main.gridWidth / 1000);
+			MainApp.line.setStartY(agents.get(i).agent.position.y * main.gridHeight / 1000);
+			MainApp.line.setEndX(agents.get(i).agent.direction().x * main.gridWidth / 1000);
+			MainApp.line.setEndY(agents.get(i).agent.direction().y * main.gridWidth / 1000);
 		}
-		System.out.println("SIZE OF INTRUDER IS " + intruders.size());
 		for(int i=0; i<intruders.size();i++) {
-
-			MainApp.circleIntruder.setCenterX(bots.get(i).intruder.position.x * main.gridWidth / 1000);
-			MainApp.circleIntruder.setCenterY(bots.get(i).intruder.position.y * main.gridHeight / 1000);
+			check(intruders.get(i).updateRandomBot(), i);
+			MainApp.circleIntruder.setCenterX(intruders.get(i).agent.position.x * main.gridWidth / 1000);
+			MainApp.circleIntruder.setCenterY(intruders.get(i).agent.position.y * main.gridHeight / 1000);
+			MainApp.lineIntruder.setStartX(intruders.get(i).agent.position.x * main.gridWidth / 1000);
+			MainApp.lineIntruder.setStartY(intruders.get(i).agent.position.y * main.gridHeight / 1000);
+			MainApp.lineIntruder.setEndX(intruders.get(i).agent.direction().x * main.gridWidth / 1000);
+			MainApp.lineIntruder.setEndY(intruders.get(i).agent.direction().y * main.gridWidth / 1000);
 		}
 	}
 
