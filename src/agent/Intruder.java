@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Intruder extends Agent{
 	
-	private double baseSpeed = 1.4;
+	//private double baseSpeed = 1.4;
 	private double sprintSpeed = 3;
 	private double sprintAngle;
 	private int seeLength = 7500;
@@ -19,6 +19,9 @@ public class Intruder extends Agent{
 	
 	public Intruder(Point position, int time, Point size) {
 		this.position = position;
+		vector = new Point(1, 1);
+		angle = findAngle(vector);
+		seenSquares = new ArrayList<Point>();
 		this.time = time;
 		this.size = size;
 	}

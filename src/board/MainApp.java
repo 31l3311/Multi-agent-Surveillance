@@ -51,6 +51,13 @@ public class MainApp extends Application {
         circle.setRadius(0);
         circle.setFill(Color.BLUE);
         root.getChildren().add(circle);
+
+        circle1 = new Circle();
+        circle1.setCenterX(gridWidth);
+        circle1.setCenterY(gridHeight);
+        circle1.setRadius(0);
+        circle1.setFill(Color.RED);
+        root.getChildren().add(circle1);
         
         line = new Line();
         root.getChildren().add(line);
@@ -81,5 +88,6 @@ public class MainApp extends Application {
     public static double gridHeight = windowHeight / columnCells;
     private Square[][] playfield = new Square[rowCells][columnCells];
     public static Circle circle;
+    public static Circle circle1;
     public static Line line;
 }

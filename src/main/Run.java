@@ -34,9 +34,11 @@ public class Run {
 
 	public Run(int[][] board) {
 		RandomBot bot = new RandomBot(true, new Point(25000,25000), time, new Point(board.length, board[0].length));
+		RandomBot intruder = new RandomBot(false, new Point(1000,1000), time, new Point(board.length, board[0].length));
 		this.board = board;
 		setOuterWall();
 		bots.add(bot);
+		bots.add(intruder);
 		for(int i = 0; i<bots.size(); i++) {
 			bots.get(i).setBots(bots);
 		}
@@ -74,7 +76,7 @@ public class Run {
 
 
 	public void update() {
-		for(int i = 0; i<bots.size(); i++) {
+		/*for(int i = 0; i<bots.size(); i++) {
 			check(bots.get(i).update(), i);
 			MainApp.circle.setCenterX(bots.get(i).agent.position.x*main.gridWidth/1000);
 			MainApp.circle.setCenterY(bots.get(i).agent.position.y*main.gridHeight/1000);
@@ -85,7 +87,17 @@ public class Run {
 			//MainApp.circle.setCenterX(Math.random()*4000*gridWidth);
 			//MainApp.circle.setCenterY(Math.random()*4000*gridHeight);
 		//agents.get(i).hear(agents);
-		}
+		}*/
+		check(bots.get(0).update(), 0);
+		MainApp.circle.setCenterX(bots.get(0).agent.position.x*main.gridWidth/1000);
+		MainApp.circle.setCenterY(bots.get(0).agent.position.y*main.gridHeight/1000);
+		MainApp.line.setStartX(bots.get(0).agent.position.x*main.gridWidth/1000);
+		MainApp.line.setStartY(bots.get(0).agent.position.y*main.gridHeight/1000);
+		MainApp.line.setEndX(bots.get(0).agent.direction().x*main.gridWidth/1000);
+		MainApp.line.setEndY(bots.get(0).agent.direction().y*main.gridWidth/1000);
+		check(bots.get(1).update(), 1);
+		MainApp.circle1.setCenterX(bots.get(1).agent.position.x*main.gridWidth/1000);
+		MainApp.circle1.setCenterY(bots.get(1).agent.position.y*main.gridHeight/1000);
 
 		}
 	
