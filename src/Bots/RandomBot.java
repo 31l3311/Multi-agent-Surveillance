@@ -40,7 +40,12 @@ public class RandomBot extends Bot{
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
 			System.out.println("I should turn around now!");
 			return agent.update(true,(agent.getAngle() + 160));
-		}}
+		}
+		if(map[agent.myDirection.get(1).x][agent.myDirection.get(1).y] != 0) {
+			System.out.println("I should turn around now!");
+			return agent.update(true,(agent.getAngle() + 160));
+			}
+		}
 		if(counter >= 100 || avoidObjects()) {
 			counter = 0;
 			return agent.update(changeAngle());

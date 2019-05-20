@@ -6,15 +6,15 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Intruder extends Agent{
-	
-	//private double baseSpeed = 1.4;
-	private double sprintSpeed = 3;
+
+	private double sprintSpeed = 0.003;
 	private double sprintAngle;
 	private int seeLength = 7500;
 	private int timeSprinted;
 	private int timeWalked;
 	private boolean sprint;
 	private ArrayList<Point> seenSquares;
+	private boolean stop;
 	//visual range 7.5 m
 	
 	public Intruder(Point position, int time, Point size) {
@@ -27,19 +27,26 @@ public class Intruder extends Agent{
 	}
 	
 	public ArrayList update() {
-		move(time);
+		if(stop == false) {
+			move(time);}
+		if(angle != newAngle) {
+			vector = movingTurn(newAngle);
+		}
+		else {
+			stop = false;
+		}
 		return look();
 	}
 	
 	public ArrayList update(double newAngle) {
-	
 		move(time);
 		if(sprint == true && (sprintAngle + Math.abs(newAngle - angle))<10) {
-			vector = movingTurn(newAngle);
+			vector = movingTurn(this.newAngle);
 			sprintAngle += Math.abs(newAngle - angle);
 			}
 		else if (sprint == false) {
-			vector = movingTurn(newAngle);}
+			this.newAngle = gon(newAngle);
+			vector = movingTurn(this.newAngle);}
 		
 		return look();
 	}
@@ -56,7 +63,10 @@ public class Intruder extends Agent{
 	}
 	
 	public ArrayList look() {
+		System.runFinalization();
 		seenSquares.clear();
+		myDirection.clear();
+		myDirection = checkVectorSight(vector, seeLength);
 		seenSquares.addAll(checkVectorSight(vector, seeLength));
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength));
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength));
@@ -68,7 +78,7 @@ public class Intruder extends Agent{
 
 	@Override
 	public void move(int time) {
-		double u = 0;
+		double u;
 		if(timeWalked >= (10000/time) && timeSprinted < (5000/time) && sprint == true) {
 			u = ((time*sprintSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 			timeSprinted++;
@@ -84,6 +94,8 @@ public class Intruder extends Agent{
 	@Override
 	public ArrayList update(boolean stop, double newAngle) {
 		// TODO Auto-generated method stub
-		return null;
+		this.stop = stop;
+		vector = movingTurn(gon(newAngle));
+		return look();
 	}
 }

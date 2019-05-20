@@ -34,7 +34,7 @@ public class Run {
 
 	public Run(int[][] board) {
 		RandomBot bot = new RandomBot(true, new Point(25000,25000), time, new Point(board.length, board[0].length));
-		RandomBot intruder = new RandomBot(false, new Point(1000,1000), time, new Point(board.length, board[0].length));
+		RandomBot intruder = new RandomBot(false, new Point(15000,15000), time, new Point(board.length, board[0].length));
 		this.board = board;
 		setOuterWall();
 		bots.add(bot);
