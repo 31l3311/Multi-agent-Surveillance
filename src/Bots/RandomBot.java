@@ -83,6 +83,11 @@ public class RandomBot extends Bot{
 		}
 		return false;
 	}
+
+	@Override
+	public Agent getAgent() {
+		return agent;
+	}
 	
 	
 	

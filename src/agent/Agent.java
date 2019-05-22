@@ -38,43 +38,43 @@ public abstract class Agent{
 	public abstract ArrayList update(boolean stop, double newAngle);
 	
 	public Point movingTurn(double newAngle) {
-		System.out.println("START OF TURN");
-		System.out.println("Angle = " + angle);
-		System.out.println("New angle = " + newAngle);
+		//System.out.println("START OF TURN");
+		//System.out.println("Angle = " + angle);
+		//System.out.println("New angle = " + newAngle);
 		
 		if(angle<= 180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
 			if(Math.abs(newAngle-angle) < 0.180*time) {
-				System.out.println("Angle is smaller than 9 degrees 1");
+				//System.out.println("Angle is smaller than 9 degrees 1");
 				angle = newAngle;}
 			else {
 				angle = angle + 0.180*time;
-				System.out.println("Updated angle 1 : " + angle);
+				//System.out.println("Updated angle 1 : " + angle);
 			}
 		}
 		else {
 			if(newAngle > angle) {
 				newAngle = newAngle - 360;}
-			System.out.println("Angle check: " + angle);
-			System.out.println("New angle check: " + newAngle);
+			//System.out.println("Angle check: " + angle);
+			//System.out.println("New angle check: " + newAngle);
 			if(Math.abs(angle-newAngle) < 0.180*time) {
 				angle = gon(newAngle);
-				System.out.println("Angle is smaller than 9 degrees 2");	
+				//System.out.println("Angle is smaller than 9 degrees 2");	
 			}
 			else {
 				angle = angle - 0.180*time;
-				System.out.println("Updated angle 2 : " + angle);
+				//System.out.println("Updated angle 2 : " + angle);
 			}
 		}}
 		//angle is bigger than 180
 		else {
 			if(newAngle<angle && newAngle>(angle-180)) {
 				if((angle - newAngle) < 0.180*time) {
-					System.out.println("Angle is smaller than 9 degrees 3");
+					//System.out.println("Angle is smaller than 9 degrees 3");
 					angle = newAngle;}
 				else {
 					angle = angle - 0.180*time;
-					System.out.println("Updated angle 3 : " + angle);
+					//System.out.println("Updated angle 3 : " + angle);
 				}
 			}
 			else {
@@ -82,13 +82,13 @@ public abstract class Agent{
 					newAngle = 360 + newAngle;}
 				if(newAngle- angle < 0.180*time) {
 					angle = gon(newAngle);
-					System.out.println("Angle is smaller than 9 degrees 4");
+					//System.out.println("Angle is smaller than 9 degrees 4");
 				}
 					//if(angle>360)
 						//angle = angle-360;
 				else {
 					angle = gon(angle + 0.180*time);
-					System.out.println("Updated angle 4 : " + angle);
+					//System.out.println("Updated angle 4 : " + angle);
 				}
 			}	
 		}
@@ -121,7 +121,7 @@ public abstract class Agent{
 	
 	public double hear(ArrayList<Bot> bots) {
 		for(int i = 0; i<bots.size(); i++) {
-			Agent curAgent = bots.get(i).agent;
+			Agent curAgent = bots.get(i).getAgent();
 		distance = Math.sqrt(Math.pow((position.x + curAgent.getPosition().x), 2) + Math.pow((position.y + curAgent.getPosition().y), 2));
 		if((curAgent.speed < 0.5 && distance<1000) ||
 		   (curAgent.speed >= 0.5 && curAgent.speed<1 && distance<3000)	||
@@ -164,7 +164,7 @@ public abstract class Agent{
 			tempVector.y = 1;
 			tempVector.x = 0;}
 		if(angle>90 && angle <= 180) {
-			tempVector.y= (int) (- Math.tan(Math.PI-(Math.PI*angle)/180)*10000);
+			tempVector.y= (int) (Math.tan(Math.PI-(Math.PI*angle)/180)*10000);
 			tempVector.x = -10000;}
 		if(angle>180 && angle<270) {
 			tempVector.y = (int) (-Math.tan(Math.PI*(2 - angle/180))*10000);
@@ -190,7 +190,7 @@ public abstract class Agent{
 	}
 
 	public Point findVectorPath(Point targetPos){
-		return new Point(targetPos.x - this.position.x, targetPos.y - this.position.y);
+		return new Point(targetPos.x - this.getCoordinates().x, targetPos.y - this.getCoordinates().y);
 	}
 	
 	public Point getPosition() {
