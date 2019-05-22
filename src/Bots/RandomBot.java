@@ -54,6 +54,7 @@ public class RandomBot extends Bot{
 		return agent.update();
 	}
 	
+	
 	public double changeAngle() {
 		double angle = (360*Math.random());
 		//System.out.println("New angle = " + angle);

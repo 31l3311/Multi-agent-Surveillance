@@ -6,7 +6,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Bots.Bot;
 import Bots.RandomBot;
+import Bots.surveillanceBot;
 import agent.*;
 //import apple.laf.JRSUIConstants.Direction;
 import board.*;
@@ -27,21 +29,23 @@ public class Run {
 	private Timeline GameTimer;
 	private MainApp main = new MainApp();
 	private int time = 50;
+	private surveillanceBot bot;
 
-	private ArrayList<RandomBot> bots = new ArrayList<>();
+	private ArrayList<Bot> bots = new ArrayList<>();
 
 
 
 	public Run(int[][] board) {
-		RandomBot bot = new RandomBot(true, new Point(25000,25000), time, new Point(board.length, board[0].length));
+		bot = new surveillanceBot(new Point(0,0), new Point(50,50), time, new Point(50,50));
 		RandomBot intruder = new RandomBot(false, new Point(15000,15000), time, new Point(board.length, board[0].length));
 		this.board = board;
 		setOuterWall();
+		bots.clear();
 		bots.add(bot);
 		bots.add(intruder);
-		for(int i = 0; i<bots.size(); i++) {
-			bots.get(i).setBots(bots);
-		}
+		//for(int i = 0; i<bots.size(); i++) {
+		//	bots.get(i).setBots(bots);
+		//}
 		printMap();
 	}
 
@@ -89,6 +93,10 @@ public class Run {
 		//agents.get(i).hear(agents);
 		}*/
 		check(bots.get(0).update(), 0);
+		System.out.println("Circle: " + MainApp.circle.getCenterX());
+		System.out.println("bots: " + bots.get(0));
+		System.out.println("surveillance bot: " + bot);
+		System.out.println("agent: " + bots.get(0).agent);
 		MainApp.circle.setCenterX(bots.get(0).agent.position.x*main.gridWidth/1000);
 		MainApp.circle.setCenterY(bots.get(0).agent.position.y*main.gridHeight/1000);
 		MainApp.line.setStartX(bots.get(0).agent.position.x*main.gridWidth/1000);
