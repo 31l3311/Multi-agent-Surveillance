@@ -1,10 +1,5 @@
-package board;
-
-
 import com.sun.prism.paint.Color;
 import javafx.event.ActionEvent;
-
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
@@ -19,7 +14,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-import main.Run;
 
 import java.awt.*;
 
@@ -53,6 +47,7 @@ public class Menu {
 		chooseType.getItems().add("horDoor");
 		chooseType.getItems().add("verDoor");
 		chooseType.getItems().add("Tree");
+		chooseType.getItems().add("Intruder Target");
 
 		//Listening for selection changes
 		chooseType.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> state = newValue);
@@ -63,7 +58,7 @@ public class Menu {
 				//mainApp.root.getChildren().remove(1, 49);
 				for(int i=0; i<50; i++) {
 					for(int j=0; j<50; j++) {
-						Square square = new Square(i*20, j*20, 20, 20, getCleared);
+						Square square = new Square(i*20, j*20, 20, 20, getCleared, i, j);
 					}
 				}
 			}

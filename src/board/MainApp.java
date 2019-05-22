@@ -1,4 +1,3 @@
-package board;
 
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
 import javafx.application.Application;
@@ -37,7 +36,7 @@ public class MainApp extends Application {
             for( int j=0; j < 50; j++) {
 
                 // create node
-                Square node = new Square( i * gridWidth, j * gridHeight, gridWidth, gridHeight, false);
+                Square node = new Square( i * gridWidth, j * gridHeight, gridWidth, gridHeight, false, i, j);
                 // add node to group
                 root.getChildren().add(node);
                 // add to playfield for further reference using an array
@@ -53,8 +52,8 @@ public class MainApp extends Application {
         root.getChildren().add(circle);
 
         circle1 = new Circle();
-        circle1.setCenterX(gridWidth);
-        circle1.setCenterY(gridHeight);
+        circle1.setCenterX(gridWidth + 50);
+        circle1.setCenterY(gridHeight + 50);
         circle1.setRadius(0);
         circle1.setFill(Color.RED);
         root.getChildren().add(circle1);
@@ -80,10 +79,8 @@ public class MainApp extends Application {
     }
     static double windowWidth = 1000;
     static double windowHeight = 1000;
-
     static int rowCells = 50;
     static int columnCells = 50;
-
     public static double gridWidth = windowWidth / rowCells;
     public static double gridHeight = windowHeight / columnCells;
     private Square[][] playfield = new Square[rowCells][columnCells];

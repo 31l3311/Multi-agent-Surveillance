@@ -1,15 +1,7 @@
-package main;
-
-
-
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import Bots.RandomBot;
-import agent.*;
 //import apple.laf.JRSUIConstants.Direction;
-import board.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
@@ -26,6 +18,8 @@ public class Run {
 	private int[][] board;
 	private Timeline GameTimer;
 	private MainApp main = new MainApp();
+	private double targetX;
+	private double targetY;
 	private int time = 50;
 
 	private ArrayList<RandomBot> bots = new ArrayList<>();
@@ -72,22 +66,35 @@ public class Run {
 			//System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).x]);
 		}
-		}
+	}
 
 
 	public void update() {
-		/*for(int i = 0; i<bots.size(); i++) {
-			check(bots.get(i).update(), i);
-			MainApp.circle.setCenterX(bots.get(i).agent.position.x*main.gridWidth/1000);
-			MainApp.circle.setCenterY(bots.get(i).agent.position.y*main.gridHeight/1000);
-			MainApp.line.setStartX(bots.get(i).agent.position.x*main.gridWidth/1000);
-			MainApp.line.setStartY(bots.get(i).agent.position.y*main.gridHeight/1000);
-			MainApp.line.setEndX(bots.get(i).agent.direction().x*main.gridWidth/1000);
-			MainApp.line.setEndY(bots.get(i).agent.direction().y*main.gridWidth/1000);
-			//MainApp.circle.setCenterX(Math.random()*4000*gridWidth);
-			//MainApp.circle.setCenterY(Math.random()*4000*gridHeight);
-		//agents.get(i).hear(agents);
-		}*/
+		//check if intruder is caught
+		if(Math.abs(MainApp.circle.getCenterX() - MainApp.circle1.getCenterX()) <= 20 && Math.abs(MainApp.circle.getCenterY() - MainApp.circle1.getCenterY()) <= 20) {
+			System.out.println("Agents won!");
+			System.exit(0);
+		}
+
+		for(int i = 0; i<board.length; i++) {
+			for(int j =0; j<board[i].length; j++) {
+				if(board[i][j] == 6) {
+					targetX = i*20;
+					targetY = j*20;
+				}
+			}
+		}
+
+		System.out.println("targetX is " + targetX);
+		System.out.println("targetY is " + targetY);
+		//checks if intruders reach target
+		if(Math.abs(MainApp.circle1.getCenterX() - targetX) <= 20 && Math.abs(MainApp.circle1.getCenterY() - targetY) <= 20) {
+			System.out.println("got here 2");
+			System.out.println("Intruders won!");
+			System.exit(0);
+		}
+
+
 		check(bots.get(0).update(), 0);
 		MainApp.circle.setCenterX(bots.get(0).agent.position.x*main.gridWidth/1000);
 		MainApp.circle.setCenterY(bots.get(0).agent.position.y*main.gridHeight/1000);

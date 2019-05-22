@@ -1,14 +1,13 @@
-package board;
 
-
+import com.sun.org.apache.regexp.internal.REDebugCompiler;
 import javafx.scene.input.MouseEvent;
 import com.sun.org.apache.regexp.internal.RE;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import main.Run;
 import javafx.scene.image.Image;
 import java.util.Properties;
 
@@ -17,23 +16,139 @@ public class Square extends StackPane {
     MainApp w = new MainApp();
     Properties p = new Properties();
     public static boolean getCleared = false;
-    public static int[][] board = new int[50][50];
+    public double targetX;
+    public double targetY;
+    public static int [][] board= {
+            {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+            {2,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,2,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,0,0,3,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,4,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,32,2,32,2,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,2,2,32,2,2,2,2,32,2,2,2,2,2,2,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,2,32,2,2,2,2,2,2,32,2,2,42,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,5,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,5,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}};
+    public static boolean targetPlaced;
 
+    public Square() {}
+    public Square(double x, double y, double width, double height, boolean getCleared, int ii, int jj) {
 
-    public Square(double x, double y, double width, double height, boolean getCleared) {
-
-        // create rectangle
         Rectangle rectangle = new Rectangle(x, y, width, height);
+        Circle pSentry = new Circle(10);
+        Rectangle background = new Rectangle(x, y, width, height);
+        Circle pTree = new Circle(10);
+        background.setFill(Color.LIGHTGREEN);
+        background.setStroke(Color.BLACK);
 
-        rectangle.setStroke(Color.BLACK);
-        rectangle.setFill(Color.LIGHTGREEN);
+        if (board[ii][jj]==0){
+            rectangle.setFill(Color.LIGHTGREEN);
+            rectangle.setStroke(Color.BLACK);
+        }
+        else if (board[ii][jj]==1){
+            pSentry.setFill(Color.RED);
+            pSentry.setStroke(Color.BLACK);
+            pSentry.setCenterX(x + 0.5*w.gridHeight);
+            pSentry.setCenterY(y + 0.5*w.gridHeight);
+            pSentry.setRadius(10);
+        }
+        else if (board[ii][jj]==2){
+            rectangle.setFill(Color.GRAY);
+            rectangle.setStroke(Color.BLACK);
+        }
+        else if (board[ii][jj]==3){
+            rectangle.setHeight(w.gridHeight/4);
+            rectangle.setWidth(w.gridWidth);
+            rectangle.setFill(Color.WHITE);
+            rectangle.setStroke(Color.BLACK);
+            rectangle.setStroke(Color.BLACK);
+        }
+        else if (board[ii][jj]==4){
+            rectangle.setHeight(w.gridHeight/3);
+            rectangle.setWidth(w.gridWidth);
+            rectangle.setFill(Color.BROWN);
+            rectangle.setStroke(Color.BLACK);
+        }
+        else if (board[ii][jj]==5){
+            pTree.setCenterX(x + 0.5*w.getgridHeight());
+            pTree.setCenterY(y + 0.5*w.getgridHeight());
+            pTree.setFill(Color.GREEN);
+            pTree.setStroke(Color.BLACK);
+        }
+        else if(board[ii][jj] == 42 ) {
+            rectangle.setHeight(w.gridHeight);
+            rectangle.setWidth(w.gridWidth/3);
+            rectangle.setFill(Color.BROWN);
+            rectangle.setStroke(Color.BLACK);
+        }
+        else if(board[ii][jj] == 32) {
+            rectangle.setHeight(w.gridHeight);
+            rectangle.setWidth(w.gridWidth/4);
+            rectangle.setFill(Color.WHITE);
+            rectangle.setStroke(Color.BLACK);
+            rectangle.setStroke(Color.BLACK);
+        }
 
         setOnMousePressed(e->mousePressedOnSquare(e));
 
         // set position
         setTranslateX(x);
         setTranslateY(y);
-        getChildren().addAll(rectangle);
+        getChildren().addAll(background);
+
+        if (board[ii][jj]==1){
+
+            getChildren().addAll(pSentry);
+        }
+        else if (board[ii][jj]==5){
+
+            getChildren().addAll(pTree);
+        }
+        else  {
+
+            getChildren().addAll(rectangle);
+        }
+
         if(getCleared) {
             rectangle.setStroke(Color.BLACK);
             rectangle.setFill(Color.LIGHTGREEN);
@@ -55,25 +170,6 @@ public class Square extends StackPane {
             System.out.println("Build rectangles");
         }
     }
-
-
-
-    void pacmanPositioner(){
-
-        Circle pacman = new Circle((987 / w.getgridWidth()), 654 / w.getgridHeight(), 9);
-        pacman.setStroke(Color.LIGHTGREEN);
-        Image icon = new Image("/icons/pacman.png");
-        pacman.setFill(new ImagePattern(icon));
-
-        Circle ghost = new Circle((3 / w.getgridWidth()), 3 / w.getgridHeight(), 9);
-        ghost.setStroke(Color.LIGHTGREEN);
-        Image icon2 = new Image("/icons/ghost.png");
-        ghost.setFill(new ImagePattern(icon2));
-
-        getChildren().addAll(pacman);
-        getChildren().addAll(ghost);
-    }
-
 
     void mousePressedOnSquare(MouseEvent e) {
         if(Menu.state == "Sentry") {
@@ -104,7 +200,6 @@ public class Square extends StackPane {
             horWindow.setFill(Color.WHITE);
             getChildren().add(horWindow);
             board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 3;
-
         }
         else if(Menu.state == "verWindow") {
             Rectangle verWindow = new Rectangle();
@@ -125,7 +220,6 @@ public class Square extends StackPane {
             getChildren().add(horDoor);
             board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 4;
 
-
         }
         else if(Menu.state == "verDoor") {
             Rectangle verDoor = new Rectangle();
@@ -136,7 +230,6 @@ public class Square extends StackPane {
             getChildren().add(verDoor);
             board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 4;
 
-
         }
         else if(Menu.state == "Tree") {
             Circle tree = new Circle((e.getSceneX() / w.getgridWidth()), e.getSceneY() / w.getgridHeight(), 10);
@@ -146,7 +239,18 @@ public class Square extends StackPane {
             board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 5;
             //r.printBoard();
             //Uncomment above if you want to print the 2d array containing the objects, for some reason
-
+        }
+        else if(Menu.state == "Intruder Target") {
+            if(targetPlaced == false) {
+                Circle intruderTarget = new Circle((e.getSceneX() / w.getgridWidth()), e.getSceneY() / w.getgridHeight(), 10);
+                intruderTarget.setFill(Color.GOLD);
+                intruderTarget.setStroke(Color.BROWN);
+                getChildren().add(intruderTarget);
+                board[(int) (e.getSceneX()/w.getgridWidth())][(int) (e.getSceneY()/w.getgridHeight())] = 6;
+                targetPlaced = true;
+                targetX = e.getSceneX();
+                targetY = e.getSceneY();
+            }
         }
     }
 }

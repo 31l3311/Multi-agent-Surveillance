@@ -1,8 +1,4 @@
-package Bots;
-
 import java.util.ArrayList;
-
-import agent.Agent;
 
 public abstract class Bot{
 	

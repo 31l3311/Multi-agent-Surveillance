@@ -1,9 +1,5 @@
-package Bots;
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-import agent.SurveillanceAgent;
 
 public class surveillanceBot  extends Bot{
 	
@@ -27,9 +23,7 @@ public class surveillanceBot  extends Bot{
 	private Node tempNode;
 	private Point position;
 	private boolean checked;
-	
-	
-	
+
 	public surveillanceBot(Point topLeft, Point bottomRight, int time, Point size){
 		sectionMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
 		agent = new SurveillanceAgent(topLeft, time, size );
@@ -40,8 +34,6 @@ public class surveillanceBot  extends Bot{
 					{pheromoneMap[i][j] = -1;}
 			}
 		}
-		
-		
 	}
 	
 	public void update() {

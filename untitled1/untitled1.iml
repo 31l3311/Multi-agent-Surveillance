@@ -2,6 +2,9 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../src/Bots">
+      <sourceFolder url="file://$MODULE_DIR$/../src/Bots" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../src/agent">
       <sourceFolder url="file://$MODULE_DIR$/../src/agent" isTestSource="false" />
     </content>
@@ -25,5 +28,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="commons-math3-3.6" level="application" />
   </component>
 </module>

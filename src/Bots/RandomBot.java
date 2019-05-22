@@ -1,13 +1,5 @@
-package Bots;
-
-
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-import agent.Agent;
-import agent.Intruder;
-import agent.SurveillanceAgent;
 
 public class RandomBot extends Bot{
 	public Agent agent;
