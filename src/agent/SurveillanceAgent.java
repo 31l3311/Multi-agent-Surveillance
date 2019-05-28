@@ -1,13 +1,19 @@
 import java.awt.Point;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 public class SurveillanceAgent extends Agent{
 	
 	//speed per millisecond
 	public double speed;
 	private int seeLength = 6000;
 	private boolean stop;
-	
+	private int counter;
+	boolean x = true;
+	private int timeTower = 0;
+
+
 	//defined as coordinates x,y in millimeters
 	//looking vectors
 	
@@ -28,6 +34,22 @@ public class SurveillanceAgent extends Agent{
 	}
 	
 	public ArrayList update() {
+		if (enteredTower == true) {
+			stop = true;
+			timeTower++;
+			if (timeTower<3000){
+				return look();
+			}
+			else if (x){
+				enterTower();
+				x = false;
+				return look();
+			}
+			else{
+				return look();
+			}
+		}
+
 		if(stop == false) {
 		move(time);}
 		if(angle != newAngle) {
@@ -47,9 +69,11 @@ public class SurveillanceAgent extends Agent{
 		return look();
 	}
 	
-	public ArrayList update(boolean stop, double newAngle) {
+	public ArrayList update(boolean stop, double newAngle){
 		this.stop = stop;
+
 		vector = movingTurn(gon(newAngle));
+
 		return look();
 	}
 
@@ -67,12 +91,10 @@ public class SurveillanceAgent extends Agent{
 		return seenSquares;
 	}
 
-	public void enterTower() {
-		//delay three seconds
-		
-		
-		
-	}
+
+
+
+
 
 	@Override
 	public void move(int time) {

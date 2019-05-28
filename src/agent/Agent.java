@@ -18,10 +18,12 @@ public abstract class Agent{
 	protected int time;
 	protected Point size;
 	private Point direction = new Point();
+
 	
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
 	private double speed;
+	public boolean enteredTower = false;
 
 	public abstract void move(int time);
 	//public abstract void turn(int angle);
@@ -176,6 +178,10 @@ public abstract class Agent{
 		if(angle<0)
 			angle = angle + 360;
 	return angle;
+	}
+
+	public void enterTower() {
+		enteredTower = true;
 	}
 
 	public Point findVectorPath(Point targetPos){

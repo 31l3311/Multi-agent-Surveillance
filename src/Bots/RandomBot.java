@@ -7,6 +7,8 @@ public class RandomBot extends Bot{
 	private int[][] map;
 	private int counter = 0;
 	private ArrayList bots;
+	private int sentryx;
+	private int sentryy;
 	
 	public RandomBot(boolean surveillance, Point position, int time, Point size){
 		this.surveillance = surveillance;
@@ -28,6 +30,28 @@ public class RandomBot extends Bot{
 	}
 	
 	public ArrayList update() {
+		if (surveillance) {
+			for (int i = 0; i < Square.board.length; i++) {
+				for (int j = 0; j < Square.board[i].length; j++) {
+
+					if (Square.board[i][j] == 1) {
+						sentryx = i * 20;
+						sentryy = j * 20;
+						if (Math.abs(MainApp.circle.getCenterX() - sentryx) <= 20 && Math.abs(MainApp.circle.getCenterY() - sentryy) <= 20) {
+							MainApp.circle.setCenterX(sentryx);
+							MainApp.circle.setCenterY(sentryy);
+							System.out.println("SENTRYTOWER");
+							agent.enterTower();
+							return agent.update();
+
+
+						}
+					}
+				}
+			}
+		}
+
+
 		if(agent.myDirection.size()>2) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
 			System.out.println("I should turn around now!");
@@ -43,11 +67,19 @@ public class RandomBot extends Bot{
 			return agent.update(changeAngle());
 		}
 		counter++;
+
+
 		return agent.update();
 	}
 	
 	public double changeAngle() {
 		double angle = (360*Math.random());
+		//System.out.println("New angle = " + angle);
+		return angle;
+	}
+
+	public double changeAngleSentry() {
+		double angle = (360);
 		//System.out.println("New angle = " + angle);
 		return angle;
 	}
