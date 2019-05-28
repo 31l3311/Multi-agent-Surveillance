@@ -1,5 +1,9 @@
+package Bots;
+
 import java.awt.Point;
 import java.util.ArrayList;
+
+import agent.SurveillanceAgent;
 
 public class surveillanceBot  extends Bot{
 	
@@ -10,13 +14,15 @@ public class surveillanceBot  extends Bot{
 	private int max;
 	private Point bestLoc;
 	
+	private boolean explorationComplete;
+	
 	//walking
 	int nextPathpos;
 	
 	//astar
-	private ArrayList<Node> closedNodes;
-	private ArrayList<Node> openNodes;
-	private ArrayList<Point> path;
+	private ArrayList<Node> closedNodes= new ArrayList<Node>();
+	private ArrayList<Node> openNodes= new ArrayList<Node>();
+	private ArrayList<Point> path = new ArrayList<Point>();
 	private Point startPos;
 	private Node startNode;
 	private Node bestNode;
@@ -25,19 +31,45 @@ public class surveillanceBot  extends Bot{
 	private boolean checked;
 
 	public surveillanceBot(Point topLeft, Point bottomRight, int time, Point size){
+		//System.out.println("Instansiating new bot");
 		sectionMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
-		agent = new SurveillanceAgent(topLeft, time, size );
-		pheromoneMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
-		for(int i = 0; i<pheromoneMap.length; i++ ) {
-			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
-				if(sectionMap[i][j]!= 0) 
-					{pheromoneMap[i][j] = -1;}
+		for(int i = 0; i<sectionMap.length; i++ ) {
+			for(int j = 0; j<sectionMap[0].length; j++ ) {
+					sectionMap[i][j] = -1;
 			}
 		}
+		agent = new SurveillanceAgent(topLeft, time, size );
+		//System.out.println("agent: " + agent);
+		pheromoneMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
+		explore();
+		map = new int[size.x][size.y];
+//		for(int i = 0; i<pheromoneMap.length; i++ ) {
+//			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
+//				if(sectionMap[i][j]!= 0) 
+//					{pheromoneMap[i][j] = -1;}
+//			}
+//		}
+		
 	}
 	
-	public void update() {
+	public void updateMap(Point loc, int i) {
+		//System.out.println("Updating map at location: " + loc);
+		if(loc.x<sectionMap.length && loc.y<sectionMap[0].length) {
+			sectionMap[loc.x][loc.y] = i;
+			pheromoneMap[loc.x][loc.y] = 0;
+		}
+		map[loc.x][loc.y] = i;
+		
+	}
+	
+	public SurveillanceAgent getAgent() {
+		return agent;
+	}
+	
+	public ArrayList update() {
+		//System.out.println("method update agent: " + agent);
 		//update pheromonemap
+		System.out.println("Location: " + agent.getCoordinates());
 		for(int i = 0; i<pheromoneMap.length; i++ ) {
 			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
 				if(pheromoneMap[i][j]!= -1) {
@@ -46,20 +78,38 @@ public class surveillanceBot  extends Bot{
 		}}
 		
 		//update agent
-		if(agent.getCoordinates() == path.get(0)) {
-			aStar();
+		if(!explorationComplete && path.isEmpty()) {
+			explore();
 		}
-		else if(agent.getCoordinates() == path.get(nextPathpos)) {
+		else if((!explorationComplete && agent.getCoordinates().equals(path.get(0)))) {
+			explore();
+		}
+		else if(agent.getCoordinates().equals(path.get(0))) {
+			aStar(surveil(), true);
+		}
+		
+		System.out.println("Path next position " + path.get(nextPathpos));
+		if(agent.getCoordinates().equals(path.get(nextPathpos))) {
 			nextPathpos -=1;
-			agent.update(agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
+			System.out.println("Position: " + agent.getCoordinates().x + ", " + agent.getCoordinates().y);
+			System.out.println("Next position" + path.get(nextPathpos).x + ", " + path.get(nextPathpos).y);
+			System.out.println("Vector" + agent.findVectorPath(path.get(nextPathpos)).x + ", " + agent.findVectorPath(path.get(nextPathpos)).y);
+			System.out.println("Angle" + agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
+			return agent.update(agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
+		}
+		else if(!agent.getCoordinates().equals(path.get(nextPathpos+1)) && !agent.getCoordinates().equals(path.get(nextPathpos)) ) {
+			// ie the agent is not on the current square of the path and not on the next one, so agent is off path
+			return agent.update(agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
 		}
 		else {
-			agent.update();
+			System.out.println("else statement");
+			return agent.update();
 		}
 		
 		}
 	
-	public void surveil() {
+	public Point surveil() {
+		////System.out.println("method surveil agent: " + agent);
 		max = 0;
 		for(int i = 0; i<sectionMap.length; i++) {
 			for(int j = 0; j<sectionMap[0].length; j++) {
@@ -69,11 +119,30 @@ public class surveillanceBot  extends Bot{
 				}
 			}
 		}
-		
+		////System.out.println("method surveil 2 agent: " + agent);
+		return bestLoc;
 		
 	}
 	
-	public void aStar() {
+	public void explore() {
+		//System.out.println("explore agent: " + agent);
+		explorationComplete = true;
+		outerloop:
+		for(int i=0; i<sectionMap.length; i++) {
+			for(int j=0; j<sectionMap[0].length; j++) {
+				if(sectionMap[i][j]<0 && !(agent.getCoordinates().x==i && agent.getCoordinates().y==j)) {
+					//System.out.println("Next point:" + i +", " + j);
+					explorationComplete = false;
+					aStar(new Point(i,j), false);
+					break outerloop;
+				}
+			}
+		}
+		//System.out.println("explore 2 agent: " + agent);
+	}
+	
+	public void aStar(Point goal, boolean surveillance) {
+		System.out.println("astar goal: " + goal.x + ", " + goal.y);
 		//f = g+h
 		//reset values
 		path.clear();
@@ -82,10 +151,12 @@ public class surveillanceBot  extends Bot{
 		
 		
 		startPos = agent.getCoordinates();
-		startNode = new Node(startPos, distance(startPos, bestLoc));
+		startNode = new Node(startPos, distance(startPos, goal), surveillance);
 		openNodes.add(startNode);
-		
 		while(!openNodes.isEmpty()) {
+		//System.out.println("goal node" + goal.x +", " + goal.y);	
+		//System.out.println("Open nodes wl: " + openNodes.size());	
+			bestNode = openNodes.get(0);
 			for(int i = 0; i<openNodes.size(); i++) {
 				if(openNodes.get(i).f < bestNode.f) {
 					bestNode = openNodes.get(i);
@@ -93,44 +164,60 @@ public class surveillanceBot  extends Bot{
 			}
 			openNodes.remove(bestNode);
 			closedNodes.add(bestNode);
+			//System.out.println("best node" + bestNode.position.x +", " + bestNode.position.y);	
 			
-			if(bestNode.position == bestLoc) {
+			if(bestNode.position.x == goal.x && bestNode.position.y == goal.y ) {
 				findPath(bestNode);
 				nextPathpos = path.size() - 1;
+				System.out.println("Path :");
+				for(int i = 0; i<path.size(); i++) {
+					System.out.println(path.get(i));
+				}
+				break;
 			}
 			else {
 				for(int i = -1; i<=1; i++) {
 					for(int j = -1; j<=1; j++) {
-						if(bestNode.position.x + i >= 0 && bestNode.position.y + j >= 0 ) {
+						if(bestNode.position.x + i >= 0 && bestNode.position.y + j >= 0 && bestNode.position.x + i < sectionMap.length && bestNode.position.y + j < sectionMap[0].length) {
+						if(i!=0 || j!=0) {
+							checked = false;
 							position = new Point(bestNode.position.x + i, bestNode.position.y + j);
-							tempNode = new Node(position, bestNode, distance(position, bestLoc), pheromoneMap[position.x][position.y]);
+							tempNode = new Node(position, bestNode, distance(position, goal), pheromoneMap[position.x][position.y], surveillance);
+							
 							for(int k = 0; k< closedNodes.size(); k++) {
 								if(position.x == closedNodes.get(k).position.x && position.y == closedNodes.get(k).position.y ) {
 									if(tempNode.f< closedNodes.get(k).f) {
 										openNodes.add(tempNode);
+										//System.out.println("add to open nodes 1");
 									}
 									checked = true;
 								}
 							}
+							
 							if(checked == false) {
 							for(int k = 0; k< openNodes.size() ; k++) {
 								if(position.x == openNodes.get(k).position.x && position.y == openNodes.get(k).position.y) {
 									if(tempNode.f< openNodes.get(k).f) {
 										openNodes.add(tempNode);
+										//System.out.println("add to open nodes 2");
 										openNodes.remove(k);
 									}
 									checked = true;
 								}
 							}}
+							
 							if(checked == false) {
-								if(map[tempNode.position.x][tempNode.position.y] == 0){
-									openNodes.add(tempNode);}}
-						}
+								if(sectionMap[tempNode.position.x][tempNode.position.y] <= 0){
+									openNodes.add(tempNode);
+									//System.out.println("add to open nodes 3");
+								}}
+						}}
 					}
 				}
 			
 			}
 		}
+		//System.out.println("a star 2 agent: " + agent);
 	}
 	
 	public void findPath(Node node){

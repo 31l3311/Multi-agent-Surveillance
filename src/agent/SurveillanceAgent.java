@@ -1,3 +1,5 @@
+package agent;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -43,7 +45,9 @@ public class SurveillanceAgent extends Agent{
 	public ArrayList update(double newA) {
 		move(time);
 		this.newAngle = gon(newA);
+		System.out.println("New angle: " + newAngle);
 		vector = movingTurn(newAngle);
+		System.out.println("New vector: " + vector.x + ", " + vector.y);
 		return look();
 	}
 	

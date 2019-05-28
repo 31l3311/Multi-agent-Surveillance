@@ -1,5 +1,11 @@
+package Bots;
+
 import java.awt.Point;
 import java.util.ArrayList;
+
+import agent.*;
+
+
 
 public class RandomBot extends Bot{
 	public Agent agent;
@@ -46,6 +52,7 @@ public class RandomBot extends Bot{
 		return agent.update();
 	}
 	
+	
 	public double changeAngle() {
 		double angle = (360*Math.random());
 		//System.out.println("New angle = " + angle);
@@ -73,6 +80,11 @@ public class RandomBot extends Bot{
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Agent getAgent() {
+		return agent;
 	}
 	
 	
