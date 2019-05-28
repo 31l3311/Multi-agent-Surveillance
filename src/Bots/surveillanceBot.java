@@ -44,6 +44,7 @@ public class surveillanceBot  extends Bot{
 		//System.out.println("agent: " + agent);
 		pheromoneMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
 		explore();
+		map = new int[size.x][size.y];
 //		for(int i = 0; i<pheromoneMap.length; i++ ) {
 //			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
 //				if(sectionMap[i][j]!= 0) 
@@ -55,8 +56,13 @@ public class surveillanceBot  extends Bot{
 	}
 	
 	public void updateMap(Point loc, int i) {
-		sectionMap[loc.x][loc.y] = i;
-		pheromoneMap[loc.x][loc.y] = 0;
+		//System.out.println("Updating map at location: " + loc);
+		if(loc.x<sectionMap.length && loc.y<sectionMap[0].length) {
+			sectionMap[loc.x][loc.y] = i;
+			pheromoneMap[loc.x][loc.y] = 0;
+		}
+		map[loc.x][loc.y] = i;
+		
 	}
 	
 	public SurveillanceAgent getAgent() {
@@ -66,6 +72,7 @@ public class surveillanceBot  extends Bot{
 	public ArrayList update() {
 		//System.out.println("method update agent: " + agent);
 		//update pheromonemap
+		System.out.println("Location: " + agent.getCoordinates());
 		for(int i = 0; i<pheromoneMap.length; i++ ) {
 			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
 				if(pheromoneMap[i][j]!= -1) {
@@ -84,13 +91,17 @@ public class surveillanceBot  extends Bot{
 			aStar(surveil(), true);
 		}
 		
-		System.out.println("Path size : " + path.size());
+		System.out.println("Path next position " + path.get(nextPathpos));
 		if(agent.getCoordinates().equals(path.get(nextPathpos))) {
 			nextPathpos -=1;
 			System.out.println("Position: " + agent.getCoordinates().x + ", " + agent.getCoordinates().y);
 			System.out.println("Next position" + path.get(nextPathpos).x + ", " + path.get(nextPathpos).y);
 			System.out.println("Vector" + agent.findVectorPath(path.get(nextPathpos)).x + ", " + agent.findVectorPath(path.get(nextPathpos)).y);
 			System.out.println("Angle" + agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
+			return agent.update(agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
+		}
+		else if(!agent.getCoordinates().equals(path.get(nextPathpos+1)) && !agent.getCoordinates().equals(path.get(nextPathpos)) ) {
+			// ie the agent is not on the current square of the path and not on the next one, so agent is off path
 			return agent.update(agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
 		}
 		else {
