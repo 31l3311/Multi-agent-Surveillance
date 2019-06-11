@@ -23,6 +23,7 @@ public class surveillanceBot  extends Bot{
 	private ArrayList<Node> closedNodes= new ArrayList<Node>();
 	private ArrayList<Node> openNodes= new ArrayList<Node>();
 	private ArrayList<Point> path = new ArrayList<Point>();
+	private ArrayList<Point> badList = new ArrayList<Point>();
 	private Point startPos;
 	private Node startNode;
 	private Node bestNode;
@@ -38,7 +39,9 @@ public class surveillanceBot  extends Bot{
 					sectionMap[i][j] = -1;
 			}
 		}
-		agent = new SurveillanceAgent(topLeft, time, size );
+		agent = new SurveillanceAgent(new Point(topLeft.x*1000, topLeft.y*1000), time, size );
+		//agent.setPosition(new Point(2,2));
+		System.out.println("agentlalala:" + agent.getCoordinates());
 		//System.out.println("agent: " + agent);
 		pheromoneMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
 		explore();
@@ -127,18 +130,33 @@ public class surveillanceBot  extends Bot{
 	public void explore() {
 		//System.out.println("explore agent: " + agent);
 		explorationComplete = true;
+		
+		//while(path.isEmpty()) {
 		outerloop:
 		for(int i=0; i<sectionMap.length; i++) {
 			for(int j=0; j<sectionMap[0].length; j++) {
-				if(sectionMap[i][j]<0 && !(agent.getCoordinates().x==i && agent.getCoordinates().y==j)) {
+				if(sectionMap[i][j]<0 && !(agent.getCoordinates().x==i && agent.getCoordinates().y==j) ) {
 					//System.out.println("Next point:" + i +", " + j);
 					explorationComplete = false;
 					aStar(new Point(i,j), false);
+//					if(path.isEmpty()) {
+//						badList.add(new Point(i,j));
+//					}
 					break outerloop;
 				}
 			}
 		}
+		//}
 		//System.out.println("explore 2 agent: " + agent);
+	}
+	
+	public boolean feasible(int i, int j) {
+		for(int k = 0; k<badList.size(); k++) {
+			if(badList.get(k).equals(new Point(i,j))) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public void aStar(Point goal, boolean surveillance) {
@@ -155,7 +173,8 @@ public class surveillanceBot  extends Bot{
 		openNodes.add(startNode);
 		while(!openNodes.isEmpty()) {
 		//System.out.println("goal node" + goal.x +", " + goal.y);	
-		//System.out.println("Open nodes wl: " + openNodes.size());	
+			for(int i = 0; i<openNodes.size(); i++) {
+				System.out.println("Open nodes wl: " + openNodes.get(i));	}
 			bestNode = openNodes.get(0);
 			for(int i = 0; i<openNodes.size(); i++) {
 				if(openNodes.get(i).f < bestNode.f) {
@@ -176,10 +195,14 @@ public class surveillanceBot  extends Bot{
 				break;
 			}
 			else {
+				//iterating through the neighbouring squares
 				for(int i = -1; i<=1; i++) {
 					for(int j = -1; j<=1; j++) {
+						//checking whether its out of bounds
 						if(bestNode.position.x + i >= 0 && bestNode.position.y + j >= 0 && bestNode.position.x + i < sectionMap.length && bestNode.position.y + j < sectionMap[0].length) {
-						if(i!=0 || j!=0) {
+						//not the same square
+							//if(i!=0 || j!=0) {
+								if(sectionMap[bestNode.position.x + i][bestNode.position.y + j] == 0 || sectionMap[bestNode.position.x + i][bestNode.position.y + j] == -1) {
 							checked = false;
 							position = new Point(bestNode.position.x + i, bestNode.position.y + j);
 							tempNode = new Node(position, bestNode, distance(position, goal), pheromoneMap[position.x][position.y], surveillance);
@@ -211,7 +234,7 @@ public class surveillanceBot  extends Bot{
 									openNodes.add(tempNode);
 									//System.out.println("add to open nodes 3");
 								}}
-						}}
+						}}//}
 					}
 				}
 			
