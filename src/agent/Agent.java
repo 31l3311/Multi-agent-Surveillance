@@ -211,6 +211,9 @@ public abstract class Agent{
 		return new Point(targetPos.x - this.getCoordinates().x, targetPos.y - this.getCoordinates().y);
 	}
 	
+	public void setPosition(Point position) {
+		this.position = position;
+	}
 	public Point getPosition() {
 		return position;
 	}

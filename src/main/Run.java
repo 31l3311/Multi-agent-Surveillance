@@ -29,10 +29,10 @@ public class Run {
 
 
 	public Run(int[][] board) {
-		bot = new surveillanceBot(new Point(0,0), new Point(20,20), time, new Point(50,50));
+		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
 		//System.out.println("surveillance bot: " + bot);
 		//System.out.println("surveillance agent: " + bot.getAgent());
-		RandomBot intruder = new RandomBot(false, new Point(15000,15000), time, new Point(board.length, board[0].length));
+		RandomBot intruder = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
 		this.board = board;
 		setOuterWall();
 		bots.clear();
