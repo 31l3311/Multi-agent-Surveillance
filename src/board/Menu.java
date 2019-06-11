@@ -1,4 +1,3 @@
-package board;
 
 import com.sun.prism.paint.Color;
 import javafx.event.ActionEvent;
@@ -16,7 +15,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-import main.Run;
 
 import java.awt.*;
 

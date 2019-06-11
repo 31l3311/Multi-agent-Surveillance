@@ -1,6 +1,3 @@
-package board;
-
-
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -47,15 +44,15 @@ public class MainApp extends Application {
         }
 
         circle = new Circle();
-        circle.setCenterX(gridWidth);
-        circle.setCenterY(gridHeight);
+        circle.setCenterX(gridWidth+60);
+        circle.setCenterY(gridHeight+60);
         circle.setRadius(0);
         circle.setFill(Color.BLUE);
         root.getChildren().add(circle);
 
         circle1 = new Circle();
-        circle1.setCenterX(gridWidth + 50);
-        circle1.setCenterY(gridHeight + 50);
+        circle1.setCenterX(gridWidth+100);
+        circle1.setCenterY(gridHeight+100);
         circle1.setRadius(0);
         circle1.setFill(Color.RED);
         root.getChildren().add(circle1);

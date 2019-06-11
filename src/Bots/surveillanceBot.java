@@ -1,9 +1,5 @@
-package Bots;
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-import agent.SurveillanceAgent;
 
 public class surveillanceBot  extends Bot{
 	
@@ -13,7 +9,6 @@ public class surveillanceBot  extends Bot{
 	private int[][] pheromoneMap;
 	private int max;
 	private Point bestLoc;
-	
 	private boolean explorationComplete;
 	
 	//walking

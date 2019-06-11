@@ -1,10 +1,6 @@
-package agent;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
-
-import Bots.Bot;
 
 import org.apache.commons.math3.*;
 
@@ -23,6 +19,7 @@ public abstract class Agent{
 	protected int time;
 	protected Point size;
 	private Point direction = new Point();
+	private Square square = new Square();
 	
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
@@ -94,25 +91,48 @@ public abstract class Agent{
 		return vector;
 	}
 	
-	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength) {
+	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry) {
 		//System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
 		//u creates a vector in same direction with correct length
 		double u = (seeLength)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
+		double w = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		temppos.x = position.x;
 		temppos.y = position.y;
 		//System.out.println("U: " + u);
-		for(int i = 0; i<10; i++) {
+
+
+		for(int i = 0; i<5; i++) {
 			temppos.x += 0.1*(u*seeVector.x);
 			temppos.y += 0.1*(u*seeVector.y);
-		//System.out.println("posX and Y: " + temppos.x + ", " + temppos.y);
-		newSquare = new Point((int)(temppos.x/1000),(int)(temppos.y/1000));
-		if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
-			lastSquare = newSquare;
-			//System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
-		if(lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
-			checkSight.add(lastSquare);}
+			//System.out.println("posX and Y: " + temppos.x + ", " + temppos.y)
+			// translate to squares
+			newSquare = new Point((int)(temppos.x/1000),(int)(temppos.y/1000));
+			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
+				lastSquare = newSquare;
+				//System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
+				if(lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+					checkSight.add(lastSquare);}
+			}
 		}
+		for(int i = 0; i<5; i++) {
+			temppos.x += 0.1*(w*seeVector.x);
+			temppos.y += 0.1*(w*seeVector.y);
+
+			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
+			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
+				lastSquare = newSquare;
+//				System.out.println("lastSquare x is " + lastSquare.x + " lastSquare y is " + lastSquare.y);
+//				System.out.println("Board is " + square.board.length);
+				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < 50 && lastSquare.y < 50){
+					if (square.board[lastSquare.x][lastSquare.y] == 1) {
+						//System.out.println("WOOP WOOP I SEE SENTRY AT " + lastSquare);
+						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+							checkSight.add(lastSquare);
+						}
+					}
+				}
+			}
 		}
 		return checkSight;
 	}

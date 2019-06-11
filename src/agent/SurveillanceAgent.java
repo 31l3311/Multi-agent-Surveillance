@@ -1,5 +1,3 @@
-package agent;
-
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -8,14 +6,11 @@ public class SurveillanceAgent extends Agent{
 	//speed per millisecond
 	public double speed;
 	private int seeLength = 6000;
+	private int seeLengthSentry = 18000;
 	private boolean stop;
-	
 	//defined as coordinates x,y in millimeters
 	//looking vectors
-	
-
 	//visual range 6 m
-	
 	private double tempAngle = 0;
 	private Point tempVector = new Point();
 	private ArrayList info = new ArrayList();
@@ -39,7 +34,6 @@ public class SurveillanceAgent extends Agent{
 			stop = false;
 		}
 		return look();
-
 	}
 
 	public ArrayList update(double newA) {
@@ -62,20 +56,18 @@ public class SurveillanceAgent extends Agent{
 		seenSquares.clear();
 		myDirection.clear();
 		//System.out.println("Position in sur agent: " + position.x + ", " + position.y);
-		myDirection = checkVectorSight(vector, seeLength);
+		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry);
 		seenSquares.addAll(myDirection);
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength));
-		return seenSquares;
+        seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, seeLengthSentry));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry));
+        return seenSquares;
 	}
 
 	public void enterTower() {
 		//delay three seconds
-		
-		
-		
 	}
 
 	@Override
