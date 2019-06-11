@@ -7,6 +7,7 @@ public class SurveillanceAgent extends Agent{
 	public double speed;
 	private int seeLength = 6000;
 	private int seeLengthSentry = 18000;
+	private int seeLengthObjects = 10000;
 	private boolean stop;
 	//defined as coordinates x,y in millimeters
 	//looking vectors
@@ -56,13 +57,13 @@ public class SurveillanceAgent extends Agent{
 		seenSquares.clear();
 		myDirection.clear();
 		//System.out.println("Position in sur agent: " + position.x + ", " + position.y);
-		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry);
+		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects);
 		seenSquares.addAll(myDirection);
-        seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry));
-        seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, seeLengthSentry));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry));
+        seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
         return seenSquares;
 	}
 

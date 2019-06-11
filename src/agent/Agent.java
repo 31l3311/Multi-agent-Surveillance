@@ -91,18 +91,19 @@ public abstract class Agent{
 		return vector;
 	}
 	
-	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry) {
+	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry, int seeLengthObjects) {
 		//System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
 		//u creates a vector in same direction with correct length
 		double u = (seeLength)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		double w = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
+		double v = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		temppos.x = position.x;
 		temppos.y = position.y;
 		//System.out.println("U: " + u);
 
-
-		for(int i = 0; i<5; i++) {
+		//check for 6m regular vision (for intruders/agents)
+		for(int i = 0; i<10; i++) {
 			temppos.x += 0.1*(u*seeVector.x);
 			temppos.y += 0.1*(u*seeVector.y);
 			//System.out.println("posX and Y: " + temppos.x + ", " + temppos.y)
@@ -115,7 +116,8 @@ public abstract class Agent{
 					checkSight.add(lastSquare);}
 			}
 		}
-		for(int i = 0; i<5; i++) {
+		//check for 18m on intruders
+		for(int i = 0; i<10; i++) {
 			temppos.x += 0.1*(w*seeVector.x);
 			temppos.y += 0.1*(w*seeVector.y);
 
@@ -123,10 +125,34 @@ public abstract class Agent{
 			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
 				lastSquare = newSquare;
 //				System.out.println("lastSquare x is " + lastSquare.x + " lastSquare y is " + lastSquare.y);
-//				System.out.println("Board is " + square.board.length);
 				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < 50 && lastSquare.y < 50){
 					if (square.board[lastSquare.x][lastSquare.y] == 1) {
-						//System.out.println("WOOP WOOP I SEE SENTRY AT " + lastSquare);
+//						System.out.println("WOOP WOOP I SEE SENTRY AT " + lastSquare);
+						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+							checkSight.add(lastSquare);
+						}
+					}
+				}
+			}
+		}
+		//check for 10m all other objects
+		for(int i = 0; i<10; i++) {
+			temppos.x += 0.1*(v*seeVector.x);
+			temppos.y += 0.1*(v*seeVector.y);
+
+			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
+			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
+				lastSquare = newSquare;
+				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < 50 && lastSquare.y < 50){
+					if (square.board[lastSquare.x][lastSquare.y] == 1 ||
+							square.board[lastSquare.x][lastSquare.y] == 2 ||
+							square.board[lastSquare.x][lastSquare.y] == 3 ||
+							square.board[lastSquare.x][lastSquare.y] == 4 ||
+							square.board[lastSquare.x][lastSquare.y] == 5 ||
+							square.board[lastSquare.x][lastSquare.y] == 42 ||
+							square.board[lastSquare.x][lastSquare.y] == 32
+							)
+					{
 						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
 							checkSight.add(lastSquare);
 						}
