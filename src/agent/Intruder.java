@@ -8,6 +8,8 @@ public class Intruder extends Agent{
 	private double sprintSpeed = 0.003;
 	private double sprintAngle;
 	private int seeLength = 7500;
+	private int seeLengthSentry = 18000;
+	private int seeLengthObjects = 10000;
 	private int timeSprinted;
 	private int timeWalked;
 	private boolean sprint;
@@ -100,12 +102,12 @@ public class Intruder extends Agent{
 		System.runFinalization();
 		seenSquares.clear();
 		myDirection.clear();
-		myDirection = checkVectorSight(vector, seeLength);
-		seenSquares.addAll(checkVectorSight(vector, seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength));
+		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects);
+		seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
 		return seenSquares;
 	}
 

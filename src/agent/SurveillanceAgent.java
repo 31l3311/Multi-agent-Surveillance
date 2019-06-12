@@ -7,14 +7,12 @@ public class SurveillanceAgent extends Agent{
 	
 	//speed per millisecond
 	private int seeLength = 6000;
+	private int seeLengthSentry = 18000;
+	private int seeLengthObjects = 10000;
 	private boolean stop;
-	
 	//defined as coordinates x,y in millimeters
 	//looking vectors
-	
-
 	//visual range 6 m
-	
 	private double tempAngle = 0;
 	private Point tempVector = new Point();
 	private ArrayList info = new ArrayList();
@@ -55,9 +53,6 @@ public class SurveillanceAgent extends Agent{
 		else {
 			stop = false;
 		}
-		//info.add(look());
-		//info.add(hear(bots));
-
 	}
 		return look();
 		}
@@ -116,20 +111,18 @@ public class SurveillanceAgent extends Agent{
 		seenSquares.clear();
 		myDirection.clear();
 		//System.out.println("Position in sur agent: " + position.x + ", " + position.y);
-		myDirection = checkVectorSight(vector, seeLength);
+		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects);
 		seenSquares.addAll(myDirection);
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength));
-		return seenSquares;
+        seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
+        return seenSquares;
 	}
 
 	public void enterTower() {
 		//delay three seconds
-		
-		
-		
 	}
 
 	@Override

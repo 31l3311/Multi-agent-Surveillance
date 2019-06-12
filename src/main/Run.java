@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 import org.apache.commons.math3.distribution.NormalDistribution;
 
 import Bots.Bot;
@@ -11,6 +12,7 @@ import Bots.RandomBot;
 import Bots.surveillanceBot;
 import agent.*;
 import board.MainApp;
+
 //import apple.laf.JRSUIConstants.Direction;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -136,7 +138,6 @@ public class Run {
 			System.out.println("Intruders won!");
 			System.exit(0);
 		}
-
 
 		check(bots.get(0).update(), 0);
 		//System.out.println("Circle: " + MainApp.circle.getCenterX());
