@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class SurveillanceAgent extends Agent{
 	
 	//speed per millisecond
-	public double speed;
 	private int seeLength = 6000;
 	private boolean stop;
 	
@@ -19,8 +18,10 @@ public class SurveillanceAgent extends Agent{
 	private double tempAngle = 0;
 	private Point tempVector = new Point();
 	private ArrayList info = new ArrayList();
+	private int counter;
 
 	public SurveillanceAgent(Point position, int time, Point size) {
+		speed = BASESPEED;
 		this.position = position;
 		vector = new Point(1, 1);
 		angle = findAngle(vector);
@@ -30,6 +31,22 @@ public class SurveillanceAgent extends Agent{
 	}
 	
 	public ArrayList update() {
+		if(openDoor) {
+			counter++;
+			if(counter>= (doorTime*1000)/time) {
+				openDoor = false;
+				loudDoor = false;
+				counter = 0;
+			}
+		}
+		if(openWindow) {
+			counter++;
+			if(counter>= (3*1000)/time) {
+				openWindow = false;
+				counter = 0;
+			}
+		}
+		if(openDoor == false && openWindow == false) {
 		if(stop == false) {
 		move(time);}
 		if(angle != newAngle) {
@@ -38,22 +55,59 @@ public class SurveillanceAgent extends Agent{
 		else {
 			stop = false;
 		}
-		return look();
+		//info.add(look());
+		//info.add(hear(bots));
 
 	}
+		return look();
+		}
 
 	public ArrayList update(double newA) {
+		if(openDoor) {
+			counter++;
+			if(counter>= (doorTime*1000)/time) {
+				openDoor = false;
+				loudDoor = false;
+				counter = 0;
+			}
+		}
+		if(openWindow) {
+			counter++;
+			if(counter>= (3*1000)/time) {
+				openWindow = false;
+				counter = 0;
+			}
+		}
+		if(openDoor == false && openWindow == false) {
 		move(time);
 		this.newAngle = gon(newA);
-		System.out.println("New angle: " + newAngle);
+		//System.out.println("New angle: " + newAngle);
 		vector = movingTurn(newAngle);
-		System.out.println("New vector: " + vector.x + ", " + vector.y);
+		//System.out.println("New vector: " + vector.x + ", " + vector.y);
+		}
 		return look();
 	}
 	
 	public ArrayList update(boolean stop, double newAngle) {
+		if(openDoor) {
+			counter++;
+			if(counter>= (doorTime*1000)/time) {
+				openDoor = false;
+				loudDoor = false;
+				counter = 0;
+			}
+		}
+		if(openWindow) {
+			counter++;
+			if(counter>= (3*1000)/time) {
+				openWindow = false;
+				counter = 0;
+			}
+		}
+		if(openDoor == false && openWindow == false) {
 		this.stop = stop;
 		vector = movingTurn(gon(newAngle));
+		}
 		return look();
 	}
 
@@ -81,7 +135,7 @@ public class SurveillanceAgent extends Agent{
 	@Override
 	public void move(int time) {
 		//System.out.println("Current Position: " + position.x + ", " + position.y);
-		double u = ((time*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
+		double u = ((time*speed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		position.x += Math.round(1000*(u*vector.x));
 		position.y += Math.round(1000*(u*vector.y));
 		//System.out.println("Updated Position: " + position.x + ", " + position.y);

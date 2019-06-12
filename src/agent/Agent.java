@@ -13,7 +13,7 @@ public abstract class Agent{
 	public double angle;
 	protected double newAngle;
 	protected Point vector;
-	public double baseSpeed = 0.0014;
+	public final double BASESPEED = 0.0014;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> checkSight = new ArrayList<Point>();
@@ -23,10 +23,16 @@ public abstract class Agent{
 	protected int time;
 	protected Point size;
 	private Point direction = new Point();
+	public double speed;
+	
+	protected double doorTime;
+	protected boolean openDoor;
+	public boolean openWindow;
+	public boolean loudDoor;
 	
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
-	private double speed;
+	
 
 	public abstract void move(int time);
 	//public abstract void turn(int angle);
@@ -117,24 +123,39 @@ public abstract class Agent{
 		return checkSight;
 	}
 	
-	public double hear(ArrayList<Bot> bots) {
-		for(int i = 0; i<bots.size(); i++) {
-			Agent curAgent = bots.get(i).getAgent();
-		distance = Math.sqrt(Math.pow((position.x + curAgent.getPosition().x), 2) + Math.pow((position.y + curAgent.getPosition().y), 2));
-		if((curAgent.speed < 0.5 && distance<1000) ||
-		   (curAgent.speed >= 0.5 && curAgent.speed<1 && distance<3000)	||
-		   (curAgent.speed >= 1 && curAgent.speed<2 && distance<5000) ||
-		   (curAgent.speed >= 2 && distance<10000)
-				) {
-			Point vector = new Point(position.x - curAgent.getPosition().x, position.y - curAgent.getPosition().y);
-			double angle = findAngle(vector);
-			NormalDistribution normal = new NormalDistribution(angle, 10);
-			double direction = normal.sample();
-			if(direction == 0) {direction = 360;}
-			return direction;
-		}}
-		return 0;
+//	public double hear(ArrayList<Bot> bots) {
+//		for(int i = 0; i<bots.size(); i++) {
+//			if(bots.get(i).getAgent() != this) {
+//			Agent curAgent = bots.get(i).getAgent();
+//		distance = Math.sqrt(Math.pow((position.x + curAgent.getPosition().x), 2) + Math.pow((position.y + curAgent.getPosition().y), 2));
+//		if((curAgent.speed < 0.5 && distance<1000) ||
+//		   (curAgent.speed >= 0.5 && curAgent.speed<1 && distance<3000)	||
+//		   (curAgent.speed >= 1 && curAgent.speed<2 && distance<5000) ||
+//		   (curAgent.speed >= 2 && distance<10000)
+//				) {
+//			Point vector = new Point(position.x - curAgent.getPosition().x, position.y - curAgent.getPosition().y);
+//			double angle = findAngle(vector);
+//			NormalDistribution normal = new NormalDistribution(angle, 10);
+//			double direction = normal.sample();
+//			if(direction == 0) {direction = 360;}
+//			return direction;
+//		}}}
+//		return 0;
+//		}
+	
+	public void openDoor(boolean quiet) {
+		openDoor = true;
+		if(quiet) {
+			NormalDistribution normal = new NormalDistribution(12, 2);
+			doorTime = normal.sample();
 		}
+		else {
+			loudDoor = true;
+			doorTime = 5;
+		}
+		
+	}
+	
 	
 	public double findAngle(Point vector) {
 		double tempAngle = 0;
@@ -207,7 +228,7 @@ public abstract class Agent{
 	}
 	
 	public Point direction() {
-		double u = ((1000*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
+		double u = ((1000*BASESPEED)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		direction.x = (int) (position.x + Math.round(1000*(u*vector.x)));
 		direction.y = (int) (position.y + Math.round(1000*(u*vector.y)));
 		return direction;

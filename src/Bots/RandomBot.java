@@ -8,21 +8,23 @@ import agent.*;
 
 
 public class RandomBot extends Bot{
-	public Agent agent;
 	private boolean surveillance;
-	private int[][] map;
+	//private int[][] map;
 	private int counter = 0;
 	private ArrayList bots;
 	
 	public RandomBot(boolean surveillance, Point position, int time, Point size){
 		this.surveillance = surveillance;
 		map = new int[size.x][size.y];
+		System.out.println("Random Bot initialised");
 		if(surveillance) {
 			agent = new SurveillanceAgent(position, time, size);
 		}
 		else {
 			agent = new Intruder(position, time, size);
 		}
+	System.out.println("Position: " + agent.getPosition());
+	System.out.println("Coordinates: " + agent.getCoordinates());
 	}
 	
 	public void setBots(ArrayList bots) {
@@ -34,13 +36,14 @@ public class RandomBot extends Bot{
 	}
 	
 	public ArrayList update() {
+		checkLocation();
 		if(agent.myDirection.size()>2) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
-			System.out.println("I should turn around now!");
+			//System.out.println("I should turn around now!");
 			return agent.update(true,(agent.getAngle() + 160));
 		}
 		if(map[agent.myDirection.get(1).x][agent.myDirection.get(1).y] != 0) {
-			System.out.println("I should turn around now!");
+			//System.out.println("I should turn around now!");
 			return agent.update(true,(agent.getAngle() + 160));
 			}
 		}
@@ -67,15 +70,15 @@ public class RandomBot extends Bot{
 		}
 	}
 	
-	public void updateAgent() {
-		agent.update();
-		agent.hear(getBots());
-	}
+//	public void updateAgent() {
+//		agent.update();
+//		agent.hear(getBots());
+//	}
 	
 	public boolean avoidObjects() {
 		for( int i = 0; i < agent.myDirection.size(); i++) {
 			if (map[agent.myDirection.get(i).x][agent.myDirection.get(i).y] != 0) {
-				System.out.println("I see something at : " + agent.myDirection.get(i).x + ", " + agent.myDirection.get(i).y);
+				//System.out.println("I see something at : " + agent.myDirection.get(i).x + ", " + agent.myDirection.get(i).y);
 				return true;
 			}
 		}
@@ -85,6 +88,12 @@ public class RandomBot extends Bot{
 	@Override
 	public Agent getAgent() {
 		return agent;
+	}
+
+	@Override
+	public void setSounds(double direction) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.commons.math3.distribution.NormalDistribution;
+
 import Bots.Bot;
 import Bots.RandomBot;
 import Bots.surveillanceBot;
@@ -25,11 +27,12 @@ public class Run {
 
 	private int[][] board;
 	private Timeline GameTimer;
-	private MainApp main = new MainApp();
+	private MainApp main = new MainApp(); 
 	private double targetX;
 	private double targetY;
 	private int time = 50;
 	private surveillanceBot bot;
+	private double distance;
 
 	private ArrayList<Bot> bots = new ArrayList<>();
 
@@ -78,8 +81,36 @@ public class Run {
 			////System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).x]);
 		}
+		bots.get(j).setSounds(hear(bots.get(j).getAgent()));
 	}
 
+	public double hear(Agent agent) {
+		//System.out.println("Hear method called");
+		for(int i = 0; i<bots.size(); i++) {
+			if(!bots.get(i).getAgent().equals(agent)) {
+			Agent curAgent = bots.get(i).getAgent();
+			//System.out.println("Checking agent: " + curAgent);
+		distance = Math.sqrt(Math.pow((agent.getPosition().x - curAgent.getPosition().x), 2) + Math.pow((agent.getPosition().y - curAgent.getPosition().y), 2));
+		System.out.println("distance = " + distance);
+		System.out.println("curAgent.speed = " + curAgent.speed);
+		double speed = curAgent.speed * 1000;
+		if((speed < 0.5 && distance<1000) ||
+		   (speed >= 0.5 && speed<1 && distance<3000)	||
+		   (speed >= 1 && speed<2 && distance<5000) ||
+		   (speed >= 2 && distance<10000) ||
+		   	curAgent.loudDoor && distance<5000 ||
+		   	curAgent.openWindow && distance < 10000
+				) {
+			System.out.println("I hear a sound!! Yay");
+			Point vector = new Point(agent.getPosition().x - curAgent.getPosition().x, agent.getPosition().y - curAgent.getPosition().y);
+			double angle = agent.findAngle(vector);
+			NormalDistribution normal = new NormalDistribution(angle, 10);
+			double direction = normal.sample();
+			if(direction == 0) {direction = 360;}
+			return direction;
+		}}}
+		return 0;
+		}
 
 	public void update() {
 		//check if intruder is caught
@@ -97,11 +128,11 @@ public class Run {
 			}
 		}
 
-		System.out.println("targetX is " + targetX);
-		System.out.println("targetY is " + targetY);
+		//System.out.println("targetX is " + targetX);
+		//System.out.println("targetY is " + targetY);
 		//checks if intruders reach target
 		if(Math.abs(MainApp.circle1.getCenterX() - targetX) <= 20 && Math.abs(MainApp.circle1.getCenterY() - targetY) <= 20) {
-			System.out.println("got here 2");
+			//System.out.println("got here 2");
 			System.out.println("Intruders won!");
 			System.exit(0);
 		}
