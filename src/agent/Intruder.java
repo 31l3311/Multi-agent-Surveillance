@@ -8,14 +8,18 @@ public class Intruder extends Agent{
 	private double sprintSpeed = 0.003;
 	private double sprintAngle;
 	private int seeLength = 7500;
+	private int seeLengthSentry = 18000;
+	private int seeLengthObjects = 10000;
 	private int timeSprinted;
 	private int timeWalked;
 	private boolean sprint;
 	private ArrayList<Point> seenSquares;
 	private boolean stop;
+	private int counter;
 	//visual range 7.5 m
 	
 	public Intruder(Point position, int time, Point size) {
+		speed = BASESPEED;
 		this.position = position;
 		vector = new Point(1, 1);
 		angle = findAngle(vector);
@@ -25,6 +29,22 @@ public class Intruder extends Agent{
 	}
 	
 	public ArrayList update() {
+		if(openDoor) {
+			counter++;
+			if(counter>= (doorTime*1000)/time) {
+				openDoor = false;
+				loudDoor = false;
+				counter = 0;
+			}
+		}
+		if(openWindow) {
+			counter++;
+			if(counter>= (3*1000)/time) {
+				openWindow = false;
+				counter = 0;
+			}
+		}
+		if(openDoor == false && openWindow == false) {
 		if(stop == false) {
 			move(time);}
 		if(angle != newAngle) {
@@ -33,10 +53,28 @@ public class Intruder extends Agent{
 		else {
 			stop = false;
 		}
-		return look();
+		
 	}
+		return look();
+		}
 	
 	public ArrayList update(double newAngle) {
+		if(openDoor) {
+			counter++;
+			if(counter>= (doorTime*1000)/time) {
+				openDoor = false;
+				loudDoor = false;
+				counter = 0;
+			}
+		}
+		if(openWindow) {
+			counter++;
+			if(counter>= (3*1000)/time) {
+				openWindow = false;
+				counter = 0;
+			}
+		}
+		if(openDoor == false && openWindow == false) {
 		move(time);
 		if(sprint == true && (sprintAngle + Math.abs(newAngle - angle))<10) {
 			vector = movingTurn(this.newAngle);
@@ -45,7 +83,7 @@ public class Intruder extends Agent{
 		else if (sprint == false) {
 			this.newAngle = gon(newAngle);
 			vector = movingTurn(this.newAngle);}
-		
+		}
 		return look();
 	}
 	
@@ -64,12 +102,12 @@ public class Intruder extends Agent{
 		System.runFinalization();
 		seenSquares.clear();
 		myDirection.clear();
-		myDirection = checkVectorSight(vector, seeLength);
-		seenSquares.addAll(checkVectorSight(vector, seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength));
+		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects);
+		seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
 		return seenSquares;
 	}
 
@@ -82,11 +120,12 @@ public class Intruder extends Agent{
 			timeSprinted++;
 		}
 		else {
-			u = ((time*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
+			u = ((time*speed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 			timeWalked++;
 		}
 		position.x += Math.round(1000*(u*vector.x));
 		position.y += Math.round(1000*(u*vector.y));
+		System.out.println("Position in move method:" + position);
 	}
 
 	@Override

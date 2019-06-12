@@ -4,16 +4,17 @@ import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
-import Bots.Bot;
+import board.Square;
 
 import org.apache.commons.math3.*;
 
 public abstract class Agent{
 	
+	
 	public double angle;
 	protected double newAngle;
 	protected Point vector;
-	public double baseSpeed = 0.0014;
+	public final double BASESPEED = 0.0014;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> checkSight = new ArrayList<Point>();
@@ -27,10 +28,15 @@ public abstract class Agent{
 	public boolean entered;
 	public boolean leaveTower;
 	public boolean shade;
-	
+	public double speed;
+	protected double doorTime;
+	protected boolean openDoor;
+	public boolean openWindow;
+	public boolean loudDoor;
+	private Square square = new Square();
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
-	private double speed;
+	
 
 	public abstract void move(int time);
 	//public abstract void turn(int angle);
@@ -98,25 +104,74 @@ public abstract class Agent{
 		return vector;
 	}
 	
-	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength) {
+	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry, int seeLengthObjects) {
 		//System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
 		//u creates a vector in same direction with correct length
 		double u = (seeLength)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
+		double w = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
+		double v = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		temppos.x = position.x;
 		temppos.y = position.y;
 		//System.out.println("U: " + u);
+
+		//check for 6m regular vision (for intruders/agents)
 		for(int i = 0; i<10; i++) {
 			temppos.x += 0.1*(u*seeVector.x);
 			temppos.y += 0.1*(u*seeVector.y);
-		//System.out.println("posX and Y: " + temppos.x + ", " + temppos.y);
-		newSquare = new Point((int)(temppos.x/1000),(int)(temppos.y/1000));
-		if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
-			lastSquare = newSquare;
-			//System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
-		if(lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
-			checkSight.add(lastSquare);}
+			//System.out.println("posX and Y: " + temppos.x + ", " + temppos.y)
+			// translate to squares
+			newSquare = new Point((int)(temppos.x/1000),(int)(temppos.y/1000));
+			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
+				lastSquare = newSquare;
+				//System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
+				if(lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+					checkSight.add(lastSquare);}
+			}
 		}
+		//check for 18m on intruders
+		for(int i = 0; i<10; i++) {
+			temppos.x += 0.1*(w*seeVector.x);
+			temppos.y += 0.1*(w*seeVector.y);
+
+			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
+			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
+				lastSquare = newSquare;
+//				System.out.println("lastSquare x is " + lastSquare.x + " lastSquare y is " + lastSquare.y);
+				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < 50 && lastSquare.y < 50){
+					if (square.board[lastSquare.x][lastSquare.y] == 1) {
+//						System.out.println("WOOP WOOP I SEE SENTRY AT " + lastSquare);
+						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+							checkSight.add(lastSquare);
+						}
+					}
+				}
+			}
+		}
+		//check for 10m all other objects
+		for(int i = 0; i<10; i++) {
+			temppos.x += 0.1*(v*seeVector.x);
+			temppos.y += 0.1*(v*seeVector.y);
+
+			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
+			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
+				lastSquare = newSquare;
+				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < 50 && lastSquare.y < 50){
+					if (square.board[lastSquare.x][lastSquare.y] == 1 ||
+							square.board[lastSquare.x][lastSquare.y] == 2 ||
+							square.board[lastSquare.x][lastSquare.y] == 3 ||
+							square.board[lastSquare.x][lastSquare.y] == 4 ||
+							square.board[lastSquare.x][lastSquare.y] == 5 ||
+							square.board[lastSquare.x][lastSquare.y] == 42 ||
+							square.board[lastSquare.x][lastSquare.y] == 32
+							)
+					{
+						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+							checkSight.add(lastSquare);
+						}
+					}
+				}
+			}
 		}
 		return checkSight;
 	}
@@ -129,25 +184,41 @@ public abstract class Agent{
 
 	public void leaveTower(){}
 	
-	public double hear(ArrayList<Bot> bots) {
-		for(int i = 0; i<bots.size(); i++) {
-			Agent curAgent = bots.get(i).getAgent();
-		distance = Math.sqrt(Math.pow((position.x + curAgent.getPosition().x), 2) + Math.pow((position.y + curAgent.getPosition().y), 2));
-		if((curAgent.speed < 0.5 && distance<1000) ||
-		   (curAgent.speed >= 0.5 && curAgent.speed<1 && distance<3000)	||
-		   (curAgent.speed >= 1 && curAgent.speed<2 && distance<5000) ||
-		   (curAgent.speed >= 2 && distance<10000)
-				) {
-			Point vector = new Point(position.x - curAgent.getPosition().x, position.y - curAgent.getPosition().y);
-			double angle = findAngle(vector);
-			NormalDistribution normal = new NormalDistribution(angle, 10);
-			double direction = normal.sample();
-			if(direction == 0) {direction = 360;}
-			return direction;
-		}}
-		return 0;
-		}
+
 	
+//	public double hear(ArrayList<Bot> bots) {
+//		for(int i = 0; i<bots.size(); i++) {
+//			if(bots.get(i).getAgent() != this) {
+//			Agent curAgent = bots.get(i).getAgent();
+//		distance = Math.sqrt(Math.pow((position.x + curAgent.getPosition().x), 2) + Math.pow((position.y + curAgent.getPosition().y), 2));
+//		if((curAgent.speed < 0.5 && distance<1000) ||
+//		   (curAgent.speed >= 0.5 && curAgent.speed<1 && distance<3000)	||
+//		   (curAgent.speed >= 1 && curAgent.speed<2 && distance<5000) ||
+//		   (curAgent.speed >= 2 && distance<10000)
+//				) {
+//			Point vector = new Point(position.x - curAgent.getPosition().x, position.y - curAgent.getPosition().y);
+//			double angle = findAngle(vector);
+//			NormalDistribution normal = new NormalDistribution(angle, 10);
+//			double direction = normal.sample();
+//			if(direction == 0) {direction = 360;}
+//			return direction;
+//		}}}
+//		return 0;
+//		}
+	
+	public void openDoor(boolean quiet) {
+		openDoor = true;
+		if(quiet) {
+			NormalDistribution normal = new NormalDistribution(12, 2);
+			doorTime = normal.sample();
+		}
+		else {
+			loudDoor = true;
+			doorTime = 5;
+		}
+		
+	}
+
 	public double findAngle(Point vector) {
 		double tempAngle = 0;
 		if(vector.x>0 && vector.y >=0)
@@ -219,7 +290,7 @@ public abstract class Agent{
 	}
 	
 	public Point direction() {
-		double u = ((1000*baseSpeed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
+		double u = ((1000*BASESPEED)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		direction.x = (int) (position.x + Math.round(1000*(u*vector.x)));
 		direction.y = (int) (position.y + Math.round(1000*(u*vector.y)));
 		return direction;
