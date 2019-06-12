@@ -14,6 +14,7 @@ public abstract class Bot{
 	protected int[][] map;
 	private ArrayList bots;
 	protected Agent agent;
+	public Point position;
 	
 	public abstract void updateMap(Point loc, int i);
 	public abstract ArrayList update();
@@ -33,7 +34,9 @@ public abstract class Bot{
 		}
 	}
 	
-	
+	public double distance(Point start, Point end) {
+		return Math.sqrt(Math.pow((start.x-end.x), 2) + Math.pow((start.y-end.y), 2));
+	}
 	
 	
 }

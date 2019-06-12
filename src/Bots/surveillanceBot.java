@@ -26,9 +26,8 @@ public class surveillanceBot  extends Bot{
 	private Node startNode;
 	private Node bestNode;
 	private Node tempNode;
-	private Point position;
 	private boolean checked;
-	private double sound;
+	private ArrayList sounds;
 
 	public surveillanceBot(Point topLeft, Point bottomRight, int time, Point size){
 		//System.out.println("Instansiating new bot");
@@ -250,13 +249,11 @@ public class surveillanceBot  extends Bot{
 		findPath(node.parent); }
 	}
 	
-	public double distance(Point start, Point end) {
-		return Math.sqrt(Math.pow((start.x-end.x), 2) + Math.pow((start.y-end.y), 2));
-	}
+	
 	
 	@Override
 	public void setSounds(double direction) {
-		sound = direction;
+		sounds.add(direction);
 		
 	}
 }

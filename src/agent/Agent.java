@@ -10,6 +10,7 @@ import org.apache.commons.math3.*;
 
 public abstract class Agent{
 	
+	
 	public double angle;
 	protected double newAngle;
 	protected Point vector;
@@ -173,6 +174,8 @@ public abstract class Agent{
 		}
 		return checkSight;
 	}
+	
+
 	
 //	public double hear(ArrayList<Bot> bots) {
 //		for(int i = 0; i<bots.size(); i++) {

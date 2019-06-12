@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 
 import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.distribution.PoissonDistribution;
 
 import Bots.Bot;
 import Bots.RandomBot;
@@ -35,6 +36,11 @@ public class Run {
 	private int time = 50;
 	private surveillanceBot bot;
 	private double distance;
+	private int xCo, yCo;
+	private double startTime, timeLapse;
+	private PoissonDistribution poisson = new PoissonDistribution(600000);
+	private ArrayList randomSounds = new ArrayList();
+	private ArrayList<Point> areas = new ArrayList<Point>();
 
 	private ArrayList<Bot> bots = new ArrayList<>();
 
@@ -85,6 +91,37 @@ public class Run {
 		}
 		bots.get(j).setSounds(hear(bots.get(j).getAgent()));
 	}
+	
+	public void initRandomSound() {
+		for(int i = 0; i<board.length/5 ; i++ ) {
+			for(int j = 0; i<board.length/5; j++) {
+				randomSounds.add(poisson.sample());
+				areas.add(new Point(i*5, j*5));
+			}
+		}}
+	
+	public void randomSound() {
+		timeLapse = System.currentTimeMillis() - startTime;
+		for(int i = 0; i<randomSounds.size(); i++) {
+		if((int)randomSounds.get(i) - timeLapse <=  0) {
+			int newSample = (int)randomSounds.get(i) + poisson.sample();
+			randomSounds.set(i, newSample );
+			xCo = (int) ((Math.random()*5000) + areas.get(i).x);
+			yCo = (int) ((Math.random()*5000) + areas.get(i).y);
+			for(int k = 0; k<bots.size(); k++) {
+				if(bots.get(k).distance(new Point(xCo, yCo), bots.get(k).position) < 5000) {
+					//alert bot k
+					Point vector = new Point(bots.get(k).position.x - xCo, bots.get(k).position.y - yCo);
+					double angle = bots.get(k).getAgent().findAngle(vector);
+					NormalDistribution normal = new NormalDistribution(angle, 10);
+					double direction = normal.sample();
+					if(direction == 0) {direction = 360;}
+					bots.get(k).setSounds(direction);
+					
+				}
+			}
+		}	
+		}}
 
 	public double hear(Agent agent) {
 		//System.out.println("Hear method called");
@@ -138,7 +175,7 @@ public class Run {
 			System.out.println("Intruders won!");
 			System.exit(0);
 		}
-
+		
 		check(bots.get(0).update(), 0);
 		//System.out.println("Circle: " + MainApp.circle.getCenterX());
 		//System.out.println("bots: " + bots.get(0));
@@ -153,6 +190,7 @@ public class Run {
 		check(bots.get(1).update(), 1);
 		MainApp.circle1.setCenterX(bots.get(1).getAgent().position.x*main.gridWidth/1000);
 		MainApp.circle1.setCenterY(bots.get(1).getAgent().position.y*main.gridHeight/1000);
+		randomSound();
 
 		}
 	
