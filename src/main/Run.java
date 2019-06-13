@@ -125,6 +125,7 @@ public class Run {
 
 	public double hear(Agent agent) {
 		//System.out.println("Hear method called");
+		
 		for(int i = 0; i<bots.size(); i++) {
 			if(!bots.get(i).getAgent().equals(agent)) {
 			Agent curAgent = bots.get(i).getAgent();

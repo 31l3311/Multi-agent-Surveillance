@@ -27,7 +27,7 @@ public class surveillanceBot  extends Bot{
 	private Node bestNode;
 	private Node tempNode;
 	private boolean checked;
-	private ArrayList sounds;
+	private ArrayList sounds = new ArrayList();
 
 	public surveillanceBot(Point topLeft, Point bottomRight, int time, Point size){
 		//System.out.println("Instansiating new bot");
