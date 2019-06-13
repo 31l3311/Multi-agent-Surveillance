@@ -10,6 +10,8 @@ public class SurveillanceAgent extends Agent{
 	private int seeLengthSentry = 18000;
 	private int seeLengthObjects = 10000;
 	private boolean stop;
+	private int timeTower;
+
 	//defined as coordinates x,y in millimeters
 	//looking vectors
 	//visual range 6 m
@@ -29,6 +31,43 @@ public class SurveillanceAgent extends Agent{
 	}
 	
 	public ArrayList update() {
+	    if(shade){
+	        move(time);
+            if(angle != newAngle) {
+                vector = movingTurn(newAngle);
+            }
+	        return lookShade();
+        }
+	    if(enterTower == true){
+	        timeTower++;
+	        if(timeTower >= 50){
+	            entered = true;
+	            enterTower = false;
+	            enterTower();
+            }
+            else{
+	            return new ArrayList();
+            }
+        }
+        if(entered == true){
+	        enterTower();
+	        /* to leave the tower after 12 seconds
+	        timeTower++;
+	        if(timeTower > 200){
+	            leaveTower();
+            }*/
+	        return lookTower();
+        }
+        if(leaveTower == true){
+            timeTower++;
+            if(timeTower >= 50){
+                leaveTower = false;
+                stop = false;
+            }
+            else{
+                return new ArrayList();
+            }
+        }
 		if(openDoor) {
 			counter++;
 			if(counter>= (doorTime*1000)/time) {
@@ -48,8 +87,8 @@ public class SurveillanceAgent extends Agent{
 		if(stop == false) {
 		move(time);}
 		if(angle != newAngle) {
-			vector = movingTurn(newAngle);
-		}
+            vector = movingTurn(newAngle);
+        }
 		else {
 			stop = false;
 		}
@@ -121,9 +160,64 @@ public class SurveillanceAgent extends Agent{
         return seenSquares;
 	}
 
+    public ArrayList lookShade() {
+        System.runFinalization();
+        seenSquares.clear();
+        myDirection.clear();
+        //System.out.println("Position in sur agent: " + position.x + ", " + position.y);
+        myDirection = checkVectorSight(vector, 3000, seeLengthSentry, seeLengthObjects);
+        seenSquares.addAll(myDirection);
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength/2, seeLengthSentry, seeLengthObjects));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength/2, seeLengthSentry, seeLengthObjects));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength/2, seeLengthSentry, seeLengthObjects));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength/2, seeLengthSentry, seeLengthObjects));
+        return seenSquares;
+    }
+
+    public ArrayList lookTower() {
+        System.runFinalization();
+        seenSquares.clear();
+        myDirection.clear();
+        myDirection = checkVectorSight(vector, 15000, seeLengthSentry, seeLengthObjects);
+        seenSquares.addAll(myDirection);
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle + 7.5)), 15000, seeLengthSentry, seeLengthObjects));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle + 15)), 15000, seeLengthSentry, seeLengthObjects));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle - 7.5)), 15000, seeLengthSentry, seeLengthObjects));
+        seenSquares.addAll(checkVectorSight(findVector(gon(angle - 15)), 15000, seeLengthSentry, seeLengthObjects));
+        myDirection = checkVectorSight(vector, 2000, seeLengthSentry, seeLengthObjects);
+        seenSquares.removeAll(myDirection);
+        seenSquares.removeAll(checkVectorSight(findVector(gon(angle + 7.5)), 2000, seeLengthSentry, seeLengthObjects));
+        seenSquares.removeAll(checkVectorSight(findVector(gon(angle + 15)), 2000, seeLengthSentry, seeLengthObjects));
+        seenSquares.removeAll(checkVectorSight(findVector(gon(angle - 7.5)), 2000, seeLengthSentry, seeLengthObjects));
+        seenSquares.removeAll(checkVectorSight(findVector(gon(angle - 15)), 2000, seeLengthSentry, seeLengthObjects));
+        return seenSquares;
+    }
+
+    @Override
 	public void enterTower() {
+	    //System.out.println("enter tower");
+	    if(enterTower == false && entered == false) {
+            enterTower = true;
+            stop = true;
+            timeTower = 0;
+        }
+        else if(entered == true){
+            //System.out.println("angle" + angle);
+            vector = movingTurn(gon(angle + 2.7));
+            //timeTower = 0;
+            //System.out.println("new angle" + angle);
+
+        }
 		//delay three seconds
 	}
+
+	public void leaveTower(){
+	        //System.out.println("leave tower");
+            leaveTower = true;
+            enterTower = false;
+            entered = false;
+            timeTower = 0;
+    }
 
 	@Override
 	public void move(int time) {

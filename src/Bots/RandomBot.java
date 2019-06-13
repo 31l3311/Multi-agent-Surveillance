@@ -2,15 +2,21 @@ package Bots;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import board.*;
 import agent.*;
+
+import java.util.Date;
+import java.util.Timer;
 
 public class RandomBot extends Bot{
 	private boolean surveillance;
 	//private int[][] map;
 	private int counter = 0;
 	private ArrayList bots;
-	
-	public RandomBot(boolean surveillance, Point position, int time, Point size){
+	private int x;
+    private int y;
+
+    public RandomBot(boolean surveillance, Point position, int time, Point size){
 		this.surveillance = surveillance;
 		map = new int[size.x][size.y];
 		System.out.println("Random Bot initialised");
@@ -33,6 +39,41 @@ public class RandomBot extends Bot{
 	}
 	
 	public ArrayList update() {
+        //System.out.println("entered" + agent.entered + "enterTower" + agent.enterTower);
+        for (int i = 0; i < Square.board.length; i++) {
+            for (int j = 0; j < Square.board[i].length; j++) {
+                if (Square.board[i][j] == 1) {
+                    x = i*20;
+                    y = j*20;
+
+                    if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
+//						MainApp.circle.setCenterX(sentryx);
+//						MainApp.circle.setCenterY(sentryy);
+                        if (surveillance && !agent.entered && !agent.enterTower && !agent.leaveTower) {
+                            //System.out.println("SENTRYTOWER");
+                            agent.enterTower();
+                            return agent.update();
+                        }
+                    }
+                }
+                    else if (Square.board[i][j] == 5) {
+                        x = i * 20;
+                        y = j * 20;
+                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
+                            agent.inShade();
+                            //System.out.print("inShade");
+
+                        }
+                    } else if (Square.board[i][j] != 5) {
+                        x = i * 20;
+                        y = j * 20;
+                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 5 && Math.abs(MainApp.circle1.getCenterY() - y) <= 5 && agent.shade) {
+                            agent.shade = false;
+                            //System.out.println("out of shade");
+                        }
+                    }
+                }
+            }
 		checkLocation();
 		if(agent.myDirection.size()>2) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {

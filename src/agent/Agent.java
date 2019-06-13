@@ -24,15 +24,16 @@ public abstract class Agent{
 	protected int time;
 	protected Point size;
 	private Point direction = new Point();
+	public boolean enterTower;
+	public boolean entered;
+	public boolean leaveTower;
+	public boolean shade;
 	public double speed;
-	
 	protected double doorTime;
 	protected boolean openDoor;
 	public boolean openWindow;
 	public boolean loudDoor;
 	private Square square = new Square();
-
-	
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
 	
@@ -49,7 +50,7 @@ public abstract class Agent{
 		//System.out.println("Angle = " + angle);
 		//System.out.println("New angle = " + newAngle);
 		
-		if(angle<= 180) {
+		if(angle <= 180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
 			if(Math.abs(newAngle-angle) < 0.180*time) {
 				//System.out.println("Angle is smaller than 9 degrees 1");
@@ -174,6 +175,14 @@ public abstract class Agent{
 		}
 		return checkSight;
 	}
+
+	public void inShade(){
+		shade = true;
+	}
+
+	public void enterTower(){}
+
+	public void leaveTower(){}
 	
 
 	
@@ -209,8 +218,7 @@ public abstract class Agent{
 		}
 		
 	}
-	
-	
+
 	public double findAngle(Point vector) {
 		double tempAngle = 0;
 		if(vector.x>0 && vector.y >=0)
