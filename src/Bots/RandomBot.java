@@ -17,6 +17,7 @@ public class RandomBot extends Bot{
     private int y;
 
     public RandomBot(boolean surveillance, Point position, int time, Point size){
+    		this.position = position;
 		this.surveillance = surveillance;
 		map = new int[size.x][size.y];
 		System.out.println("Random Bot initialised");
@@ -46,31 +47,31 @@ public class RandomBot extends Bot{
                     x = i*20;
                     y = j*20;
 
-                    if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
-//						MainApp.circle.setCenterX(sentryx);
-//						MainApp.circle.setCenterY(sentryy);
-                        if (surveillance && !agent.entered && !agent.enterTower && !agent.leaveTower) {
-                            //System.out.println("SENTRYTOWER");
-                            agent.enterTower();
-                            return agent.update();
-                        }
-                    }
-                }
+//                    if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
+////						MainApp.circle.setCenterX(sentryx);
+////						MainApp.circle.setCenterY(sentryy);
+//                        if (surveillance && !agent.entered && !agent.enterTower && !agent.leaveTower) {
+//                            //System.out.println("SENTRYTOWER");
+//                            agent.enterTower();
+//                            return agent.update();
+//                        }
+//                    }
+               }
                     else if (Square.board[i][j] == 5) {
                         x = i * 20;
                         y = j * 20;
-                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
-                            agent.inShade();
-                            //System.out.print("inShade");
-
-                        }
+//                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
+//                            agent.inShade();
+//                            //System.out.print("inShade");
+//
+//                        }
                     } else if (Square.board[i][j] != 5) {
                         x = i * 20;
                         y = j * 20;
-                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 5 && Math.abs(MainApp.circle1.getCenterY() - y) <= 5 && agent.shade) {
-                            agent.shade = false;
-                            //System.out.println("out of shade");
-                        }
+//                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 5 && Math.abs(MainApp.circle1.getCenterY() - y) <= 5 && agent.shade) {
+//                            agent.shade = false;
+//                            //System.out.println("out of shade");
+//                        }
                     }
                 }
             }

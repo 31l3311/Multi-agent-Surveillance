@@ -113,8 +113,14 @@ public class Menu {
 				public void handle(ActionEvent event) {
 					run = new Run(Square.board);
 					run.startTimer();
-					MainApp.circle.setRadius(10);
-					MainApp.circle1.setRadius(10);
+					for(int i = 0; i<mainApp.surveillanceAgents.size(); i++) {
+						MainApp.surveillanceAgents.get(i).setRadius(10);
+					}
+					for(int i = 0; i<mainApp.intruders.size(); i++) {
+						MainApp.intruders.get(i).setRadius(10);
+					}
+//					MainApp.circle.setRadius(10);
+//					MainApp.circle1.setRadius(10);
 				}
 			});
 

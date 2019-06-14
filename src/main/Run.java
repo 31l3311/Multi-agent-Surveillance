@@ -34,7 +34,7 @@ public class Run {
 	private double targetX;
 	private double targetY;
 	private int time = 50;
-	private surveillanceBot bot;
+	private Bot bot;
 	private double distance;
 	private int xCo, yCo;
 	private double startTime, timeLapse;
@@ -43,23 +43,72 @@ public class Run {
 	private ArrayList<Point> areas = new ArrayList<Point>();
 
 	private ArrayList<Bot> bots = new ArrayList<>();
+	private ArrayList<Bot> botSA = new ArrayList<>();
+	private ArrayList<Bot> botI = new ArrayList<>();
 
 
 
 	public Run(int[][] board) {
-		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
-		//System.out.println("surveillance bot: " + bot);
-		//System.out.println("surveillance agent: " + bot.getAgent());
-		RandomBot intruder = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
 		this.board = board;
 		setOuterWall();
 		bots.clear();
+		botSA.clear();
+		botI.clear();
+//		for(int i = 0; i<main.amountSA; i++) {
+//			bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
+//			bots.add(bot);
+//			botSA.add(bot);
+//		}
+		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
 		bots.add(bot);
-		bots.add(intruder);
-		//for(int i = 0; i<bots.size(); i++) {
-		//	bots.get(i).setBots(bots);
-		//}
+		botSA.add(bot);
+		bot = new surveillanceBot(new Point(25,1), new Point(50,25), time, new Point(50,50));
+		bots.add(bot);
+		botSA.add(bot);
+		bot = new surveillanceBot(new Point(1,25), new Point(25,50), time, new Point(50,50));
+		bots.add(bot);
+		botSA.add(bot);
+		bot = new surveillanceBot(new Point(25,25), new Point(50,50), time, new Point(50,50));
+		bots.add(bot);
+		botSA.add(bot);
+		for(int i = 0; i<main.amountI; i++) {
+			bot = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
+			bots.add(bot);
+			botI.add(bot);
+		}
+//		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
+//		bot2 = new surveillanceBot(new Point(1,25), new Point(25,50), time, new Point(50,50));
+//		bot3= new surveillanceBot(new Point(25,1), new Point(50,25), time, new Point(50,50));
+//		//System.out.println("surveillance bot: " + bot);
+//		//System.out.println("surveillance agent: " + bot.getAgent());
+//		RandomBot intruder = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
+//		
+//		bots.add(bot);
+//		bots.add(bot2);
+//		bots.add(bot3);
+//		botSA.add(bot);
+//		botSA.add(bot2);
+//		botSA.add(bot3);
+//		bots.add(intruder);
+//		botI.add(intruder);
+		for(int i = 0; i<botSA.size(); i++) {
+			main.graphicsSA();
+		}
+		for(int i = 0; i<botI.size(); i++) {
+			main.graphicsIntruder();
+		}
+		for(int i = 0; i<bots.size(); i++) {
+			main.sounds();
+		}
 		printMap();
+		for(int i = 0; i<board.length; i++) {
+			for(int j =0; j<board[i].length; j++) {
+				if(board[i][j] == 6) {
+					targetX = i*20;
+					targetY = j*20;
+				}
+			}
+		}
 	}
 
 	public void startTimer() {
@@ -131,8 +180,8 @@ public class Run {
 			Agent curAgent = bots.get(i).getAgent();
 			//System.out.println("Checking agent: " + curAgent);
 		distance = Math.sqrt(Math.pow((agent.getPosition().x - curAgent.getPosition().x), 2) + Math.pow((agent.getPosition().y - curAgent.getPosition().y), 2));
-		System.out.println("distance = " + distance);
-		System.out.println("curAgent.speed = " + curAgent.speed);
+		//System.out.println("distance = " + distance);
+		//System.out.println("curAgent.speed = " + curAgent.speed);
 		double speed = curAgent.speed * 1000;
 		if((speed < 0.5 && distance<1000) ||
 		   (speed >= 0.5 && speed<1 && distance<3000)	||
@@ -154,44 +203,41 @@ public class Run {
 
 	public void update() {
 		//check if intruder is caught
-		if(Math.abs(MainApp.circle.getCenterX() - MainApp.circle1.getCenterX()) <= 20 && Math.abs(MainApp.circle.getCenterY() - MainApp.circle1.getCenterY()) <= 20) {
-			System.out.println("Agents won!");
-			System.exit(0);
-		}
-
-		for(int i = 0; i<board.length; i++) {
-			for(int j =0; j<board[i].length; j++) {
-				if(board[i][j] == 6) {
-					targetX = i*20;
-					targetY = j*20;
-				}
-			}
-		}
+//		if(Math.abs(MainApp.circle.getCenterX() - MainApp.circle1.getCenterX()) <= 20 && Math.abs(MainApp.circle.getCenterY() - MainApp.circle1.getCenterY()) <= 20) {
+//			System.out.println("Agents won!");
+//			System.exit(0);
+//		}
 
 		//System.out.println("targetX is " + targetX);
 		//System.out.println("targetY is " + targetY);
 		//checks if intruders reach target
-		if(Math.abs(MainApp.circle1.getCenterX() - targetX) <= 20 && Math.abs(MainApp.circle1.getCenterY() - targetY) <= 20) {
-			//System.out.println("got here 2");
-			System.out.println("Intruders won!");
-			System.exit(0);
+//		if(Math.abs(MainApp.circle1.getCenterX() - targetX) <= 20 && Math.abs(MainApp.circle1.getCenterY() - targetY) <= 20) {
+//			//System.out.println("got here 2");
+//			System.out.println("Intruders won!");
+//			System.exit(0);
+//		}
+		for(int i = 0; i<bots.size(); i++) {
+			check(bots.get(i).update(), i);
 		}
-		
-		check(bots.get(0).update(), 0);
+		main.updateGraphics(botSA, botI);
+		for(int i = 0; i<bots.size(); i++) {
+			System.out.println("Bot  " + i + " location :" + bots.get(i).position);
+		}
+		randomSound();
 		//System.out.println("Circle: " + MainApp.circle.getCenterX());
 		//System.out.println("bots: " + bots.get(0));
 		//System.out.println("surveillance bot: " + bot);
 		//System.out.println("getAgent(): " + bots.get(0).getAgent());
-		MainApp.circle.setCenterX(bots.get(0).getAgent().position.x*main.gridWidth/1000);
-		MainApp.circle.setCenterY(bots.get(0).getAgent().position.y*main.gridHeight/1000);
-		MainApp.line.setStartX(bots.get(0).getAgent().position.x*main.gridWidth/1000);
-		MainApp.line.setStartY(bots.get(0).getAgent().position.y*main.gridHeight/1000);
-		MainApp.line.setEndX(bots.get(0).getAgent().direction().x*main.gridWidth/1000);
-		MainApp.line.setEndY(bots.get(0).getAgent().direction().y*main.gridWidth/1000);
-		check(bots.get(1).update(), 1);
-		MainApp.circle1.setCenterX(bots.get(1).getAgent().position.x*main.gridWidth/1000);
-		MainApp.circle1.setCenterY(bots.get(1).getAgent().position.y*main.gridHeight/1000);
-		randomSound();
+//		MainApp.circle.setCenterX(bots.get(0).getAgent().position.x*main.gridWidth/1000);
+//		MainApp.circle.setCenterY(bots.get(0).getAgent().position.y*main.gridHeight/1000);
+//		MainApp.line.setStartX(bots.get(0).getAgent().position.x*main.gridWidth/1000);
+//		MainApp.line.setStartY(bots.get(0).getAgent().position.y*main.gridHeight/1000);
+//		MainApp.line.setEndX(bots.get(0).getAgent().direction().x*main.gridWidth/1000);
+//		MainApp.line.setEndY(bots.get(0).getAgent().direction().y*main.gridWidth/1000);
+//		
+//		MainApp.circle1.setCenterX(bots.get(1).getAgent().position.x*main.gridWidth/1000);
+//		MainApp.circle1.setCenterY(bots.get(1).getAgent().position.y*main.gridHeight/1000);
+		
 
 		}
 	
