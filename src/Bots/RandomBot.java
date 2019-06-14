@@ -20,15 +20,15 @@ public class RandomBot extends Bot{
     		this.position = position;
 		this.surveillance = surveillance;
 		map = new int[size.x][size.y];
-		System.out.println("Random Bot initialised");
+		//System.out.println("Random Bot initialised");
 		if(surveillance) {
 			agent = new SurveillanceAgent(position, time, size);
 		}
 		else {
 			agent = new Intruder(position, time, size);
 		}
-	System.out.println("Position: " + agent.getPosition());
-	System.out.println("Coordinates: " + agent.getCoordinates());
+	//System.out.println("Position: " + agent.getPosition());
+	//System.out.println("Coordinates: " + agent.getCoordinates());
 	}
 	
 	public void setBots(ArrayList bots) {
@@ -76,7 +76,7 @@ public class RandomBot extends Bot{
                 }
             }
 		checkLocation();
-		if(agent.myDirection.size()>2) {
+		if(agent.myDirection.size()>2 && !agent.entered && !agent.enterTower && !agent.leaveTower) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
 			//System.out.println("I should turn around now!");
 			return agent.update(true,(agent.getAngle() + 160));
@@ -86,7 +86,7 @@ public class RandomBot extends Bot{
 			return agent.update(true,(agent.getAngle() + 160));
 			}
 		}
-		if(counter >= 100 || avoidObjects()) {
+		if((counter >= 100 || avoidObjects()) && !agent.entered && !agent.enterTower && !agent.leaveTower) {
 			counter = 0;
 			return agent.update(changeAngle());
 		}

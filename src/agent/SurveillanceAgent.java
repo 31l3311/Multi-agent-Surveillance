@@ -44,6 +44,7 @@ public class SurveillanceAgent extends Agent{
 	            entered = true;
 	            enterTower = false;
 	            enterTower();
+	            return lookTower();
             }
             else{
 	            return new ArrayList();
@@ -195,7 +196,6 @@ public class SurveillanceAgent extends Agent{
 
     @Override
 	public void enterTower() {
-	    //System.out.println("enter tower");
 	    if(enterTower == false && entered == false) {
             enterTower = true;
             stop = true;
@@ -212,7 +212,7 @@ public class SurveillanceAgent extends Agent{
 	}
 
 	public void leaveTower(){
-	        //System.out.println("leave tower");
+	        System.out.println("leave tower");
             leaveTower = true;
             enterTower = false;
             entered = false;
