@@ -1,5 +1,3 @@
-package main;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,11 +6,8 @@ import java.util.Arrays;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 
-import Bots.Bot;
-import Bots.RandomBot;
-import Bots.surveillanceBot;
-import agent.*;
-import board.MainApp;
+
+
 
 //import apple.laf.JRSUIConstants.Direction;
 import javafx.animation.KeyFrame;
@@ -50,7 +45,7 @@ public class Run {
 		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
 		//System.out.println("surveillance bot: " + bot);
 		//System.out.println("surveillance agent: " + bot.getAgent());
-		RandomBot intruder = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
+		RandomBot intruder = new RandomBot(true, new Point(10000,10000), time, new Point(board.length, board[0].length));
 		this.board = board;
 		setOuterWall();
 		bots.clear();
@@ -154,10 +149,10 @@ public class Run {
 
 	public void update() {
 		//check if intruder is caught
-		if(Math.abs(MainApp.circle.getCenterX() - MainApp.circle1.getCenterX()) <= 20 && Math.abs(MainApp.circle.getCenterY() - MainApp.circle1.getCenterY()) <= 20) {
-			System.out.println("Agents won!");
-			System.exit(0);
-		}
+//		if(Math.abs(MainApp.circle.getCenterX() - MainApp.circle1.getCenterX()) <= 20 && Math.abs(MainApp.circle.getCenterY() - MainApp.circle1.getCenterY()) <= 20) {
+//			System.out.println("Agents won!");
+//			System.exit(0);
+//		}
 
 		for(int i = 0; i<board.length; i++) {
 			for(int j =0; j<board[i].length; j++) {
@@ -184,11 +179,12 @@ public class Run {
 		//System.out.println("getAgent(): " + bots.get(0).getAgent());
 		MainApp.circle.setCenterX(bots.get(0).getAgent().position.x*main.gridWidth/1000);
 		MainApp.circle.setCenterY(bots.get(0).getAgent().position.y*main.gridHeight/1000);
-		MainApp.line.setStartX(bots.get(0).getAgent().position.x*main.gridWidth/1000);
-		MainApp.line.setStartY(bots.get(0).getAgent().position.y*main.gridHeight/1000);
-		MainApp.line.setEndX(bots.get(0).getAgent().direction().x*main.gridWidth/1000);
-		MainApp.line.setEndY(bots.get(0).getAgent().direction().y*main.gridWidth/1000);
+		MainApp.line.setStartX(bots.get(1).getAgent().position.x*main.gridWidth/1000);
+		MainApp.line.setStartY(bots.get(1).getAgent().position.y*main.gridHeight/1000);
+		MainApp.line.setEndX(bots.get(1).getAgent().direction().x*main.gridWidth/1000);
+		MainApp.line.setEndY(bots.get(1).getAgent().direction().y*main.gridWidth/1000);
 		check(bots.get(1).update(), 1);
+//		System.out.println("position: " + bots.get(1).getAgent().position.x + " " +bots.get(1).getAgent().position.y);
 		MainApp.circle1.setCenterX(bots.get(1).getAgent().position.x*main.gridWidth/1000);
 		MainApp.circle1.setCenterY(bots.get(1).getAgent().position.y*main.gridHeight/1000);
 		randomSound();

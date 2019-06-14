@@ -1,8 +1,6 @@
-package Bots;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import agent.*;
 
 public class surveillanceBot  extends Bot{
 	

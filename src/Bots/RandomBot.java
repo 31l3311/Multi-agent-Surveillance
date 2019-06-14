@@ -1,9 +1,6 @@
-package Bots;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import board.*;
-import agent.*;
 
 import java.util.Date;
 import java.util.Timer;
@@ -50,8 +47,10 @@ public class RandomBot extends Bot{
 //						MainApp.circle.setCenterX(sentryx);
 //						MainApp.circle.setCenterY(sentryy);
                         if (surveillance && !agent.entered && !agent.enterTower && !agent.leaveTower) {
-                            //System.out.println("SENTRYTOWER");
+                            System.out.println("SENTRYTOWER");
                             agent.enterTower();
+							agent.position.x = ((x*50) + 500);
+							agent.position.y = ((y*50) + 500);
                             return agent.update();
                         }
                     }
@@ -75,7 +74,8 @@ public class RandomBot extends Bot{
                 }
             }
 		checkLocation();
-		if(agent.myDirection.size()>2) {
+
+		if(agent.myDirection.size()>2 && !agent.entered && !agent.enterTower && !agent.leaveTower) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
 			//System.out.println("I should turn around now!");
 			return agent.update(true,(agent.getAngle() + 160));
@@ -85,7 +85,7 @@ public class RandomBot extends Bot{
 			return agent.update(true,(agent.getAngle() + 160));
 			}
 		}
-		if(counter >= 100 || avoidObjects()) {
+		if((counter >= 100 || avoidObjects()) && !agent.entered && !agent.enterTower && !agent.leaveTower) {
 			counter = 0;
 			return agent.update(changeAngle());
 		}

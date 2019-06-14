@@ -1,10 +1,7 @@
-package agent;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
-import board.Square;
 
 import org.apache.commons.math3.*;
 
@@ -12,6 +9,7 @@ public abstract class Agent{
 	
 	
 	public double angle;
+
 	protected double newAngle;
 	protected Point vector;
 	public final double BASESPEED = 0.0014;
@@ -274,12 +272,16 @@ public abstract class Agent{
 		return new Point(targetPos.x - this.getCoordinates().x, targetPos.y - this.getCoordinates().y);
 	}
 	
-	public void setPosition(Point position) {
-		this.position = position;
+	public void setPosition(int x , int y) {
+		this.position.x = x;
+		this.position.y = y;
 	}
+
 	public Point getPosition() {
 		return position;
 	}
+
+
 	
 	public Point getCoordinates() {
 		return new Point((int)(position.x/1000),(int)(position.y/1000));

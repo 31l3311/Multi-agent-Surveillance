@@ -1,4 +1,3 @@
-package Bots;
 
 import java.awt.Point;
 

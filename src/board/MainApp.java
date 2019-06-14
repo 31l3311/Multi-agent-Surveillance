@@ -1,5 +1,3 @@
-package board;
-
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
 import javafx.application.Application;
 import javafx.scene.Group;

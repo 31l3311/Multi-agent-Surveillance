@@ -1,5 +1,3 @@
-package agent;
-
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -9,7 +7,7 @@ public class SurveillanceAgent extends Agent{
 	private int seeLength = 6000;
 	private int seeLengthSentry = 18000;
 	private int seeLengthObjects = 10000;
-	private boolean stop;
+	public boolean stop;
 	private int timeTower;
 
 	//defined as coordinates x,y in millimeters
@@ -33,6 +31,7 @@ public class SurveillanceAgent extends Agent{
 	public ArrayList update() {
 	    if(shade){
 	        move(time);
+	        System.out.println(1);
             if(angle != newAngle) {
                 vector = movingTurn(newAngle);
             }
@@ -44,6 +43,7 @@ public class SurveillanceAgent extends Agent{
 	            entered = true;
 	            enterTower = false;
 	            enterTower();
+				return lookTower();
             }
             else{
 	            return new ArrayList();
@@ -85,7 +85,10 @@ public class SurveillanceAgent extends Agent{
 		}
 		if(openDoor == false && openWindow == false) {
 		if(stop == false) {
-		move(time);}
+			move(time);
+			System.out.println(2);
+		}
+
 		if(angle != newAngle) {
             vector = movingTurn(newAngle);
         }
@@ -113,7 +116,11 @@ public class SurveillanceAgent extends Agent{
 			}
 		}
 		if(openDoor == false && openWindow == false) {
-		move(time);
+			if (stop == false) {
+				System.out.println(1);
+
+				move(time);
+		}
 		this.newAngle = gon(newA);
 		//System.out.println("New angle: " + newAngle);
 		vector = movingTurn(newAngle);
