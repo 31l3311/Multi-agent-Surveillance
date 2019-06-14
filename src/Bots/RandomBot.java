@@ -14,27 +14,28 @@ public class RandomBot extends Bot{
     private int y;
 
     public RandomBot(boolean surveillance, Point position, int time, Point size){
+    		this.position = position;
 		this.surveillance = surveillance;
 		map = new int[size.x][size.y];
-		System.out.println("Random Bot initialised");
+		//System.out.println("Random Bot initialised");
 		if(surveillance) {
 			agent = new SurveillanceAgent(position, time, size);
 		}
 		else {
 			agent = new Intruder(position, time, size);
 		}
-	System.out.println("Position: " + agent.getPosition());
-	System.out.println("Coordinates: " + agent.getCoordinates());
+	//System.out.println("Position: " + agent.getPosition());
+	//System.out.println("Coordinates: " + agent.getCoordinates());
 	}
-	
+
 	public void setBots(ArrayList bots) {
 		this.bots = bots;
 	}
-	
+
 	public ArrayList<Bot> getBots(){
 		return bots;
 	}
-	
+
 	public ArrayList update() {
         //System.out.println("entered" + agent.entered + "enterTower" + agent.enterTower);
         for (int i = 0; i < Square.board.length; i++) {
@@ -58,23 +59,22 @@ public class RandomBot extends Bot{
                     else if (Square.board[i][j] == 5) {
                         x = i * 20;
                         y = j * 20;
-                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
-                            agent.inShade();
-                            //System.out.print("inShade");
-
-                        }
+//                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
+//                            agent.inShade();
+//                            //System.out.print("inShade");
+//
+//                        }
                     } else if (Square.board[i][j] != 5) {
                         x = i * 20;
                         y = j * 20;
-                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 5 && Math.abs(MainApp.circle1.getCenterY() - y) <= 5 && agent.shade) {
-                            agent.shade = false;
-                            //System.out.println("out of shade");
-                        }
+//                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 5 && Math.abs(MainApp.circle1.getCenterY() - y) <= 5 && agent.shade) {
+//                            agent.shade = false;
+//                            //System.out.println("out of shade");
+//                        }
                     }
                 }
             }
 		checkLocation();
-
 		if(agent.myDirection.size()>2 && !agent.entered && !agent.enterTower && !agent.leaveTower) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
 			//System.out.println("I should turn around now!");
@@ -92,14 +92,14 @@ public class RandomBot extends Bot{
 		counter++;
 		return agent.update();
 	}
-	
-	
+
+
 	public double changeAngle() {
 		double angle = (360*Math.random());
 		//System.out.println("New angle = " + angle);
 		return angle;
 	}
-	
+
 	public void updateMap(Point loc, int i) {
 		map[loc.x][loc.y] = i;
 		if(i == 1) {
@@ -107,12 +107,12 @@ public class RandomBot extends Bot{
 			//System.out.println("I see a tree!");
 		}
 	}
-	
+
 //	public void updateAgent() {
 //		agent.update();
 //		agent.hear(getBots());
 //	}
-	
+
 	public boolean avoidObjects() {
 		for( int i = 0; i < agent.myDirection.size(); i++) {
 			if (map[agent.myDirection.get(i).x][agent.myDirection.get(i).y] != 0) {
@@ -131,14 +131,14 @@ public class RandomBot extends Bot{
 	@Override
 	public void setSounds(double direction) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 }

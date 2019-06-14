@@ -2,7 +2,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class SurveillanceAgent extends Agent{
-	
+
 	//speed per millisecond
 	private int seeLength = 6000;
 	private int seeLengthSentry = 18000;
@@ -27,7 +27,7 @@ public class SurveillanceAgent extends Agent{
 		this.time = time;
 		this.size = size;
 	}
-	
+
 	public ArrayList update() {
 	    if(shade){
 	        move(time);
@@ -43,7 +43,7 @@ public class SurveillanceAgent extends Agent{
 	            entered = true;
 	            enterTower = false;
 	            enterTower();
-				return lookTower();
+	            return lookTower();
             }
             else{
 	            return new ArrayList();
@@ -128,7 +128,7 @@ public class SurveillanceAgent extends Agent{
 		}
 		return look();
 	}
-	
+
 	public ArrayList update(boolean stop, double newAngle) {
 		if(openDoor) {
 			counter++;
@@ -202,7 +202,6 @@ public class SurveillanceAgent extends Agent{
 
     @Override
 	public void enterTower() {
-	    //System.out.println("enter tower");
 	    if(enterTower == false && entered == false) {
             enterTower = true;
             stop = true;
@@ -219,7 +218,7 @@ public class SurveillanceAgent extends Agent{
 	}
 
 	public void leaveTower(){
-	        //System.out.println("leave tower");
+	        System.out.println("leave tower");
             leaveTower = true;
             enterTower = false;
             entered = false;
@@ -255,7 +254,7 @@ public class SurveillanceAgent extends Agent{
 		translation[0] = x_in_pix;
 		translation[1] = y_in_pix;
 		//System.out.println("GETS HERE 2!");
-		
+
 		return translation;
 	}
 }
