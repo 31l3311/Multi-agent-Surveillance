@@ -1,14 +1,6 @@
-package board;
-
 import java.awt.Point;
 import java.util.ArrayList;
-
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
-
-import Bots.Bot;
-import Bots.RandomBot;
-import Bots.surveillanceBot;
-import agent.*;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
