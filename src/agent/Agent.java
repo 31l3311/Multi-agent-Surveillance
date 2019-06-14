@@ -1,6 +1,9 @@
+package agent;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import board.*;
 
 
 import org.apache.commons.math3.*;
@@ -236,26 +239,33 @@ public abstract class Agent{
 
 	public Point findVector(double angle) {
 		Point tempVector = new Point();
-		if(angle< 90) {
-			tempVector.y = (int) (Math.tan((Math.PI*angle)/180)*10000);
-			tempVector.x = 10000;}
+		//System.out.println("find vector");
+		//System.out.println("angle" + angle);
+		if(angle< 90 && angle > 0) {
+			tempVector.y = (int) (-Math.tan((Math.PI*angle)/180)*10000);
+			tempVector.x = 10000;
+		}
 		if(angle == 90) {
 			tempVector.y = 1;
-			tempVector.x = 0;}
+			tempVector.x = 0;
+		}
 		if(angle>90 && angle <= 180) {
-			tempVector.y= (int) (Math.tan(Math.PI-(Math.PI*angle)/180)*10000);
-			tempVector.x = -10000;}
-		if(angle>180 && angle<270) {
+			tempVector.y= (int) (-Math.tan(Math.PI-(Math.PI*angle)/180)*10000);
+			tempVector.x = -10000;
+		}
+		if(angle > 180 && angle < 270) {
 			tempVector.y = (int) (-Math.tan(Math.PI*(2 - angle/180))*10000);
 			tempVector.x = -10000;
 		}
 		if(angle == 270) {
 			tempVector.y = -1;
-			tempVector.x = 0;}
-		if(angle>270) {
-			tempVector.y= (int) (Math.tan(Math.PI*(1+ (angle/180)))*10000);
+			tempVector.x = 0;
+		}
+		if(angle>270 && angle < 360) {
+			tempVector.y= (int) (-Math.tan(Math.PI*(1+ (angle/180)))*10000);
 			tempVector.x = 10000;
 		}
+		//System.out.println("vector" + tempVector.x + " " + tempVector.y);
 	return tempVector;
 	}
 

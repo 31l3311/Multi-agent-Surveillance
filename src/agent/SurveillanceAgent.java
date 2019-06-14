@@ -1,3 +1,5 @@
+package agent;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -29,14 +31,6 @@ public class SurveillanceAgent extends Agent{
 	}
 
 	public ArrayList update() {
-	    if(shade){
-	        move(time);
-	        System.out.println(1);
-            if(angle != newAngle) {
-                vector = movingTurn(newAngle);
-            }
-	        return lookShade();
-        }
 	    if(enterTower == true){
 	        timeTower++;
 	        if(timeTower >= 50){
@@ -68,6 +62,14 @@ public class SurveillanceAgent extends Agent{
                 return new ArrayList();
             }
         }
+		if(shade){
+			move(time);
+			System.out.println(1);
+			if(angle != newAngle) {
+				vector = movingTurn(newAngle);
+			}
+			return lookShade();
+		}
 		if(openDoor) {
 			counter++;
 			if(counter>= (doorTime*1000)/time) {
@@ -208,10 +210,10 @@ public class SurveillanceAgent extends Agent{
             timeTower = 0;
         }
         else if(entered == true){
-            //System.out.println("angle" + angle);
-            vector = movingTurn(gon(angle + 2.7));
+            //System.out.println("angle " + angle);
+            vector = movingTurn(gon(angle + 0.045*time));
             //timeTower = 0;
-            //System.out.println("new angle" + angle);
+            //System.out.println("new angle " + angle);
 
         }
 		//delay three seconds
