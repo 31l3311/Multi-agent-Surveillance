@@ -1,9 +1,13 @@
+package Bots;
 
 import java.awt.Point;
 import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.Timer;
+import agent.*;
+import board.*;
+import main.*;
 
 public class RandomBot extends Bot{
 	private boolean surveillance;
@@ -44,7 +48,7 @@ public class RandomBot extends Bot{
                     x = i*20;
                     y = j*20;
 
-                    if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
+                    if (Math.abs(MainApp.intruders.get(0).getCenterX() - x) <= 15 && Math.abs(MainApp.intruders.get(1).getCenterY() - y) <= 15) {
 //						MainApp.circle.setCenterX(sentryx);
 //						MainApp.circle.setCenterY(sentryy);
                         if (surveillance && !agent.entered && !agent.enterTower && !agent.leaveTower) {
