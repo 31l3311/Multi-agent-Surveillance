@@ -1,14 +1,11 @@
+package main;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-
+import board.*;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
-
-
-
-
 //import apple.laf.JRSUIConstants.Direction;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import Bots.*;
+import agent.*;
 
 
 //import static board.MainApp.gridHeight;
@@ -67,7 +66,7 @@ public class Run {
 		bots.add(bot);
 		botSA.add(bot);
 		for(int i = 0; i<main.amountI; i++) {
-			bot = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
+			bot = new RandomBot(true, new Point(10000,10000), time, new Point(board.length, board[0].length));
 			bots.add(bot);
 			botI.add(bot);
 		}
@@ -225,14 +224,14 @@ public class Run {
 		}
 		main.updateGraphics(botSA, botI);
 		for(int i = 0; i<bots.size(); i++) {
-			System.out.println("Bot  " + i + " location :" + bots.get(i).position);
+			//System.out.println("Bot  " + i + " location :" + bots.get(i).position);
 		}
 		randomSound();
 		//System.out.println("Circle: " + MainApp.circle.getCenterX());
 		//System.out.println("bots: " + bots.get(0));
 		//System.out.println("surveillance bot: " + bot);
 		//System.out.println("getAgent(): " + bots.get(0).getAgent());
-		MainApp.circle.setCenterX(bots.get(0).getAgent().position.x*main.gridWidth/1000);
+		/*MainApp.circle.setCenterX(bots.get(0).getAgent().position.x*main.gridWidth/1000);
 		MainApp.circle.setCenterY(bots.get(0).getAgent().position.y*main.gridHeight/1000);
 		MainApp.line.setStartX(bots.get(1).getAgent().position.x*main.gridWidth/1000);
 		MainApp.line.setStartY(bots.get(1).getAgent().position.y*main.gridHeight/1000);
@@ -241,7 +240,7 @@ public class Run {
 		check(bots.get(1).update(), 1);
 //		System.out.println("position: " + bots.get(1).getAgent().position.x + " " +bots.get(1).getAgent().position.y);
 		MainApp.circle1.setCenterX(bots.get(1).getAgent().position.x*main.gridWidth/1000);
-		MainApp.circle1.setCenterY(bots.get(1).getAgent().position.y*main.gridHeight/1000);
+		MainApp.circle1.setCenterY(bots.get(1).getAgent().position.y*main.gridHeight/1000);*/
 		randomSound();
 
 		}

@@ -184,6 +184,12 @@ public abstract class Agent{
 	public void enterTower(){}
 
 	public void leaveTower(){}
+
+	public void changeSpeed(double newSpeed){
+		if(newSpeed <= BASESPEED){
+			speed = newSpeed;
+		}
+	}
 	
 
 	
@@ -223,16 +229,16 @@ public abstract class Agent{
 	public double findAngle(Point vector) {
 		double tempAngle = 0;
 		if(vector.x>0 && vector.y >=0)
-			tempAngle = (180/Math.PI)*Math.atan(vector.y/vector.x);
+			tempAngle = (180/Math.PI)*Math.atan(vector.y/vector.x) + 270;
 		if(vector.x<0 && vector.y >=0)
 			tempAngle = 180 - (180/Math.PI)*Math.atan(vector.y/(-vector.x));
 		if(vector.x>0 && vector.y <0)
-			tempAngle = 360 - (180/Math.PI)*Math.atan(-vector.y/vector.x);
+			tempAngle = 90 - (180/Math.PI)*Math.atan(-vector.y/vector.x);
 		if(vector.x<0 && vector.y<0)
 			tempAngle = 180 + (180/Math.PI)*Math.atan(vector.y/vector.x);
-		if(vector.x==0 && vector.y>0)
-			tempAngle = 90;
 		if(vector.x==0 && vector.y<0)
+			tempAngle = 90;
+		if(vector.x==0 && vector.y>0)
 			tempAngle = 270;
 	return tempAngle;
 	}
