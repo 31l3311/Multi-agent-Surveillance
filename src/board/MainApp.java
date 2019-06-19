@@ -195,7 +195,7 @@ public class MainApp extends Application {
     public static void check(ArrayList<Point> squares, int j) {
 		for(int i = 0; i<squares.size(); i++) {
 			////System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
-			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).x]);
+			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).y]);
 		}
 		bots.get(j).setSounds(bots.get(j).getAgent().hear());
 	}

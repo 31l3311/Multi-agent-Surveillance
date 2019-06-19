@@ -80,6 +80,7 @@ public class surveillanceBot  extends Bot{
 		//System.out.println("method update agent: " + agent);
 		//update pheromonemap
 		//System.out.println("Location: " + agent.getCoordinates());
+		System.out.println("SECTIONMAP 2, 13: " + sectionMap[2][13]);
 		checkLocation();
 		for(int i = 0; i<pheromoneMap.length; i++ ) {
 			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
@@ -108,7 +109,7 @@ public class surveillanceBot  extends Bot{
 		else if((!explorationComplete && agent.getCoordinates().equals(path.get(0)))) {
 			explore();
 		}
-		else if(!explorationComplete && sectionMap[path.get(0).x][path.get(0).y]!=0) {
+		else if(!explorationComplete && map[path.get(0).x][path.get(0).y]!=0) {
 			System.out.println("Path to object on: " + path.get(0));
 			explore();
 			System.out.println("Path now going to :" + path.get(0));
@@ -162,7 +163,7 @@ public class surveillanceBot  extends Bot{
 		outerloop:
 		for(int i=2; i<sectionMap.length; i++) {
 			for(int j=2; j<sectionMap[0].length; j++) {
-				if(sectionMap[i][j]<0 && !(agent.getCoordinates().x==i && agent.getCoordinates().y==j) ) {
+				if(sectionMap[i][j]<0 && !(agent.getCoordinates().x==i && agent.getCoordinates().y==j) && map[i][j]==0 ) {
 					System.out.println("Next point:" + i +", " + j);
 					explorationComplete = false;
 					aStar(new Point(i,j), false);
