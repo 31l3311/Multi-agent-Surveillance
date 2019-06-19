@@ -16,6 +16,8 @@ public abstract class Agent{
 	protected double newAngle;
 	protected Point vector;
 	public final double BASESPEED = 0.0014;
+	public final double SLOWSPEED = 0.99;
+	public final double VERYSLOWSPEED = 0.49;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> checkSight = new ArrayList<Point>();
