@@ -17,7 +17,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-import main.Run;
+//import main.Run;
 
 import java.awt.*;
 
@@ -30,7 +30,7 @@ public class Menu {
 	public static boolean getCleared = true;
 
 	
-	private Run run;
+	//private Run run;
 
 	public Menu(Group root) {
 		Group squares = root;
@@ -111,8 +111,8 @@ public class Menu {
 			start.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					run = new Run(Square.board);
-					run.startTimer();
+					//run = new Run(Square.board);
+					MainApp.startTimer();
 					for(int i = 0; i<mainApp.surveillanceAgents.size(); i++) {
 						MainApp.surveillanceAgents.get(i).setRadius(10);
 					}

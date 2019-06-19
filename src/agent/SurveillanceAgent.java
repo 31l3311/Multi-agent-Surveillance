@@ -212,7 +212,7 @@ public class SurveillanceAgent extends Agent{
 	}
 
 	public void leaveTower(){
-	        System.out.println("leave tower");
+	        //System.out.println("leave tower");
             leaveTower = true;
             enterTower = false;
             entered = false;

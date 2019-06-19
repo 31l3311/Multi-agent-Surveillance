@@ -3,6 +3,8 @@ package Bots;
 import java.awt.Point;
 import java.util.ArrayList;
 import agent.*;
+import board.MainApp;
+import board.Square;
 
 public class surveillanceBot  extends Bot{
 	
@@ -13,6 +15,8 @@ public class surveillanceBot  extends Bot{
 	private int max;
 	private Point bestLoc;
 	private boolean explorationComplete;
+	
+	private ArrayList<Bot> top3 = new ArrayList<Bot>();
 	
 	//walking
 	int nextPathpos;
@@ -28,28 +32,33 @@ public class surveillanceBot  extends Bot{
 	private Node tempNode;
 	private boolean checked;
 	private ArrayList sounds = new ArrayList();
+	private double pursuitAgent;
 
 	public surveillanceBot(Point topLeft, Point bottomRight, int time, Point size){
-		//System.out.println("Instansiating new bot");
+		System.out.println("Instansiating new bot");
 		sectionMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
+		//map = Square.board;
 		for(int i = 0; i<sectionMap.length; i++ ) {
 			for(int j = 0; j<sectionMap[0].length; j++ ) {
 					sectionMap[i][j] = -1;
 			}
 		}
+	 	System.out.println("creating agent");
 		agent = new SurveillanceAgent(new Point(topLeft.x*1000, topLeft.y*1000), time, size );
 		//agent.setPosition(new Point(2,2));
 		//System.out.println("agentlalala:" + agent.getCoordinates());
 		//System.out.println("agent: " + agent);
+	 	System.out.println("create pheromone map");
 		pheromoneMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
+		pursuitAgent = Math.min(3, MainApp.amountSA/2);
+	 	System.out.println("call explore");
 		explore();
-		map = new int[size.x][size.y];
-//		for(int i = 0; i<pheromoneMap.length; i++ ) {
-//			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
-//				if(sectionMap[i][j]!= 0) 
-//					{pheromoneMap[i][j] = -1;}
-//			}
-//		}
+		for(int i = 0; i<pheromoneMap.length; i++ ) {
+			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
+				if(map[i][j]!= 0) 
+					{pheromoneMap[i][j] = -1;}
+			}
+		}
 		
 	}
 	
@@ -80,17 +89,36 @@ public class surveillanceBot  extends Bot{
 		}}
 		
 		//update agent
-		if(!explorationComplete && path.isEmpty()) {
+		if(!agent.seenIntruders.isEmpty()) {
+			for(int i = 0; i<agent.seenIntruders.size(); i++) {
+			startPursuit(agent.seenIntruders.get(i));
+		}}
+		if(pursuit) {
+			System.out.println("Pursuit goal:" + pursuitGoal);
+			if(path.isEmpty()) {
+				aStar(position, false);
+			}
+			else if(!path.get(0).equals(pursuitGoal)) {
+				aStar(position, false);
+			}
+		}
+		else if(!explorationComplete && path.isEmpty()) {
 			explore();
 		}
 		else if((!explorationComplete && agent.getCoordinates().equals(path.get(0)))) {
 			explore();
 		}
+		else if(!explorationComplete && sectionMap[path.get(0).x][path.get(0).y]!=0) {
+			System.out.println("Path to object on: " + path.get(0));
+			explore();
+			System.out.println("Path now going to :" + path.get(0));
+		}
 		else if(agent.getCoordinates().equals(path.get(0))) {
 			aStar(surveil(), true);
 		}
+		System.out.println("Path  " + path);
+		System.out.println("Path next position " + path.get(nextPathpos));
 		
-		//System.out.println("Path next position " + path.get(nextPathpos));
 		if(agent.getCoordinates().equals(path.get(nextPathpos))) {
 			nextPathpos -=1;
 //			System.out.println("Position: " + agent.getCoordinates().x + ", " + agent.getCoordinates().y);
@@ -127,15 +155,15 @@ public class surveillanceBot  extends Bot{
 	}
 	
 	public void explore() {
-		//System.out.println("explore agent: " + agent);
+		System.out.println("explore agent: " + agent);
 		explorationComplete = true;
 		
 		//while(path.isEmpty()) {
 		outerloop:
-		for(int i=0; i<sectionMap.length; i++) {
-			for(int j=0; j<sectionMap[0].length; j++) {
+		for(int i=2; i<sectionMap.length; i++) {
+			for(int j=2; j<sectionMap[0].length; j++) {
 				if(sectionMap[i][j]<0 && !(agent.getCoordinates().x==i && agent.getCoordinates().y==j) ) {
-					//System.out.println("Next point:" + i +", " + j);
+					System.out.println("Next point:" + i +", " + j);
 					explorationComplete = false;
 					aStar(new Point(i,j), false);
 //					if(path.isEmpty()) {
@@ -148,6 +176,54 @@ public class surveillanceBot  extends Bot{
 		//}
 		//System.out.println("explore 2 agent: " + agent);
 	}
+	
+	public void startPursuit(Point position) {
+		System.out.println("Start Pursuit");
+		top3.clear();
+		ArrayList<Bot> agents = MainApp.getSA();
+		double[] top3dist = {100000,100000,100000};
+		for(int i = 0; i<agents.size(); i++) {
+			double distance = distance(agents.get(i).agent.getPosition(), position);
+			System.out.println("Distance: " + distance);
+			//if( distance <=25000) {
+				if(distance < top3dist[2]) {
+					if(distance< top3dist[1]) {
+						if(distance< top3dist[0]) {
+							if(top3.size() >=2) {
+							top3.add(2, top3.get(1));
+							top3dist[2] = top3dist[1];}
+							if(top3.size() >=1) {
+							top3.add(1, top3.get(0));
+							top3dist[1] = top3dist[0];}
+							top3.add(0, agents.get(i));
+							top3dist[0] = distance;
+						}
+						else {
+						if(top3.size() >= 2) {
+						top3.add(2, top3.get(1));
+						top3dist[2] = top3dist[1];
+						}
+						top3.add(1, agents.get(i));
+						top3dist[1] = distance;
+						}
+					}
+					else {
+					top3.add(2, agents.get(i));
+					top3dist[2] = distance;
+				}}
+			}
+		//}
+		System.out.println("top 3 size:" + top3.size());
+		for(int i = 0; i<pursuitAgent; i++) {
+			top3.get(i).setPursuit(true);
+			top3.get(i).pursuitGoal = position;
+		}
+		
+	}
+	
+	
+	
+
 	
 	public boolean feasible(int i, int j) {
 		for(int k = 0; k<badList.size(); k++) {
@@ -181,11 +257,13 @@ public class surveillanceBot  extends Bot{
 					bestNode = openNodes.get(i);
 				}
 			}
+			System.out.println("Best Node position: " + bestNode.position);
 			openNodes.remove(bestNode);
 			closedNodes.add(bestNode);
 			//System.out.println("best node" + bestNode.position.x +", " + bestNode.position.y);	
 			
 			if(bestNode.position.x == goal.x && bestNode.position.y == goal.y ) {
+				System.out.println("Goal reached");
 				findPath(bestNode);
 				nextPathpos = path.size() - 1;
 				//System.out.println("Path :");
@@ -201,8 +279,9 @@ public class surveillanceBot  extends Bot{
 						//checking whether its out of bounds
 						if(bestNode.position.x + i >= 0 && bestNode.position.y + j >= 0 && bestNode.position.x + i < sectionMap.length && bestNode.position.y + j < sectionMap[0].length) {
 						//not the same square
-							//if(i!=0 || j!=0) {
-								if(sectionMap[bestNode.position.x + i][bestNode.position.y + j] == 0 || sectionMap[bestNode.position.x + i][bestNode.position.y + j] == -1) {
+							if(i!=0 || j!=0) {
+								//if(sectionMap[bestNode.position.x + i][bestNode.position.y + j] == 0 || sectionMap[bestNode.position.x + i][bestNode.position.y + j] == -1) {
+							if(map[bestNode.position.x + i][bestNode.position.y + j] == 0 ) {
 							checked = false;
 							position = new Point(bestNode.position.x + i, bestNode.position.y + j);
 							tempNode = new Node(position, bestNode, distance(position, goal), pheromoneMap[position.x][position.y], surveillance);
@@ -211,7 +290,7 @@ public class surveillanceBot  extends Bot{
 								if(position.x == closedNodes.get(k).position.x && position.y == closedNodes.get(k).position.y ) {
 									if(tempNode.f< closedNodes.get(k).f) {
 										openNodes.add(tempNode);
-										//System.out.println("add to open nodes 1");
+										System.out.println("add to open nodes 1");
 									}
 									checked = true;
 								}
@@ -222,7 +301,7 @@ public class surveillanceBot  extends Bot{
 								if(position.x == openNodes.get(k).position.x && position.y == openNodes.get(k).position.y) {
 									if(tempNode.f< openNodes.get(k).f) {
 										openNodes.add(tempNode);
-										//System.out.println("add to open nodes 2");
+										System.out.println("add to open nodes 2");
 										openNodes.remove(k);
 									}
 									checked = true;
@@ -230,12 +309,13 @@ public class surveillanceBot  extends Bot{
 							}}
 							
 							if(checked == false) {
-								if(sectionMap[tempNode.position.x][tempNode.position.y] <= 0){
+								//if(sectionMap[tempNode.position.x][tempNode.position.y] <= 0){
+								if(map[tempNode.position.x][tempNode.position.y] == 0) {
 									openNodes.add(tempNode);
-									//System.out.println("add to open nodes 3");
+									System.out.println("add to open nodes 3");
 								}}
 						}}//}
-					}
+					}}
 				}
 			
 			}

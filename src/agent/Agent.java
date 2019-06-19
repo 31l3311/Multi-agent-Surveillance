@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
+import Bots.Bot;
+import board.MainApp;
 import board.Square;
 
 import org.apache.commons.math3.*;
@@ -36,7 +38,9 @@ public abstract class Agent{
 	private Square square = new Square();
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
+	public ArrayList<Point> seenIntruders = new ArrayList<Point>();
 	
+	private double distance1;
 
 	public abstract void move(int time);
 	//public abstract void turn(int angle);
@@ -104,9 +108,39 @@ public abstract class Agent{
 		return vector;
 	}
 	
+	public double hear() {
+		//System.out.println("Hear method called");
+		
+		for(int i = 0; i<MainApp.bots.size(); i++) {
+			if(!MainApp.bots.get(i).getAgent().equals(this)) {
+			Agent curAgent = MainApp.bots.get(i).getAgent();
+			//System.out.println("Checking agent: " + curAgent);
+		distance1 = MainApp.bots.get(i).distance(position, curAgent.getPosition());
+		//System.out.println("distance = " + distance);
+		//System.out.println("curAgent.speed = " + curAgent.speed);
+		double speed = curAgent.speed * 1000;
+		if((speed < 0.5 && distance1<1000) ||
+		   (speed >= 0.5 && speed<1 && distance1<3000)	||
+		   (speed >= 1 && speed<2 && distance1<5000) ||
+		   (speed >= 2 && distance1<10000) ||
+		   	curAgent.loudDoor && distance1<5000 ||
+		   	curAgent.openWindow && distance1 < 10000
+				) {
+			//System.out.println("I hear a sound!! Yay");
+			Point vector = findVectorPath(curAgent.getPosition());
+			double angle = findAngle(vector);
+			NormalDistribution normal = new NormalDistribution(angle, 10);
+			double direction = normal.sample();
+			if(direction == 0) {direction = 360;}
+			return direction;
+		}}}
+		return 0;
+		}
+	
 	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry, int seeLengthObjects) {
 		//System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
+		seenIntruders.clear();
 		//u creates a vector in same direction with correct length
 		double u = (seeLength)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		double w = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
@@ -116,6 +150,7 @@ public abstract class Agent{
 		//System.out.println("U: " + u);
 
 		//check for 6m regular vision (for intruders/agents)
+		
 		for(int i = 0; i<10; i++) {
 			temppos.x += 0.1*(u*seeVector.x);
 			temppos.y += 0.1*(u*seeVector.y);
@@ -170,6 +205,14 @@ public abstract class Agent{
 							checkSight.add(lastSquare);
 						}
 					}
+				}
+			}
+		}
+		
+		for(int i = 0; i<MainApp.getI().size(); i++) {
+			for(int j = 0; j<checkSight.size(); j++) {
+				if(MainApp.getI().get(i).getAgent().getCoordinates().equals(checkSight.get(j))) {
+					seenIntruders.add(MainApp.getI().get(i).getAgent().getPosition());
 				}
 			}
 		}
@@ -295,5 +338,6 @@ public abstract class Agent{
 		direction.y = (int) (position.y + Math.round(1000*(u*vector.y)));
 		return direction;
 	}
+	
 	
 }
