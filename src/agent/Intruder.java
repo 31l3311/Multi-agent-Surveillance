@@ -1,3 +1,5 @@
+import sun.rmi.rmic.Main;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -95,7 +97,8 @@ public class Intruder extends Agent{
 			}
 		}
 	}
-	
+	int xVal;
+	int yVal;
 	public ArrayList look() {
 		System.runFinalization();
 		seenSquares.clear();
@@ -106,7 +109,33 @@ public class Intruder extends Agent{
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
+//		System.out.println("SEEN:" + seenSquares.size() + seenSquares);
+		for (int v = 0; v < seenSquares.size(); v++) {
+			for (int i = 1; i < (MainApp.amountSA); i++) {
+				xVal = (int) (MainApp.surveillanceAgents.get(i).getCenterX() / 20);
+				yVal = (int) (MainApp.surveillanceAgents.get(i).getCenterY() / 20);
+//				System.out.println(xVal + "   " +yVal);
+				if ((seenSquares.get(v).x == xVal) && (seenSquares.get(v).y == yVal)) {
+
+//					System.out.println("TURNINGGG");
+					movingTurn(180);
+					System.out.println("Intruder with position: " + seenSquares.get(v));
+					System.out.println("surveillance" + MainApp.surveillanceAgents.get(i).getCenterX()+"  " + MainApp.surveillanceAgents.get(i).getCenterY());
+					System.out.println("surveillance1" + MainApp.surveillanceAgents.get(0).getCenterX()+"  " + MainApp.surveillanceAgents.get(0).getCenterY());
+					System.out.println("surveillance2" + MainApp.surveillanceAgents.get(2).getCenterX()+"  " + MainApp.surveillanceAgents.get(2).getCenterY());
+					System.out.println("surveillance3" + MainApp.surveillanceAgents.get(1).getCenterX()+"  " + MainApp.surveillanceAgents.get(1).getCenterY());
+
+
+
+				}
+			}
+		}
+//		System.out.println("Intruder with position: " + position);
+//		for (int v = 0; v < seenSquares.size(); v++) {
+//			System.out.println(seenSquares.get(v).x +"  xoxoxox  "+ seenSquares.get(v).y);
+//		}
 		return seenSquares;
+
 	}
 
 

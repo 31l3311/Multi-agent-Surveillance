@@ -1,4 +1,3 @@
-package agent;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -88,7 +87,6 @@ public class SurveillanceAgent extends Agent{
 		if(openDoor == false && openWindow == false) {
 		if(stop == false) {
 			move(time);
-			System.out.println(2);
 		}
 
 		if(angle != newAngle) {

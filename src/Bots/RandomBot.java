@@ -1,13 +1,10 @@
-package Bots;
 
 import java.awt.Point;
 import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.Timer;
-import agent.*;
-import board.*;
-import main.*;
+
 
 public class RandomBot extends Bot{
 	private boolean surveillance;

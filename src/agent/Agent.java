@@ -1,16 +1,15 @@
-package agent;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
-import board.*;
+
 
 
 import org.apache.commons.math3.*;
 
 public abstract class Agent{
-	
-	
+
+
 	public double angle;
 
 	protected double newAngle;
@@ -36,21 +35,22 @@ public abstract class Agent{
 	public boolean loudDoor;
 	private Square square = new Square();
 	ArrayList<Point> seenSquares;
+
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
-	
+
 
 	public abstract void move(int time);
 	//public abstract void turn(int angle);
-	
+
 	public abstract ArrayList update();
 	public abstract ArrayList update(double angle);
 	public abstract ArrayList update(boolean stop, double newAngle);
-	
+
 	public Point movingTurn(double newAngle) {
 		//System.out.println("START OF TURN");
 		//System.out.println("Angle = " + angle);
 		//System.out.println("New angle = " + newAngle);
-		
+
 		if(angle <= 180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
 			if(Math.abs(newAngle-angle) < 0.180*time) {
@@ -68,7 +68,7 @@ public abstract class Agent{
 			//System.out.println("New angle check: " + newAngle);
 			if(Math.abs(angle-newAngle) < 0.180*time) {
 				angle = gon(newAngle);
-				//System.out.println("Angle is smaller than 9 degrees 2");	
+				//System.out.println("Angle is smaller than 9 degrees 2");
 			}
 			else {
 				angle = angle - 0.180*time;
@@ -99,12 +99,12 @@ public abstract class Agent{
 					angle = gon(angle + 0.180*time);
 					//System.out.println("Updated angle 4 : " + angle);
 				}
-			}	
+			}
 		}
 		vector = findVector(angle);
 		return vector;
 	}
-	
+
 	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry, int seeLengthObjects) {
 		//System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
@@ -127,7 +127,8 @@ public abstract class Agent{
 				lastSquare = newSquare;
 				//System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
 				if(lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
-					checkSight.add(lastSquare);}
+					checkSight.add(lastSquare);
+				}
 			}
 		}
 		//check for 18m on intruders
@@ -190,9 +191,9 @@ public abstract class Agent{
 			speed = newSpeed;
 		}
 	}
-	
 
-	
+
+
 //	public double hear(ArrayList<Bot> bots) {
 //		for(int i = 0; i<bots.size(); i++) {
 //			if(bots.get(i).getAgent() != this) {
@@ -212,7 +213,7 @@ public abstract class Agent{
 //		}}}
 //		return 0;
 //		}
-	
+
 	public void openDoor(boolean quiet) {
 		openDoor = true;
 		if(quiet) {
@@ -223,7 +224,7 @@ public abstract class Agent{
 			loudDoor = true;
 			doorTime = 5;
 		}
-		
+
 	}
 
 	public double findAngle(Point vector) {
@@ -287,7 +288,7 @@ public abstract class Agent{
 	public Point findVectorPath(Point targetPos){
 		return new Point(targetPos.x - this.getCoordinates().x, targetPos.y - this.getCoordinates().y);
 	}
-	
+
 	public void setPosition(int x , int y) {
 		this.position.x = x;
 		this.position.y = y;
@@ -298,20 +299,20 @@ public abstract class Agent{
 	}
 
 
-	
+
 	public Point getCoordinates() {
 		return new Point((int)(position.x/1000),(int)(position.y/1000));
 	}
-	
+
 	public double getAngle() {
 		return angle;
 	}
-	
+
 	public Point direction() {
 		double u = ((1000*BASESPEED)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		direction.x = (int) (position.x + Math.round(1000*(u*vector.x)));
 		direction.y = (int) (position.y + Math.round(1000*(u*vector.y)));
 		return direction;
 	}
-	
+
 }
