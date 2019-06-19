@@ -75,9 +75,9 @@ public abstract class Bot{
 	public abstract void setSounds(double direction);
 	
 	public void checkLocation() {
-		//System.out.println("agent: " + agent);
-		//System.out.println("X:" + agent.getCoordinates().x);
-		//System.out.println("Y: " + agent.getCoordinates().y);
+		////System.out.println("agent: " + agent);
+		////System.out.println("X:" + agent.getCoordinates().x);
+		////System.out.println("Y: " + agent.getCoordinates().y);
 		int obstacle = map[agent.getCoordinates().x][agent.getCoordinates().y];
 		if(obstacle == 4 || obstacle == 42) {
 			agent.openDoor(true);
