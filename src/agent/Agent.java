@@ -3,6 +3,8 @@ package agent;
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import board.*;
+
 
 import Bots.Bot;
 import board.MainApp;
@@ -14,9 +16,12 @@ public abstract class Agent{
 	
 	
 	public double angle;
+
 	protected double newAngle;
 	protected Point vector;
 	public final double BASESPEED = 0.0014;
+	public final double SLOWSPEED = 0.99;
+	public final double VERYSLOWSPEED = 0.49;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> checkSight = new ArrayList<Point>();
@@ -226,6 +231,12 @@ public abstract class Agent{
 	public void enterTower(){}
 
 	public void leaveTower(){}
+
+	public void changeSpeed(double newSpeed){
+		if(newSpeed <= BASESPEED){
+			speed = newSpeed;
+		}
+	}
 	
 
 	
@@ -265,42 +276,49 @@ public abstract class Agent{
 	public double findAngle(Point vector) {
 		double tempAngle = 0;
 		if(vector.x>0 && vector.y >=0)
-			tempAngle = (180/Math.PI)*Math.atan(vector.y/vector.x);
+			tempAngle = (180/Math.PI)*Math.atan(vector.y/vector.x) + 270;
 		if(vector.x<0 && vector.y >=0)
 			tempAngle = 180 - (180/Math.PI)*Math.atan(vector.y/(-vector.x));
 		if(vector.x>0 && vector.y <0)
-			tempAngle = 360 - (180/Math.PI)*Math.atan(-vector.y/vector.x);
+			tempAngle = 90 - (180/Math.PI)*Math.atan(-vector.y/vector.x);
 		if(vector.x<0 && vector.y<0)
 			tempAngle = 180 + (180/Math.PI)*Math.atan(vector.y/vector.x);
-		if(vector.x==0 && vector.y>0)
-			tempAngle = 90;
 		if(vector.x==0 && vector.y<0)
+			tempAngle = 90;
+		if(vector.x==0 && vector.y>0)
 			tempAngle = 270;
 	return tempAngle;
 	}
 
 	public Point findVector(double angle) {
 		Point tempVector = new Point();
-		if(angle< 90) {
-			tempVector.y = (int) (Math.tan((Math.PI*angle)/180)*10000);
-			tempVector.x = 10000;}
+		//System.out.println("find vector");
+		//System.out.println("angle" + angle);
+		if(angle< 90 && angle > 0) {
+			tempVector.y = (int) (-Math.tan((Math.PI*angle)/180)*10000);
+			tempVector.x = 10000;
+		}
 		if(angle == 90) {
 			tempVector.y = 1;
-			tempVector.x = 0;}
+			tempVector.x = 0;
+		}
 		if(angle>90 && angle <= 180) {
-			tempVector.y= (int) (Math.tan(Math.PI-(Math.PI*angle)/180)*10000);
-			tempVector.x = -10000;}
-		if(angle>180 && angle<270) {
+			tempVector.y= (int) (-Math.tan(Math.PI-(Math.PI*angle)/180)*10000);
+			tempVector.x = -10000;
+		}
+		if(angle > 180 && angle < 270) {
 			tempVector.y = (int) (-Math.tan(Math.PI*(2 - angle/180))*10000);
 			tempVector.x = -10000;
 		}
 		if(angle == 270) {
 			tempVector.y = -1;
-			tempVector.x = 0;}
-		if(angle>270) {
-			tempVector.y= (int) (Math.tan(Math.PI*(1+ (angle/180)))*10000);
+			tempVector.x = 0;
+		}
+		if(angle>270 && angle < 360) {
+			tempVector.y= (int) (-Math.tan(Math.PI*(1+ (angle/180)))*10000);
 			tempVector.x = 10000;
 		}
+		//System.out.println("vector" + tempVector.x + " " + tempVector.y);
 	return tempVector;
 	}
 
@@ -317,12 +335,16 @@ public abstract class Agent{
 		return new Point(targetPos.x - this.getCoordinates().x, targetPos.y - this.getCoordinates().y);
 	}
 	
-	public void setPosition(Point position) {
-		this.position = position;
+	public void setPosition(int x , int y) {
+		this.position.x = x;
+		this.position.y = y;
 	}
+
 	public Point getPosition() {
 		return position;
 	}
+
+
 	
 	public Point getCoordinates() {
 		return new Point((int)(position.x/1000),(int)(position.y/1000));

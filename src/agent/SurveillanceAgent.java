@@ -4,12 +4,12 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class SurveillanceAgent extends Agent{
-	
+
 	//speed per millisecond
 	private int seeLength = 6000;
 	private int seeLengthSentry = 18000;
 	private int seeLengthObjects = 10000;
-	private boolean stop;
+	public boolean stop;
 	private int timeTower;
 
 	//defined as coordinates x,y in millimeters
@@ -29,15 +29,8 @@ public class SurveillanceAgent extends Agent{
 		this.time = time;
 		this.size = size;
 	}
-	
+
 	public ArrayList update() {
-	    if(shade){
-	        move(time);
-            if(angle != newAngle) {
-                vector = movingTurn(newAngle);
-            }
-	        return lookShade();
-        }
 	    if(enterTower == true){
 	        timeTower++;
 	        if(timeTower >= 50){
@@ -69,6 +62,14 @@ public class SurveillanceAgent extends Agent{
                 return new ArrayList();
             }
         }
+		if(shade){
+			move(time);
+			System.out.println(1);
+			if(angle != newAngle) {
+				vector = movingTurn(newAngle);
+			}
+			return lookShade();
+		}
 		if(openDoor) {
 			counter++;
 			if(counter>= (doorTime*1000)/time) {
@@ -86,7 +87,10 @@ public class SurveillanceAgent extends Agent{
 		}
 		if(openDoor == false && openWindow == false) {
 		if(stop == false) {
-		move(time);}
+			move(time);
+			System.out.println(2);
+		}
+
 		if(angle != newAngle) {
             vector = movingTurn(newAngle);
         }
@@ -114,7 +118,11 @@ public class SurveillanceAgent extends Agent{
 			}
 		}
 		if(openDoor == false && openWindow == false) {
-		move(time);
+			if (stop == false) {
+				System.out.println(1);
+
+				move(time);
+		}
 		this.newAngle = gon(newA);
 		//System.out.println("New angle: " + newAngle);
 		vector = movingTurn(newAngle);
@@ -122,7 +130,7 @@ public class SurveillanceAgent extends Agent{
 		}
 		return look();
 	}
-	
+
 	public ArrayList update(boolean stop, double newAngle) {
 		if(openDoor) {
 			counter++;
@@ -202,10 +210,10 @@ public class SurveillanceAgent extends Agent{
             timeTower = 0;
         }
         else if(entered == true){
-            //System.out.println("angle" + angle);
-            vector = movingTurn(gon(angle + 2.7));
+            //System.out.println("angle " + angle);
+            vector = movingTurn(gon(angle + 0.045*time));
             //timeTower = 0;
-            //System.out.println("new angle" + angle);
+            //System.out.println("new angle " + angle);
 
         }
 		//delay three seconds
@@ -248,7 +256,7 @@ public class SurveillanceAgent extends Agent{
 		translation[0] = x_in_pix;
 		translation[1] = y_in_pix;
 		//System.out.println("GETS HERE 2!");
-		
+
 		return translation;
 	}
 }

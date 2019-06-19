@@ -1,10 +1,13 @@
 package Bots;
 
+
 import java.awt.Point;
 import java.util.ArrayList;
 
+
 import agent.Agent;
 import board.Square;
+
 
 
 

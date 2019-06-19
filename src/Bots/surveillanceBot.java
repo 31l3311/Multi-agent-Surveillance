@@ -1,10 +1,12 @@
 package Bots;
 
+
 import java.awt.Point;
 import java.util.ArrayList;
 import agent.*;
 import board.MainApp;
 import board.Square;
+
 
 public class surveillanceBot  extends Bot{
 	

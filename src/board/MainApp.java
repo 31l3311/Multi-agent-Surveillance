@@ -3,6 +3,7 @@ package board;
 import java.awt.Point;
 import java.util.ArrayList;
 
+
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 
@@ -14,6 +15,9 @@ import Bots.surveillanceBot;
 import agent.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+
+//import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -56,9 +60,11 @@ public class MainApp extends Application {
                 playfield[i][j] = node;
             }
         }
+
      	System.out.println("create board");
         board = Square.board;
      	System.out.println("create circles");
+
 		for(int i = 0; i<amountSA; i++) {
 			graphicsSA();
 			line = new Line();
@@ -111,7 +117,7 @@ public class MainApp extends Application {
 
 
     }
-    
+
     public void graphicsSA() {
         circle = new Circle();
         circle.setCenterX(gridWidth+60 );
@@ -121,7 +127,7 @@ public class MainApp extends Application {
      	surveillanceAgents.add(circle);
         root.getChildren().add(circle);
         }
-        
+
         public void graphicsIntruder() {
         circle = new Circle();
         circle.setCenterX(gridWidth+60 );
@@ -131,7 +137,7 @@ public class MainApp extends Application {
         intruders.add(circle);
         root.getChildren().add(circle);
         }
-        
+
         public void sounds() {
         	 	circle = new Circle();
         	 	circle.setCenterX(gridWidth+60);
@@ -159,8 +165,9 @@ public class MainApp extends Application {
     		directionI.get(i).setEndX(botI.get(i).getAgent().direction().x*gridWidth/1000);
     		directionI.get(i).setEndY(botI.get(i).getAgent().direction().y*gridWidth/1000);
         }
-    		
+
         }
+
         
         public static ArrayList<Bot> getSA(){
         		return botSA;
@@ -238,17 +245,17 @@ public class MainApp extends Application {
     public static double gridWidth = windowWidth / rowCells;
     public static double gridHeight = windowHeight / columnCells;
     private Square[][] playfield = new Square[rowCells][columnCells];
-    public static ArrayList<Circle> surveillanceAgents = new ArrayList<Circle>(); 
-    public static ArrayList<Circle>   intruders = new ArrayList<Circle>(); 
+    public static ArrayList<Circle> surveillanceAgents = new ArrayList<Circle>();
+    public static ArrayList<Circle>   intruders = new ArrayList<Circle>();
     public static ArrayList<Line> directionSA = new ArrayList<Line>();
     public static ArrayList<Line> directionI = new ArrayList<Line>();
     public static ArrayList<Circle> sounds = new ArrayList<Circle>();
     public static Circle circle;
-//    public static Circle circle1;
     public static Line line;
     public static Group root = new Group();
 	public static int amountSA = 5;
 	public static int amountI = 3;
+
 	//public static ArrayList<Bot> bots, botSA, botI;
 	public static ArrayList<Bot> bots = new ArrayList<Bot>();
 	public static ArrayList<Bot> botSA = new ArrayList<Bot>();
@@ -268,3 +275,6 @@ public class MainApp extends Application {
 	private static Bot bot;
     
 }
+
+
+
