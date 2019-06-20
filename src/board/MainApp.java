@@ -2,16 +2,11 @@ package board;
 
 import java.awt.Point;
 import java.util.ArrayList;
-
-
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
-
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
 
-import Bots.Bot;
-import Bots.RandomBot;
-import Bots.surveillanceBot;
+import Bots.*;
 import agent.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -48,7 +43,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-    	System.out.println("create squares");
+    	//create squares
         for( int i=0; i < 50; i++) {
             for( int j=0; j < 50; j++) {
 
@@ -60,10 +55,11 @@ public class MainApp extends Application {
                 playfield[i][j] = node;
             }
         }
-
+     
      	System.out.println("create board");
         board = Square.board;
      	System.out.println("create circles");
+     	size = new Point(board.length, board[0].length);
 
 		for(int i = 0; i<amountSA; i++) {
 			graphicsSA();
@@ -80,19 +76,27 @@ public class MainApp extends Application {
 		for(int i = 0; i<amountSA+amountI; i++) {
 			sounds();
 		}
-	 	System.out.println("create bots");
-		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
-		bots.add(bot);
-		botSA.add(bot);
-		bot = new surveillanceBot(new Point(25,1), new Point(50,25), time, new Point(50,50));
-		bots.add(bot);
-		botSA.add(bot);
-		bot = new surveillanceBot(new Point(1,25), new Point(25,50), time, new Point(50,50));
-		bots.add(bot);
-		botSA.add(bot);
-		bot = new surveillanceBot(new Point(25,25), new Point(50,50), time, new Point(50,50));
-		bots.add(bot);
-		botSA.add(bot);
+		
+		splitMap splitm = new splitMap(amountSA, size);
+		ArrayList<Point> areas = splitm.startingPoints();
+		for(int i = 0; i<areas.size(); i = i+2) {
+			bot = new surveillanceBot(areas.get(i), areas.get(i+1), time, size);
+			bots.add(bot);
+			botSA.add(bot);
+		}
+//	 	System.out.println("create bots");
+//		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
+//		bots.add(bot);
+//		botSA.add(bot);
+//		bot = new surveillanceBot(new Point(25,1), new Point(50,25), time, new Point(50,50));
+//		bots.add(bot);
+//		botSA.add(bot);
+//		bot = new surveillanceBot(new Point(1,25), new Point(25,50), time, new Point(50,50));
+//		bots.add(bot);
+//		botSA.add(bot);
+//		bot = new surveillanceBot(new Point(25,25), new Point(50,50), time, new Point(50,50));
+//		bots.add(bot);
+//		botSA.add(bot);
 		for(int i = 0; i< amountI; i++) {
 			bot = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
 			bots.add(bot);
@@ -139,25 +143,27 @@ public class MainApp extends Application {
         }
 
         public void sounds() {
-        	 	circle = new Circle();
-        	 	circle.setCenterX(gridWidth+60);
-        	 	circle.setCenterY(gridHeight+60);
+			circle = new Circle();
+			circle.setCenterX(gridWidth+60);
+			circle.setCenterY(gridHeight+60);
          	circle.setRadius(0);
          	circle.setStroke(Color.BLACK);
             sounds.add(circle);
-             root.getChildren().add(circle);
+			root.getChildren().add(circle);
         }
         
         public static void updateGraphics(ArrayList<Bot> botSA, ArrayList<Bot> botI) {
         for(int i = 0; i<botSA.size(); i++) {
-        		surveillanceAgents.get(i).setCenterX(botSA.get(i).getAgent().position.x*gridWidth/1000);
-        		surveillanceAgents.get(i).setCenterY(botSA.get(i).getAgent().position.y*gridWidth/1000);
-        		directionSA.get(i).setStartX(botSA.get(i).getAgent().position.x*gridWidth/1000);
-        		directionSA.get(i).setStartY(botSA.get(i).getAgent().position.y*gridHeight/1000);
-        		directionSA.get(i).setEndX(botSA.get(i).getAgent().direction().x*gridWidth/1000);
-        		directionSA.get(i).setEndY(botSA.get(i).getAgent().direction().y*gridWidth/1000);
+
+			surveillanceAgents.get(i).setCenterX(botSA.get(i).getAgent().position.x*gridWidth/1000);
+			surveillanceAgents.get(i).setCenterY(botSA.get(i).getAgent().position.y*gridWidth/1000);
+			directionSA.get(i).setStartX(botSA.get(i).getAgent().position.x*gridWidth/1000);
+			directionSA.get(i).setStartY(botSA.get(i).getAgent().position.y*gridHeight/1000);
+			directionSA.get(i).setEndX(botSA.get(i).getAgent().direction().x*gridWidth/1000);
+			directionSA.get(i).setEndY(botSA.get(i).getAgent().direction().y*gridWidth/1000);
         }
         for(int i = 0; i<botI.size(); i++) {
+
     		intruders.get(i).setCenterX(botI.get(i).getAgent().position.x*gridWidth/1000);
     		intruders.get(i).setCenterY(botI.get(i).getAgent().position.y*gridWidth/1000);
     		directionI.get(i).setStartX(botI.get(i).getAgent().position.x*gridWidth/1000);
@@ -272,6 +278,7 @@ public class MainApp extends Application {
 	private static int xCo;
 	private static int yCo;
 	public static int[][] board;
+	private Point size;
 	private static Bot bot;
     
 }

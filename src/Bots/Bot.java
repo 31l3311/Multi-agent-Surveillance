@@ -1,15 +1,8 @@
 package Bots;
 
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-
-import agent.Agent;
-import board.Square;
-
-
-
+import agent.*;
 
 
 public abstract class Bot{
@@ -78,16 +71,30 @@ public abstract class Bot{
 	public abstract void setSounds(double direction);
 	
 	public void checkLocation() {
-		//System.out.println("agent: " + agent);
-		//System.out.println("X:" + agent.getCoordinates().x);
-		//System.out.println("Y: " + agent.getCoordinates().y);
-		int obstacle = map[agent.getCoordinates().x][agent.getCoordinates().y];
-		if(obstacle == 4 || obstacle == 42) {
-			agent.openDoor(true);
-		}
-		if(obstacle == 3 || obstacle == 32) {
-			agent.openWindow = true;
-		}
+		try {
+			//System.out.println("agent: " + agent);
+			//System.out.println("X:" + agent.getCoordinates().x);
+			//System.out.println("Y: " + agent.getCoordinates().y);
+			if (agent.getCoordinates().x > 0 && agent.getCoordinates().y > 0) {
+				int obstacle = map[agent.getCoordinates().x][agent.getCoordinates().y];
+
+				if (obstacle == 4 || obstacle == 42) {
+					agent.openDoor(true);
+				}
+				if (obstacle == 3 || obstacle == 32) {
+					agent.openWindow = true;
+				}
+			} else if (agent.getCoordinates().x < 1) {
+				agent.setPosition(agent.getPosition().x + 2000, agent.getPosition().y);
+			} else if (agent.getCoordinates().y < 1) {
+				agent.setPosition(agent.getPosition().x, agent.getPosition().y + 2000);
+			} else if (agent.getCoordinates().x > 49) {
+				agent.setPosition(agent.getPosition().x - 2000, agent.getPosition().y);
+			} else if (agent.getCoordinates().y > 49) {
+				agent.setPosition(agent.getPosition().x, agent.getPosition().y - 2000);
+			}
+		} catch(ArrayIndexOutOfBoundsException e) {}
+
 	}
 	
 	public double distance(Point start, Point end) {
