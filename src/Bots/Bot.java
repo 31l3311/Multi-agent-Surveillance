@@ -82,12 +82,17 @@ public abstract class Bot{
 		}
 		else if(agent.getCoordinates().x < 1) {
 			agent.setPosition(agent.getPosition().x + 2000, agent.getPosition().y);
-			System.out.println("11111");
 		}
 		else if(agent.getCoordinates().y < 1) {
 			agent.setPosition(agent.getPosition().x, agent.getPosition().y + 2000);
-			System.out.println("22222");
 		}
+		else if(agent.getCoordinates().x > 49) {
+			agent.setPosition(agent.getPosition().x - 2000, agent.getPosition().y);
+		}
+		else if(agent.getCoordinates().y > 49) {
+			agent.setPosition(agent.getPosition().x, agent.getPosition().y - 2000);
+		}
+
 	}
 	
 	public double distance(Point start, Point end) {

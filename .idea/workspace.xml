@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d823df4-d33d-44af-acb8-967f21f54296" name="Default" comment="Agents now bounce against walls when out of bounds. They sometimes bounce for a while, give them some time.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/untitled3/untitled3.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Bots/Bot.java" afterPath="$PROJECT_DIR$/src/Bots/Bot.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Bots/Node.java" afterPath="$PROJECT_DIR$/src/Bots/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Bots/RandomBot.java" afterPath="$PROJECT_DIR$/src/Bots/RandomBot.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Bots/surveillanceBot.java" afterPath="$PROJECT_DIR$/src/Bots/surveillanceBot.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/agent/Agent.java" afterPath="$PROJECT_DIR$/src/agent/Agent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/agent/Intruder.java" afterPath="$PROJECT_DIR$/src/agent/Intruder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/agent/SurveillanceAgent.java" afterPath="$PROJECT_DIR$/src/agent/SurveillanceAgent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/board/MainApp.java" afterPath="$PROJECT_DIR$/src/board/MainApp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/board/Menu.java" afterPath="$PROJECT_DIR$/src/board/Menu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/board/Square.java" afterPath="$PROJECT_DIR$/src/board/Square.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,8 +37,8 @@
           <file leaf-file-name="Bot.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Bots/Bot.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="347">
-                  <caret line="86" column="47" lean-forward="true" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
+                <state relative-caret-position="407">
+                  <caret line="89" column="58" lean-forward="false" selection-start-line="89" selection-start-column="58" selection-end-line="89" selection-end-column="58" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#6209#6249#0" expanded="false" />
@@ -66,9 +55,13 @@
             <entry file="file://$PROJECT_DIR$/src/agent/Agent.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="341">
-                  <caret line="329" column="13" lean-forward="true" selection-start-line="329" selection-start-column="13" selection-end-line="329" selection-end-column="13" />
+                  <caret line="394" column="13" lean-forward="true" selection-start-line="394" selection-start-column="13" selection-end-line="394" selection-end-column="13" />
                   <folding>
                     <element signature="imports" expanded="true" />
+                    <element signature="e#4875#4876#0" expanded="true" />
+                    <element signature="e#4902#4903#0" expanded="true" />
+                    <marker date="1561028040448" expanded="false" signature="9512:9516" ph=" { " />
+                    <marker date="1561028040448" expanded="false" signature="9529:9532" ph=" }" />
                   </folding>
                 </state>
               </provider>
@@ -110,8 +103,8 @@
         <option value="$PROJECT_DIR$/src/Bots/RandomBot.java" />
         <option value="$PROJECT_DIR$/src/Bots/surveillanceBot.java" />
         <option value="$PROJECT_DIR$/src/agent/Agent.java" />
-        <option value="$PROJECT_DIR$/src/Bots/Bot.java" />
         <option value="$PROJECT_DIR$/src/board/MainApp.java" />
+        <option value="$PROJECT_DIR$/src/Bots/Bot.java" />
       </list>
     </option>
   </component>
@@ -385,12 +378,12 @@
       <workItem from="1560511677200" duration="6342000" />
       <workItem from="1560518771222" duration="469000" />
       <workItem from="1561022434742" duration="409000" />
-      <workItem from="1561022884166" duration="5046000" />
+      <workItem from="1561022884166" duration="5303000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23476000" />
+    <option name="totallyTimeSpent" value="23733000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -495,7 +488,7 @@
         <state relative-caret-position="2140">
           <caret line="107" column="84" lean-forward="false" selection-start-line="107" selection-start-column="84" selection-end-line="107" selection-end-column="84" />
           <folding>
-            <marker date="1561022720457" expanded="true" signature="3282:3343" ph="{...}" />
+            <marker date="1561028040410" expanded="true" signature="3597:3658" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -516,6 +509,10 @@
           <caret line="126" column="24" lean-forward="true" selection-start-line="126" selection-start-column="24" selection-end-line="126" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4875#4876#0" expanded="true" />
+            <element signature="e#4902#4903#0" expanded="true" />
+            <marker date="1561028040448" expanded="false" signature="9512:9516" ph=" { " />
+            <marker date="1561028040448" expanded="false" signature="9529:9532" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -558,6 +555,10 @@
           <caret line="284" column="10" lean-forward="false" selection-start-line="284" selection-start-column="10" selection-end-line="284" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4875#4876#0" expanded="true" />
+            <element signature="e#4902#4903#0" expanded="true" />
+            <marker date="1561028040448" expanded="false" signature="9512:9516" ph=" { " />
+            <marker date="1561028040448" expanded="false" signature="9529:9532" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -578,6 +579,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4875#4876#0" expanded="true" />
+            <element signature="e#4902#4903#0" expanded="true" />
+            <marker date="1561028040448" expanded="false" signature="9512:9516" ph=" { " />
+            <marker date="1561028040448" expanded="false" signature="9529:9532" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -598,6 +603,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4875#4876#0" expanded="true" />
+            <element signature="e#4902#4903#0" expanded="true" />
+            <marker date="1561028040448" expanded="false" signature="9512:9516" ph=" { " />
+            <marker date="1561028040448" expanded="false" signature="9529:9532" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -665,6 +674,10 @@
           <caret line="2" column="44" lean-forward="false" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4875#4876#0" expanded="true" />
+            <element signature="e#4902#4903#0" expanded="true" />
+            <marker date="1561028040448" expanded="false" signature="9512:9516" ph=" { " />
+            <marker date="1561028040448" expanded="false" signature="9529:9532" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -675,7 +688,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1561022720457" expanded="true" signature="3282:3343" ph="{...}" />
+            <marker date="1561028040410" expanded="true" signature="3597:3658" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -743,9 +756,13 @@
     <entry file="file://$PROJECT_DIR$/src/agent/Agent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="341">
-          <caret line="329" column="13" lean-forward="true" selection-start-line="329" selection-start-column="13" selection-end-line="329" selection-end-column="13" />
+          <caret line="394" column="13" lean-forward="true" selection-start-line="394" selection-start-column="13" selection-end-line="394" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4875#4876#0" expanded="true" />
+            <element signature="e#4902#4903#0" expanded="true" />
+            <marker date="1561028040448" expanded="false" signature="9512:9516" ph=" { " />
+            <marker date="1561028040448" expanded="false" signature="9529:9532" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -768,8 +785,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Bots/Bot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="86" column="47" lean-forward="true" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
+        <state relative-caret-position="407">
+          <caret line="89" column="58" lean-forward="false" selection-start-line="89" selection-start-column="58" selection-end-line="89" selection-end-column="58" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6209#6249#0" expanded="false" />
