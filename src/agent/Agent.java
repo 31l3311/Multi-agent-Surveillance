@@ -340,18 +340,42 @@ public abstract class Agent{
 
 	public double findAngle(Point vector) {
 		double tempAngle = 0;
-		if(vector.x>0 && vector.y >=0)
-			tempAngle = (180/Math.PI)*Math.atan(vector.y/vector.x) + 270;
-		if(vector.x<0 && vector.y >=0)
-			tempAngle = 180 - (180/Math.PI)*Math.atan(vector.y/(-vector.x));
-		if(vector.x>0 && vector.y <0)
-			tempAngle = 90 - (180/Math.PI)*Math.atan(-vector.y/vector.x);
-		if(vector.x<0 && vector.y<0)
-			tempAngle = 180 + (180/Math.PI)*Math.atan(vector.y/vector.x);
-		if(vector.x==0 && vector.y<0)
-			tempAngle = 90;
-		if(vector.x==0 && vector.y>0)
-			tempAngle = 270;
+		if(vector.x>0 && vector.y >=0){
+			tempAngle = 360-(180/Math.PI)*Math.atan(vector.y/vector.x);
+			System.out.println("270-360 " + tempAngle);}
+		if(vector.x<0 && vector.y >=0){
+			tempAngle = (180 + (180/Math.PI)*Math.atan(vector.y/(-vector.x)));
+			System.out.println("180-270 " + tempAngle);}
+		if(vector.x>0 && vector.y <0){
+			tempAngle = (180/Math.PI)*Math.atan(-vector.y/vector.x);
+			System.out.println("0-90 " + tempAngle);}
+		if(vector.x<0 && vector.y<0){
+			tempAngle = 180 - (180/Math.PI)*Math.atan(vector.y/vector.x);
+			System.out.println("90-180 " + tempAngle);}
+		if(vector.x==0 && vector.y<0){
+			tempAngle = 90;}
+		if(vector.x==0 && vector.y>0){
+			tempAngle = 270;}
+
+
+
+		/*if(vector.x>0 && vector.y >=0){
+			tempAngle = 360-(180/Math.PI)*Math.atan(vector.y/vector.x);
+			System.out.println("270-360 " + tempAngle);}
+		if(vector.x<0 && vector.y >=0){
+			tempAngle = 270 - (180 - (180/Math.PI)*Math.atan(vector.y/(-vector.x)));
+			System.out.println("180-270 " + tempAngle);}
+		if(vector.x>0 && vector.y <0){
+			tempAngle = 90 - (360 - (180/Math.PI)*Math.atan(-vector.y/vector.x));
+			System.out.println("0-90 " + tempAngle);}
+		if(vector.x<0 && vector.y<0){
+			tempAngle = 180 - (180 + (180/Math.PI)*Math.atan(vector.y/vector.x));
+			System.out.println("90-180 " + tempAngle);}
+		if(vector.x==0 && vector.y<0){
+			tempAngle = 90;}
+		if(vector.x==0 && vector.y>0){
+			tempAngle = 270;}*/
+
 	return tempAngle;
 	}
 
@@ -364,7 +388,7 @@ public abstract class Agent{
 			tempVector.x = 10000;
 		}
 		if(angle == 90) {
-			tempVector.y = 1;
+			tempVector.y = -1;
 			tempVector.x = 0;
 		}
 		if(angle>90 && angle <= 180) {
@@ -376,7 +400,7 @@ public abstract class Agent{
 			tempVector.x = -10000;
 		}
 		if(angle == 270) {
-			tempVector.y = -1;
+			tempVector.y = 1;
 			tempVector.x = 0;
 		}
 		if(angle>270 && angle < 360) {
