@@ -44,7 +44,7 @@ public abstract class Agent{
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
 	public ArrayList<Point> seenIntruders = new ArrayList<Point>();
-	protected boolean fastTurn = true;
+	protected boolean fastTurn;
 	
 	private double distance1;
 
