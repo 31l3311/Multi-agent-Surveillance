@@ -1,12 +1,9 @@
 package Bots;
 
-
 import java.awt.Point;
 import java.util.ArrayList;
 import agent.*;
 import board.MainApp;
-import board.Square;
-
 
 public class surveillanceBot  extends Bot{
 	
@@ -59,6 +56,7 @@ public class surveillanceBot  extends Bot{
 		pursuitAgent = Math.min(3, MainApp.amountSA/2);
 	 	System.out.println("call explore");
 		explore();
+
 //		for(int i = 0; i<pheromoneMap.length; i++ ) {
 //			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
 //				if(map[i][j]!= 0) 
@@ -78,6 +76,7 @@ public class surveillanceBot  extends Bot{
 			}
 		}
 		map[loc.x][loc.y] = i;	
+
 	}
 	
 	public SurveillanceAgent getAgent() {
@@ -220,12 +219,12 @@ public class surveillanceBot  extends Bot{
 							top3dist[0] = distance;
 						}
 						else {
-						if(top3.size() >= 2) {
-						top3.add(2, top3.get(1));
-						top3dist[2] = top3dist[1];
-						}
-						top3.add(1, agents.get(i));
-						top3dist[1] = distance;
+							if(top3.size() >= 2) {
+							top3.add(2, top3.get(1));
+							top3dist[2] = top3dist[1];
+							}
+							top3.add(1, agents.get(i));
+							top3dist[1] = distance;
 						}
 					}
 					else {
@@ -239,7 +238,6 @@ public class surveillanceBot  extends Bot{
 			top3.get(i).setPursuit(true);
 			top3.get(i).pursuitGoal = position;
 		}
-		
 	}
 	
 	public void scaleSectionMap() {

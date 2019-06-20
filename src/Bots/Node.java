@@ -1,6 +1,5 @@
 package Bots;
 
-
 import java.awt.Point;
 
 public class Node {

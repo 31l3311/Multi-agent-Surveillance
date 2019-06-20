@@ -3,10 +3,7 @@ package agent;
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
-import board.*;
 
-
-import Bots.Bot;
 import board.MainApp;
 import board.Square;
 
@@ -44,6 +41,7 @@ public abstract class Agent{
 	ArrayList<Point> seenSquares;
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
 	public ArrayList<Point> seenIntruders = new ArrayList<Point>();
+	protected boolean fastTurn;
 	
 	private double distance1;
 
@@ -53,19 +51,19 @@ public abstract class Agent{
 	public abstract ArrayList update();
 	public abstract ArrayList update(double angle);
 	public abstract ArrayList update(boolean stop, double newAngle);
+	protected int turnCounter;
 	
 	public Point movingTurn(double newAngle) {
 		//System.out.println("START OF TURN");
 		//System.out.println("Angle = " + angle);
 		//System.out.println("New angle = " + newAngle);
-		
 		if(angle <= 180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
-			if(Math.abs(newAngle-angle) < 0.180*time) {
+			if(Math.abs(newAngle-angle) < 0.045*time) {
 				//System.out.println("Angle is smaller than 9 degrees 1");
 				angle = newAngle;}
 			else {
-				angle = angle + 0.180*time;
+				angle = angle + 0.045*time;
 				//System.out.println("Updated angle 1 : " + angle);
 			}
 		}
@@ -74,45 +72,109 @@ public abstract class Agent{
 				newAngle = newAngle - 360;}
 			//System.out.println("Angle check: " + angle);
 			//System.out.println("New angle check: " + newAngle);
-			if(Math.abs(angle-newAngle) < 0.180*time) {
+			if(Math.abs(angle-newAngle) < 0.045*time) {
 				angle = gon(newAngle);
-				//System.out.println("Angle is smaller than 9 degrees 2");	
+				//System.out.println("Angle is smaller than 9 degrees 2");
 			}
 			else {
-				angle = angle - 0.180*time;
+				angle = angle - 0.045*time;
 				//System.out.println("Updated angle 2 : " + angle);
 			}
 		}}
 		//angle is bigger than 180
 		else {
 			if(newAngle<angle && newAngle>(angle-180)) {
-				if((angle - newAngle) < 0.180*time) {
+				if((angle - newAngle) < 0.045*time) {
 					//System.out.println("Angle is smaller than 9 degrees 3");
 					angle = newAngle;}
 				else {
-					angle = angle - 0.180*time;
+					angle = angle - 0.045*time;
 					//System.out.println("Updated angle 3 : " + angle);
 				}
 			}
 			else {
 				if(newAngle < angle) {
 					newAngle = 360 + newAngle;}
-				if(newAngle- angle < 0.180*time) {
+				if(newAngle- angle < 0.045*time) {
 					angle = gon(newAngle);
 					//System.out.println("Angle is smaller than 9 degrees 4");
 				}
 					//if(angle>360)
 						//angle = angle-360;
 				else {
-					angle = gon(angle + 0.180*time);
+					angle = gon(angle + 0.045*time);
 					//System.out.println("Updated angle 4 : " + angle);
 				}
-			}	
+			}
 		}
 		vector = findVector(angle);
 		return vector;
 	}
-	
+
+	public Point fastTurn(double newAngle) {
+		//System.out.println("START OF TURN");
+		//System.out.println("Angle = " + angle);
+		//System.out.println("New angle = " + newAngle);
+		fastTurn = true;
+		turnCounter = 0;
+		if(angle <= 180) {
+			if(newAngle>angle && newAngle<(angle+180)) {
+				if(Math.abs(newAngle-angle) < 0.18*time) {
+					//System.out.println("Angle is smaller than 9 degrees 1");
+					angle = newAngle;}
+				else {
+					angle = angle + 0.18*time;
+					//System.out.println("Updated angle 1 : " + angle);
+				}
+			}
+			else {
+				if(newAngle > angle) {
+					newAngle = newAngle - 360;}
+				//System.out.println("Angle check: " + angle);
+				//System.out.println("New angle check: " + newAngle);
+				if(Math.abs(angle-newAngle) < 0.18*time) {
+					angle = gon(newAngle);
+					//System.out.println("Angle is smaller than 9 degrees 2");
+				}
+				else {
+					angle = angle - 0.18*time;
+					//System.out.println("Updated angle 2 : " + angle);
+				}
+			}}
+		//angle is bigger than 180
+		else {
+			if(newAngle<angle && newAngle>(angle-180)) {
+				if((angle - newAngle) < 0.18*time) {
+					//System.out.println("Angle is smaller than 9 degrees 3");
+					angle = newAngle;}
+				else {
+					angle = angle - 0.18*time;
+					//System.out.println("Updated angle 3 : " + angle);
+				}
+			}
+			else {
+				if(newAngle < angle) {
+					newAngle = 360 + newAngle;}
+				if(newAngle- angle < 0.18*time) {
+					angle = gon(newAngle);
+					//System.out.println("Angle is smaller than 9 degrees 4");
+				}
+				//if(angle>360)
+				//angle = angle-360;
+				else {
+					angle = gon(angle + 0.18*time);
+					//System.out.println("Updated angle 4 : " + angle);
+				}
+			}
+		}
+		vector = findVector(angle);
+		return vector;
+	}
+
+	public void changeTurnSpeed(boolean turnSpeed){
+		fastTurn = turnSpeed;
+	}
+
 	public double hear() {
 		//System.out.println("Hear method called");
 		
@@ -360,6 +422,4 @@ public abstract class Agent{
 		direction.y = (int) (position.y + Math.round(1000*(u*vector.y)));
 		return direction;
 	}
-	
-	
 }
