@@ -71,6 +71,7 @@ public abstract class Bot{
 	public abstract void setSounds(double direction);
 	
 	public void checkLocation() {
+
 		try {
 			//System.out.println("agent: " + agent);
 			//System.out.println("X:" + agent.getCoordinates().x);
@@ -94,6 +95,7 @@ public abstract class Bot{
 				agent.setPosition(agent.getPosition().x, agent.getPosition().y - 2000);
 			}
 		} catch(ArrayIndexOutOfBoundsException e) {}
+
 
 	}
 	

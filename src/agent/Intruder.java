@@ -144,7 +144,7 @@ public class Intruder extends Agent{
 		}
 		position.x += Math.round(1000*(u*vector.x));
 		position.y += Math.round(1000*(u*vector.y));
-		//System.out.println("Position in move method:" + position);
+		////System.out.println("Position in move method:" + position);
 	}
 
 	@Override

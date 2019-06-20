@@ -139,13 +139,15 @@ public class SurveillanceAgent extends Agent{
 				move(time);
 		}
 		this.newAngle = gon(newA);
+
 		if(fastTurn){
 			vector = fastTurn(newAngle);
 			return new ArrayList();
 		}
 		//System.out.println("New angle: " + newAngle);
+
 		vector = movingTurn(newAngle);
-		//System.out.println("New vector: " + vector.x + ", " + vector.y);
+		////System.out.println("New vector: " + vector.x + ", " + vector.y);
 		}
 		return look();
 	}
@@ -181,7 +183,7 @@ public class SurveillanceAgent extends Agent{
 		System.runFinalization();
 		seenSquares.clear();
 		myDirection.clear();
-		//System.out.println("Position in sur agent: " + position.x + ", " + position.y);
+		////System.out.println("Position in sur agent: " + position.x + ", " + position.y);
 		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects);
 		seenSquares.addAll(myDirection);
         seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects));
@@ -196,7 +198,7 @@ public class SurveillanceAgent extends Agent{
         System.runFinalization();
         seenSquares.clear();
         myDirection.clear();
-        //System.out.println("Position in sur agent: " + position.x + ", " + position.y);
+        ////System.out.println("Position in sur agent: " + position.x + ", " + position.y);
         myDirection = checkVectorSight(vector, 3000, seeLengthSentry, seeLengthObjects);
         seenSquares.addAll(myDirection);
         seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength/2, seeLengthSentry, seeLengthObjects));
@@ -243,7 +245,7 @@ public class SurveillanceAgent extends Agent{
 	}
 
 	public void leaveTower(){
-	        //System.out.println("leave tower");
+	        ////System.out.println("leave tower");
             leaveTower = true;
             enterTower = false;
             entered = false;
@@ -257,7 +259,7 @@ public class SurveillanceAgent extends Agent{
 		double u = ((time*speed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		position.x += Math.round(1000*(u*vector.x));
 		position.y += Math.round(1000*(u*vector.y));
-		//System.out.println("Updated Position: " + position.x + ", " + position.y);
+		////System.out.println("Updated Position: " + position.x + ", " + position.y);
 	}
 
 	public int[] getTranslation() {
@@ -279,7 +281,6 @@ public class SurveillanceAgent extends Agent{
 
 		translation[0] = x_in_pix;
 		translation[1] = y_in_pix;
-		//System.out.println("GETS HERE 2!");
 
 		return translation;
 	}
