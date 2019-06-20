@@ -27,6 +27,21 @@ public class Intruder extends Agent{
 	}
 	
 	public ArrayList update() {
+		if(fastTurn){
+			if(!stop){
+				move(time);
+			}
+			if(angle != newAngle) {
+				vector = fastTurn(newAngle);
+			}
+			else {
+				turnCounter++;
+			}
+			if(turnCounter > 8){
+				fastTurn = false;
+			}
+			return new ArrayList();
+		}
 		if(openDoor) {
 			counter++;
 			if(counter>= (doorTime*1000)/time) {
@@ -79,6 +94,10 @@ public class Intruder extends Agent{
 			sprintAngle += Math.abs(newAngle - angle);
 			}
 		else if (sprint == false) {
+			if(fastTurn){
+				vector = fastTurn(newAngle);
+				return new ArrayList();
+			}
 			this.newAngle = gon(newAngle);
 			vector = movingTurn(this.newAngle);}
 		}
