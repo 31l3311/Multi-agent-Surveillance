@@ -31,6 +31,21 @@ public class SurveillanceAgent extends Agent{
 	}
 
 	public ArrayList update() {
+		if(fastTurn){
+			if(!stop){
+				move(time);
+			}
+			if(angle != newAngle) {
+				vector = fastTurn(newAngle);
+			}
+			else {
+				turnCounter++;
+			}
+			if(turnCounter > 8){
+				fastTurn = false;
+			}
+			return new ArrayList();
+		}
 	    if(enterTower == true){
 	        timeTower++;
 	        if(timeTower >= 50){
@@ -124,6 +139,10 @@ public class SurveillanceAgent extends Agent{
 				move(time);
 		}
 		this.newAngle = gon(newA);
+		if(fastTurn){
+			vector = fastTurn(newAngle);
+			return new ArrayList();
+		}
 		//System.out.println("New angle: " + newAngle);
 		vector = movingTurn(newAngle);
 		//System.out.println("New vector: " + vector.x + ", " + vector.y);
@@ -149,6 +168,10 @@ public class SurveillanceAgent extends Agent{
 		}
 		if(openDoor == false && openWindow == false) {
 		this.stop = stop;
+		if(fastTurn){
+			vector = fastTurn(gon(newAngle));
+			return new ArrayList();
+		}
 		vector = movingTurn(gon(newAngle));
 		}
 		return look();
@@ -229,6 +252,7 @@ public class SurveillanceAgent extends Agent{
 
 	@Override
 	public void move(int time) {
+		System.out.println("move");
 		//System.out.println("Current Position: " + position.x + ", " + position.y);
 		double u = ((time*speed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		position.x += Math.round(1000*(u*vector.x));
