@@ -1,18 +1,8 @@
-package board;
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
-
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
-
-import Bots.Bot;
-import Bots.RandomBot;
-import Bots.surveillanceBot;
-import agent.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
@@ -139,25 +129,27 @@ public class MainApp extends Application {
         }
 
         public void sounds() {
-        	 	circle = new Circle();
-        	 	circle.setCenterX(gridWidth+60);
-        	 	circle.setCenterY(gridHeight+60);
+			circle = new Circle();
+			circle.setCenterX(gridWidth+60);
+			circle.setCenterY(gridHeight+60);
          	circle.setRadius(0);
          	circle.setStroke(Color.BLACK);
             sounds.add(circle);
-             root.getChildren().add(circle);
+			root.getChildren().add(circle);
         }
         
         public static void updateGraphics(ArrayList<Bot> botSA, ArrayList<Bot> botI) {
         for(int i = 0; i<botSA.size(); i++) {
-        		surveillanceAgents.get(i).setCenterX(botSA.get(i).getAgent().position.x*gridWidth/1000);
-        		surveillanceAgents.get(i).setCenterY(botSA.get(i).getAgent().position.y*gridWidth/1000);
-        		directionSA.get(i).setStartX(botSA.get(i).getAgent().position.x*gridWidth/1000);
-        		directionSA.get(i).setStartY(botSA.get(i).getAgent().position.y*gridHeight/1000);
-        		directionSA.get(i).setEndX(botSA.get(i).getAgent().direction().x*gridWidth/1000);
-        		directionSA.get(i).setEndY(botSA.get(i).getAgent().direction().y*gridWidth/1000);
+
+			surveillanceAgents.get(i).setCenterX(botSA.get(i).getAgent().position.x*gridWidth/1000);
+			surveillanceAgents.get(i).setCenterY(botSA.get(i).getAgent().position.y*gridWidth/1000);
+			directionSA.get(i).setStartX(botSA.get(i).getAgent().position.x*gridWidth/1000);
+			directionSA.get(i).setStartY(botSA.get(i).getAgent().position.y*gridHeight/1000);
+			directionSA.get(i).setEndX(botSA.get(i).getAgent().direction().x*gridWidth/1000);
+			directionSA.get(i).setEndY(botSA.get(i).getAgent().direction().y*gridWidth/1000);
         }
         for(int i = 0; i<botI.size(); i++) {
+
     		intruders.get(i).setCenterX(botI.get(i).getAgent().position.x*gridWidth/1000);
     		intruders.get(i).setCenterY(botI.get(i).getAgent().position.y*gridWidth/1000);
     		directionI.get(i).setStartX(botI.get(i).getAgent().position.x*gridWidth/1000);

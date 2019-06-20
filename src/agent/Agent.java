@@ -1,15 +1,6 @@
-package agent;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
-import board.*;
-
-
-import Bots.Bot;
-import board.MainApp;
-import board.Square;
-
 import org.apache.commons.math3.*;
 
 public abstract class Agent{
@@ -360,6 +351,4 @@ public abstract class Agent{
 		direction.y = (int) (position.y + Math.round(1000*(u*vector.y)));
 		return direction;
 	}
-	
-	
 }
