@@ -48,7 +48,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-    	System.out.println("create squares");
+    	//create squares
         for( int i=0; i < 50; i++) {
             for( int j=0; j < 50; j++) {
 
@@ -60,10 +60,11 @@ public class MainApp extends Application {
                 playfield[i][j] = node;
             }
         }
-
+     
      	System.out.println("create board");
         board = Square.board;
      	System.out.println("create circles");
+     	size = new Point(board.length, board[0].length);
 
 		for(int i = 0; i<amountSA; i++) {
 			graphicsSA();
@@ -80,19 +81,27 @@ public class MainApp extends Application {
 		for(int i = 0; i<amountSA+amountI; i++) {
 			sounds();
 		}
-	 	System.out.println("create bots");
-		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
-		bots.add(bot);
-		botSA.add(bot);
-		bot = new surveillanceBot(new Point(25,1), new Point(50,25), time, new Point(50,50));
-		bots.add(bot);
-		botSA.add(bot);
-		bot = new surveillanceBot(new Point(1,25), new Point(25,50), time, new Point(50,50));
-		bots.add(bot);
-		botSA.add(bot);
-		bot = new surveillanceBot(new Point(25,25), new Point(50,50), time, new Point(50,50));
-		bots.add(bot);
-		botSA.add(bot);
+		
+		splitMap splitm = new splitMap(amountSA, size);
+		ArrayList<Point> areas = splitm.startingPoints();
+		for(int i = 0; i<areas.size(); i = i+2) {
+			bot = new surveillanceBot(areas.get(i), areas.get(i+1), time, size);
+			bots.add(bot);
+			botSA.add(bot);
+		}
+//	 	System.out.println("create bots");
+//		bot = new surveillanceBot(new Point(1,1), new Point(25,25), time, new Point(50,50));
+//		bots.add(bot);
+//		botSA.add(bot);
+//		bot = new surveillanceBot(new Point(25,1), new Point(50,25), time, new Point(50,50));
+//		bots.add(bot);
+//		botSA.add(bot);
+//		bot = new surveillanceBot(new Point(1,25), new Point(25,50), time, new Point(50,50));
+//		bots.add(bot);
+//		botSA.add(bot);
+//		bot = new surveillanceBot(new Point(25,25), new Point(50,50), time, new Point(50,50));
+//		bots.add(bot);
+//		botSA.add(bot);
 		for(int i = 0; i< amountI; i++) {
 			bot = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
 			bots.add(bot);
@@ -272,6 +281,7 @@ public class MainApp extends Application {
 	private static int xCo;
 	private static int yCo;
 	public static int[][] board;
+	private Point size;
 	private static Bot bot;
     
 }

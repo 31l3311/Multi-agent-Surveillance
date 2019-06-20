@@ -299,7 +299,7 @@ public abstract class Agent{
 			tempVector.x = 10000;
 		}
 		if(angle == 90) {
-			tempVector.y = 1;
+			tempVector.y = -1;
 			tempVector.x = 0;
 		}
 		if(angle>90 && angle <= 180) {
@@ -311,7 +311,7 @@ public abstract class Agent{
 			tempVector.x = -10000;
 		}
 		if(angle == 270) {
-			tempVector.y = -1;
+			tempVector.y = 1;
 			tempVector.x = 0;
 		}
 		if(angle>270 && angle < 360) {
