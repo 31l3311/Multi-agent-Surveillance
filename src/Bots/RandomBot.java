@@ -47,7 +47,7 @@ public class RandomBot extends Bot{
                     x = i*20;
                     y = j*20;
 
-                    if (Math.abs(MainApp.intruders.get(0).getCenterX() - x) <= 15 && Math.abs(MainApp.intruders.get(1).getCenterY() - y) <= 15) {
+                   // if (Math.abs(MainApp.intruders.get(0).getCenterX() - x) <= 15 && Math.abs(MainApp.intruders.get(1).getCenterY() - y) <= 15) {
 //						MainApp.circle.setCenterX(sentryx);
 //						MainApp.circle.setCenterY(sentryy);
                         if (surveillance && !agent.entered && !agent.enterTower && !agent.leaveTower) {
@@ -58,7 +58,7 @@ public class RandomBot extends Bot{
                             return agent.update();
                         }
                     }
-                }
+               // }
                     else if (Square.board[i][j] == 5) {
                         x = i * 20;
                         y = j * 20;

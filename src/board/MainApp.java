@@ -59,9 +59,9 @@ public class MainApp extends Application {
         }
 
      
-     	System.out.println("create board");
+     	//System.out.println("create board");
         board = Square.board;
-     	System.out.println("create circles");
+     	//System.out.println("create circles");
      	size = new Point(board.length, board[0].length);
 
 
@@ -215,6 +215,7 @@ public class MainApp extends Application {
     	}
 
     		for(int i = 0; i<bots.size(); i++) {
+    			//if(!bots.get(i).explorationComplete) {
 			check(bots.get(i).update(), i);
 		}
     			updateGraphics(botSA, botI);
@@ -275,8 +276,8 @@ public class MainApp extends Application {
     public static Circle circle;
     public static Line line;
     public static Group root = new Group();
-	public static int amountSA = 5;
-	public static int amountI = 3;
+	public static int amountSA = 4;
+	public static int amountI = 1;
 
 	//public static ArrayList<Bot> bots, botSA, botI;
 	public static ArrayList<Bot> bots = new ArrayList<Bot>();

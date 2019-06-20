@@ -79,7 +79,7 @@ public class SurveillanceAgent extends Agent{
         }
 		if(shade){
 			move(time);
-			System.out.println(1);
+			//System.out.println(1);
 			if(angle != newAngle) {
 				vector = movingTurn(newAngle);
 			}
@@ -103,7 +103,7 @@ public class SurveillanceAgent extends Agent{
 		if(openDoor == false && openWindow == false) {
 		if(stop == false) {
 			move(time);
-			System.out.println(2);
+			//System.out.println(2);
 		}
 
 		if(angle != newAngle) {
@@ -134,12 +134,13 @@ public class SurveillanceAgent extends Agent{
 		}
 		if(openDoor == false && openWindow == false) {
 			if (stop == false) {
-				System.out.println(1);
+				//System.out.println(1);
 
 				move(time);
 		}
+		System.out.println("New angle before gon: " + newA);
 		this.newAngle = gon(newA);
-
+		System.out.println("New angle after gon: " + newAngle);
 		if(fastTurn){
 			vector = fastTurn(newAngle);
 			return new ArrayList();

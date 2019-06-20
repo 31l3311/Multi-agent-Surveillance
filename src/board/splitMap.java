@@ -13,7 +13,7 @@ public class splitMap{
 			startingPoints.add(new Point((int)size.x/2, (int)size.y));
 			
 			//second agent
-			startingPoints.add(new Point(0,(int)size.y/2));
+			startingPoints.add(new Point((int)size.x/2,0));
 			startingPoints.add(size);
 		}
 		if(amount == 3) {
@@ -169,35 +169,7 @@ public class splitMap{
 			startingPoints.add(size);
 		}
 		
-		if(amount == 9) {
-			//first agent
-			startingPoints.add(new Point(0,0));
-			startingPoints.add(new Point((int)(size.x/3), (int)size.y/3));
-			
-			startingPoints.add(new Point(0,(int)size.y/3));
-			startingPoints.add(new Point((int)(size.x/3), (int)2*size.y/3));
-			
-			startingPoints.add(new Point(0,(int)2*size.y/3));
-			startingPoints.add(new Point((int)(size.x/3), size.y));
-			
-			startingPoints.add(new Point((int)(size.x/3), 0) );
-			startingPoints.add(new Point((int)(2*size.x/3), (int)(size.y/3)));
-			
-			startingPoints.add(new Point((int)(size.x/3),(int)(size.y/3)));
-			startingPoints.add(new Point((int)(2*size.x/3),(int)(2*size.y/3)));
-			
-			startingPoints.add(new Point((int)(size.x/3),(int)2*size.y/3));
-			startingPoints.add(new Point((int)(2*size.x/3), (int)size.y));
-			
-			startingPoints.add(new Point((int)(2*size.x/3),0));
-			startingPoints.add(new Point((int)(size.x), (int)(size.y/3)));
-			
-			startingPoints.add(new Point((int)(2*size.x/3),(int)(size.y/3)));
-			startingPoints.add(new Point((int)(size.x), (int)(2*size.y/3)));
-			
-			startingPoints.add(new Point((int)(2*size.x/3),(int)(2*size.y/3)));
-			startingPoints.add(size);
-		}
+
 		System.out.println("SPLITTING THE MAP:");
 		for(int i = 0; i<startingPoints.size(); i++) {
 			System.out.println(startingPoints.get(i));

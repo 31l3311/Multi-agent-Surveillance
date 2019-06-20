@@ -64,6 +64,7 @@ public abstract class Bot{
 	protected boolean pursuit;
 	public Point position;
 	public Point pursuitGoal;
+	public boolean explorationComplete;
 	
 	public abstract void updateMap(Point loc, int i);
 	public abstract ArrayList update();

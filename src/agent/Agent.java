@@ -56,15 +56,15 @@ public abstract class Agent{
 	public Point movingTurn(double newAngle) {
 
 		//System.out.println("START OF TURN");
-		//System.out.println("Angle = " + angle);
-		//System.out.println("New angle = " + newAngle);
+		System.out.println("Angle = " + angle);
+		System.out.println("New angle = " + newAngle);
 		if(angle <= 180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
 			if(Math.abs(newAngle-angle) < 0.045*time) {
 				//System.out.println("Angle is smaller than 9 degrees 1");
-				angle = newAngle;}
+				angle = gon(newAngle);}
 			else {
-				angle = angle + 0.045*time;
+				angle = gon(angle + 0.045*time);
 				//System.out.println("Updated angle 1 : " + angle);
 			}
 		}
@@ -78,7 +78,7 @@ public abstract class Agent{
 				//System.out.println("Angle is smaller than 9 degrees 2");
 			}
 			else {
-				angle = angle - 0.045*time;
+				angle = gon(angle - 0.045*time);
 				//System.out.println("Updated angle 2 : " + angle);
 			}
 		}}
@@ -87,9 +87,9 @@ public abstract class Agent{
 			if(newAngle<angle && newAngle>(angle-180)) {
 				if((angle - newAngle) < 0.045*time) {
 					//System.out.println("Angle is smaller than 9 degrees 3");
-					angle = newAngle;}
+					angle = gon(newAngle);}
 				else {
-					angle = angle - 0.045*time;
+					angle = gon(angle - 0.045*time);
 					//System.out.println("Updated angle 3 : " + angle);
 				}
 			}
@@ -341,16 +341,20 @@ public abstract class Agent{
 		double tempAngle = 0;
 		if(vector.x>0 && vector.y >=0){
 			tempAngle = 360-(180/Math.PI)*Math.atan(vector.y/vector.x);
-			System.out.println("270-360 " + tempAngle);}
+			//System.out.println("270-360 " + tempAngle);
+			}
 		if(vector.x<0 && vector.y >=0){
 			tempAngle = (180 + (180/Math.PI)*Math.atan(vector.y/(-vector.x)));
-			System.out.println("180-270 " + tempAngle);}
+			//System.out.println("180-270 " + tempAngle);
+			}
 		if(vector.x>0 && vector.y <0){
 			tempAngle = (180/Math.PI)*Math.atan(-vector.y/vector.x);
-			System.out.println("0-90 " + tempAngle);}
+			//System.out.println("0-90 " + tempAngle);
+			}
 		if(vector.x<0 && vector.y<0){
 			tempAngle = 180 - (180/Math.PI)*Math.atan(vector.y/vector.x);
-			System.out.println("90-180 " + tempAngle);}
+			//System.out.println("90-180 " + tempAngle);
+			}
 		if(vector.x==0 && vector.y<0){
 			tempAngle = 90;}
 		if(vector.x==0 && vector.y>0){

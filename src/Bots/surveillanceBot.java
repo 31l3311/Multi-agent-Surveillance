@@ -13,7 +13,6 @@ public class surveillanceBot  extends Bot{
 	private int[][] pheromoneMap;
 	private int max;
 	private Point bestLoc;
-	private boolean explorationComplete;
 	private Point topLeft;
 	private Point nextPosition;
 	private Point currentPosition = new Point(0,0);
@@ -76,20 +75,35 @@ public class surveillanceBot  extends Bot{
 				pheromoneMap[loc.x][loc.y] = -1;
 			}
 		}
-		map[loc.x][loc.y] = i;	
+		map[loc.x][loc.y] = i;
+		boolean change = true;
+		outerloop:
+		for(int k = 0; k<sectionMap.length; k++) {
+			for(int l = 0; l<sectionMap[0].length; l++) {
+				if(sectionMap[k][l] == -1) {
+					change = false;
+					break outerloop;
+				}
+				}
+			}
+		if(change) {
+				System.out.println("EXPLORATION COMPLETE");
+				explorationComplete = true;
+		}
+		}
 
-	}
+	
 	
 	public SurveillanceAgent getAgent() {
 		return (SurveillanceAgent) agent;
 	}
 	
 	public ArrayList update() {
-		////System.out.println("method update agent: " + agent);
+		System.out.println("method update agent: " + agent);
 		//update pheromonemap
 
 		//System.out.println("Location: " + agent.getCoordinates());
-		System.out.println("SECTIONMAP 2, 13: " + sectionMap[2][13]);
+		//System.out.println("SECTIONMAP 2, 13: " + sectionMap[2][13]);
 		System.out.println("topLeft: " + topLeft);
 
 		checkLocation();
@@ -102,10 +116,12 @@ public class surveillanceBot  extends Bot{
 		
 		//update agent
 		if(!agent.seenIntruders.isEmpty()) {
+			System.out.println("I SEE AN INTRUDER");
 			for(int i = 0; i<agent.seenIntruders.size(); i++) {
 			startPursuit(agent.seenIntruders.get(i));
 		}}
 		if(pursuit) {
+			System.out.println("I AM PURSUING AN INTRUDER");
 			System.out.println("Pursuit goal:" + pursuitGoal);
 			pursuitCoordinates = new Point(Math.round(pursuitGoal.x/1000), Math.round(pursuitGoal.y/1000));
 			if(path.isEmpty()) {
@@ -116,13 +132,16 @@ public class surveillanceBot  extends Bot{
 			}
 		}
 		else if(!explorationComplete && path.isEmpty()) {
+			System.out.println("EXPLORING - path is empty");
 			explore();
 		}
 		else if((!explorationComplete && agent.getCoordinates().equals(path.get(0)))) {
+			System.out.println("EXPLORING - at the end of my path");
 			explore();
 		}
 		else if(!explorationComplete && map[path.get(0).x][path.get(0).y]!=0) {
 			//System.out.println("Path to object on: " + path.get(0));
+			System.out.println("EXPLORING - endgoal is object");
 			explore();
 			//System.out.println("Path now going to :" + path.get(0));
 		}
@@ -140,7 +159,7 @@ public class surveillanceBot  extends Bot{
 		
 		
 		if(pursuit && position.equals(pursuitCoordinates)) {
-			//System.out.println("CLOSE TO INTRUDER CLOSE TO INTRUDER ");
+			System.out.println("CLOSE TO INTRUDER CLOSE TO INTRUDER ");
 			return agent.update(agent.findAngle(agent.findVectorPath(pursuitGoal)));
 		}
 		else if(agent.getCoordinates().equals(path.get(nextPathpos))) {
@@ -154,9 +173,11 @@ public class surveillanceBot  extends Bot{
 		}}
 		//if(nextPathpos+1 < path.size()) {
 		else if( nextPathpos+1 < path.size()) {
-			if(!agent.getCoordinates().equals(nextPathpos + 1) && !agent.getCoordinates().equals(path.get(nextPathpos))) {
-
+			if(!agent.getCoordinates().equals(path.get(nextPathpos + 1)) && !agent.getCoordinates().equals(path.get(nextPathpos))) {
+				System.out.println("Current coordinates: " + agent.getCoordinates());
+				System.out.println("I AM OFF TRACK");
 			// ie the agent is not on the current square of the path and not on the next one, so agent is off path
+				System.out.println("Input to update method for agent: " + agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
 			return agent.update(agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));
 		}
 			else {
@@ -172,7 +193,7 @@ public class surveillanceBot  extends Bot{
 		}
 	
 	public Point surveil() {
-		//////System.out.println("method surveil agent: " + agent);
+		System.out.println("method surveil agent: " + agent);
 		max = 0;
 		for(int i = 0; i<sectionMap.length; i++) {
 			for(int j = 0; j<sectionMap[0].length; j++) {
@@ -188,7 +209,7 @@ public class surveillanceBot  extends Bot{
 	}
 	
 	public void explore() {
-		//System.out.println("explore agent: " + agent);
+		System.out.println("explore agent: " + agent);
 		explorationComplete = true;
 		
 		//while(path.isEmpty()) {
@@ -198,6 +219,8 @@ public class surveillanceBot  extends Bot{
 				if(sectionMap[i][j]<0 && !(agent.getCoordinates().x==i && agent.getCoordinates().y==j) && map[i][j]==0 ) {
 					//System.out.println("Next point:" + i +", " + j);
 					explorationComplete = false;
+					System.out.println("AGENT COORDINATES: " + agent.getCoordinates());
+					System.out.println("SectionMap length: " + sectionMap.length + " sectionMap[0]: " + sectionMap[0].length + " i and j: " + i + ",  " + j);
 					aStar(new Point(agent.getCoordinates().x - topLeft.x, agent.getCoordinates().y - topLeft.y),new Point(i,j), false, sectionMap);
 					scaleSectionMap();
 
@@ -208,13 +231,13 @@ public class surveillanceBot  extends Bot{
 	}
 	
 	public void startPursuit(Point position) {
-		//System.out.println("Start Pursuit");
+		System.out.println("Start Pursuit");
 		top3.clear();
 		ArrayList<Bot> agents = MainApp.getSA();
 		double[] top3dist = {100000,100000,100000};
 		for(int i = 0; i<agents.size(); i++) {
 			double distance = distance(agents.get(i).agent.getPosition(), position);
-			//System.out.println("Distance: " + distance);
+			System.out.println("Distance: " + distance);
 			//if( distance <=25000) {
 				if(distance < top3dist[2]) {
 					if(distance< top3dist[1]) {
@@ -269,6 +292,7 @@ public class surveillanceBot  extends Bot{
 	
 
 	public void aStar(Point startPos, Point goal, boolean surveillance, int[][] board) {
+		System.out.println("Start pos :" + startPos);
 		System.out.println("astar goal: " + goal.x + ", " + goal.y);
 		//f = g+h
 		//reset values
@@ -300,9 +324,9 @@ public class surveillanceBot  extends Bot{
 				//System.out.println("Goal reached");
 				findPath(bestNode);
 				nextPathpos = path.size() - 1;
-				//System.out.println("Path size  :" + path.size());
+				System.out.println("Path size  :" + path.size());
 				for(int i = 0; i<path.size(); i++) {
-					//System.out.println(path.get(i));
+					System.out.println(path.get(i));
 				}
 				break;
 			}
@@ -318,8 +342,11 @@ public class surveillanceBot  extends Bot{
 							//if(map[bestNode.position.x + i][bestNode.position.y + j] == 0 ) {
 							checked = false;
 							position = new Point(bestNode.position.x + i, bestNode.position.y + j);
-							tempNode = new Node(position, bestNode, distance(position, goal), pheromoneMap[position.x][position.y], surveillance, board[position.x][position.y]);
-							
+							if(surveillance) {
+							tempNode = new Node(position, bestNode, distance(position, goal), pheromoneMap[position.x][position.y],  board[position.x][position.y]);}
+							else {
+								tempNode = new Node(position, bestNode, distance(position, goal), board[position.x][position.y]);	
+							}
 							for(int k = 0; k< closedNodes.size(); k++) {
 								if(position.x == closedNodes.get(k).position.x && position.y == closedNodes.get(k).position.y ) {
 									if(tempNode.f< closedNodes.get(k).f) {
