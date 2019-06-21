@@ -276,7 +276,7 @@ public class MainApp extends Application {
     public static Circle circle;
     public static Line line;
     public static Group root = new Group();
-	public static int amountSA = 4;
+	public static int amountSA = 1;
 	public static int amountI = 1;
 
 	//public static ArrayList<Bot> bots, botSA, botI;

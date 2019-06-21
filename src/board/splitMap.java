@@ -7,6 +7,13 @@ public class splitMap{
 	private ArrayList<Point> startingPoints = new ArrayList<Point>();
 	
 	public splitMap(int amount, Point size) {
+		if(amount == 1) {
+//			startingPoints.add(new Point(0,0));
+//			startingPoints.add(size);
+			
+			startingPoints.add(new Point((int)size.x/2,0));
+			startingPoints.add(new Point(size.x, (int)size.y/2));
+		}
 		if(amount == 2) {
 			//first agent
 			startingPoints.add(new Point(0,0));

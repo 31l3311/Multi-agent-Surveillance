@@ -117,6 +117,7 @@ public class SurveillanceAgent extends Agent{
 		}
 
 	public ArrayList update(double newA) {
+		System.out.println("UPDATE WALK CALLED");
 		if(openDoor) {
 			counter++;
 			if(counter>= (doorTime*1000)/time) {
@@ -154,6 +155,7 @@ public class SurveillanceAgent extends Agent{
 	}
 
 	public ArrayList update(boolean stop, double newAngle) {
+		System.out.println("UPDATE STOP CALLED");
 		if(openDoor) {
 			counter++;
 			if(counter>= (doorTime*1000)/time) {
@@ -170,11 +172,12 @@ public class SurveillanceAgent extends Agent{
 			}
 		}
 		if(openDoor == false && openWindow == false) {
-		this.stop = stop;
+		//this.stop = stop;
 		if(fastTurn){
 			vector = fastTurn(gon(newAngle));
 			return new ArrayList();
 		}
+		this.newAngle = gon(newAngle);
 		vector = movingTurn(gon(newAngle));
 		}
 		return look();
@@ -260,7 +263,7 @@ public class SurveillanceAgent extends Agent{
 		double u = ((time*speed)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		position.x += Math.round(1000*(u*vector.x));
 		position.y += Math.round(1000*(u*vector.y));
-		////System.out.println("Updated Position: " + position.x + ", " + position.y);
+		System.out.println("Updated Position: " + position.x + ", " + position.y);
 	}
 
 	public int[] getTranslation() {

@@ -58,6 +58,7 @@ public abstract class Agent{
 		//System.out.println("START OF TURN");
 		System.out.println("Angle = " + angle);
 		System.out.println("New angle = " + newAngle);
+		if(angle != newAngle) {
 		if(angle <= 180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
 			if(Math.abs(newAngle-angle) < 0.045*time) {
@@ -108,7 +109,7 @@ public abstract class Agent{
 					//System.out.println("Updated angle 4 : " + angle);
 				}
 			}
-		}
+		}}
 		vector = findVector(angle);
 		return vector;
 	}
@@ -379,14 +380,14 @@ public abstract class Agent{
 		if(vector.x==0 && vector.y>0){
 			tempAngle = 270;}*/
 
-	return tempAngle;
+	return gon(tempAngle);
 	}
 
 	public Point findVector(double angle) {
 		Point tempVector = new Point();
 		//System.out.println("find vector");
 		//System.out.println("angle" + angle);
-		if(angle< 90 && angle > 0) {
+		if(angle< 90 && angle >= 0) {
 			tempVector.y = (int) (-Math.tan((Math.PI*angle)/180)*10000);
 			tempVector.x = 10000;
 		}
@@ -416,7 +417,7 @@ public abstract class Agent{
 
 	//method which normalizes angles to values btwn 0 and 360
 	public double gon(double angle) {
-		if(angle>360)
+		if(angle>=360)
 			angle = angle - 360;
 		if(angle<0)
 			angle = angle + 360;
