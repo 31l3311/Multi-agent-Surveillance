@@ -1,8 +1,5 @@
-package Bots;
-
 import java.awt.Point;
 import java.util.ArrayList;
-import agent.*;
 
 
 public abstract class Bot{
@@ -71,8 +68,8 @@ public abstract class Bot{
 	public abstract Agent getAgent();
 	public abstract void setSounds(double direction);
 	
-	public void checkLocation() {
-
+	public void checkLocation(boolean bounceOfWalls) {
+	if(bounceOfWalls) {
 		try {
 			//System.out.println("agent: " + agent);
 			//System.out.println("X:" + agent.getCoordinates().x);
@@ -95,9 +92,9 @@ public abstract class Bot{
 			} else if (agent.getCoordinates().y > 49) {
 				agent.setPosition(agent.getPosition().x, agent.getPosition().y - 2000);
 			}
-		} catch(ArrayIndexOutOfBoundsException e) {}
-
-
+		} catch (ArrayIndexOutOfBoundsException e) {
+		}
+	}
 	}
 	
 	public double distance(Point start, Point end) {

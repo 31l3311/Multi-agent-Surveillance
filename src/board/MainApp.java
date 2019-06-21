@@ -1,13 +1,8 @@
-package board;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
-
-import Bots.*;
-import agent.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
@@ -269,7 +264,7 @@ public class MainApp extends Application {
     public static double gridHeight = windowHeight / columnCells;
     private Square[][] playfield = new Square[rowCells][columnCells];
     public static ArrayList<Circle> surveillanceAgents = new ArrayList<Circle>();
-    public static ArrayList<Circle>   intruders = new ArrayList<Circle>();
+    public static ArrayList<Circle> intruders = new ArrayList<Circle>();
     public static ArrayList<Line> directionSA = new ArrayList<Line>();
     public static ArrayList<Line> directionI = new ArrayList<Line>();
     public static ArrayList<Circle> sounds = new ArrayList<Circle>();
@@ -277,7 +272,7 @@ public class MainApp extends Application {
     public static Line line;
     public static Group root = new Group();
 	public static int amountSA = 4;
-	public static int amountI = 1;
+	public static int amountI = 3;
 
 	//public static ArrayList<Bot> bots, botSA, botI;
 	public static ArrayList<Bot> bots = new ArrayList<Bot>();

@@ -1,12 +1,7 @@
-package Bots;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
-import agent.*;
-import board.MainApp;
-import board.Square;
 
 public class RandomBot extends Bot{
 	private boolean surveillance;
@@ -15,9 +10,13 @@ public class RandomBot extends Bot{
 	private ArrayList bots;
 	private int x;
     private int y;
+    private double posx;
+    private double posy;
+    private Point escapeWall = new Point();
+    private MainApp main = new MainApp();
 
     public RandomBot(boolean surveillance, Point position, int time, Point size){
-    		this.position = position;
+		this.position = position;
 		this.surveillance = surveillance;
 		map = new int[size.x][size.y];
 		//System.out.println("Random Bot initialised");
@@ -58,7 +57,6 @@ public class RandomBot extends Bot{
                             return agent.update();
                         }
                     }
-               // }
                     else if (Square.board[i][j] == 5) {
                         x = i * 20;
                         y = j * 20;
@@ -77,7 +75,8 @@ public class RandomBot extends Bot{
                     }
                 }
             }
-		checkLocation();
+		checkLocation(true);
+        escapeFromWall();
 		if(agent.myDirection.size()>2 && !agent.entered && !agent.enterTower && !agent.leaveTower) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
 			//System.out.println("I should turn around now!");
@@ -110,6 +109,43 @@ public class RandomBot extends Bot{
 			//System.out.println("I see a tree!");
 		}
 	}
+	//TODO
+	public void greedyWalk() {
+	}
+
+	/**
+	 * This method check if the intruder is too close to the agent, and is close to a wall
+	 * If it is, then it escapes from the board and the game terminates with message : "Intruders escaped"
+	 */
+	public void escapeFromWall() {
+		for (int i = 0; i < main.botI.size(); i++) {
+			for (int j = 0; j < main.botSA.size(); j++) {
+				for (double k = 0; k < 3; k = k + 0.1) {
+					if ((Math.abs(main.botI.get(i).position.x - main.botSA.get(j).position.x) < 3000 ||
+							Math.abs(main.botI.get(i).position.y - main.botSA.get(j).position.y) < 3000)) {
+						if ((main.botI.get(i).position.x - k * 1000 <= 0)) {
+							posx = main.botI.get(i).position.x - k * 1000;
+						}
+						if(main.botI.get(i).position.x + k * 1000 >= 3000) {
+							posx = main.botI.get(i).position.x + k * 1000;
+						}
+
+						if(main.botI.get(i).position.y - k * 1000 <= 0) {
+							posy = main.botI.get(i).position.y - k * 1000;
+						}
+						if(main.botI.get(i).position.y + k * 1000 >= 3000){
+							posy = main.botI.get(i).position.y + k * 1000;
+						}
+						escapeWall.setLocation(posx, posy);
+						//checkLocation(false);
+						agent.update(agent.findAngle(escapeWall));
+						System.out.println("Intruders escaped!");
+						System.exit(0);
+					}
+				}
+			}
+		}
+	}
 
 //	public void updateAgent() {
 //		agent.update();
@@ -136,12 +172,4 @@ public class RandomBot extends Bot{
 		// TODO Auto-generated method stub
 
 	}
-
-
-
-
-
-
-
-
 }
