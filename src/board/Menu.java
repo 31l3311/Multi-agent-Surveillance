@@ -16,8 +16,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-
-
 import java.awt.*;
 
 

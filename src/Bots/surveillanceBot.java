@@ -2,7 +2,8 @@ package Bots;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import agent.*;
+
+import agent.SurveillanceAgent;
 import board.MainApp;
 
 public class surveillanceBot  extends Bot{
@@ -47,6 +48,7 @@ public class surveillanceBot  extends Bot{
 		}
 
 		this.topLeft = topLeft;
+
 	 	System.out.println("creating agent");
 		agent = new SurveillanceAgent(new Point((topLeft.x + 1)*1000, (topLeft.y+1)*1000), time, size );
 		pheromoneMap = new int[bottomRight.x - topLeft.x][bottomRight.y - topLeft.y];
@@ -118,7 +120,7 @@ public class surveillanceBot  extends Bot{
 		//System.out.println("SECTIONMAP 2, 13: " + sectionMap[2][13]);
 		System.out.println("topLeft: " + topLeft);
 
-		checkLocation();
+		checkLocation(true);
 		for(int i = 0; i<pheromoneMap.length; i++ ) {
 			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
 				if(pheromoneMap[i][j]!= -1) {
