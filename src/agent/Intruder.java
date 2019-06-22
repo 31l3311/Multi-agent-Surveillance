@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -14,6 +16,10 @@ public class Intruder extends Agent{
 	private ArrayList<Point> seenSquares;
 	private boolean stop;
 	private int counter;
+	private int xPositionAgent;
+	private int yPositionAgent;
+	private int lookCounter = 40;
+	private int movingCounter = 10;
 	//visual range 7.5 m
 	
 	public Intruder(Point position, int time, Point size) {
@@ -27,6 +33,9 @@ public class Intruder extends Agent{
 	}
 	
 	public ArrayList update() {
+		if (movingCounter <= 9){
+			vector = movingTurn(gon(angle + 150));
+		}
 		if(fastTurn){
 			if(!stop){
 				move(time);
@@ -125,6 +134,28 @@ public class Intruder extends Agent{
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
 		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
+
+		if ((lookCounter >= 40)) {
+			for (int i = 0; i < (MainApp.amountSA); i++) {
+				xPositionAgent = (int) (MainApp.surveillanceAgents.get(i).getCenterX() / 20);
+				yPositionAgent = (int) (MainApp.surveillanceAgents.get(i).getCenterY() / 20);
+				for (int v = 0; v < seenSquares.size(); v++) {
+					System.out.println("seensquares.get(v)is " + seenSquares.get(v));
+					System.out.println("xpositionagent is " + xPositionAgent + " ypositionagent is " + yPositionAgent);
+					if ((seenSquares.get(v).x == xPositionAgent) && (seenSquares.get(v).y == yPositionAgent)) {
+						lookCounter = 0;
+						movingCounter = 9;
+						System.out.println("angle before is " + angle);
+						System.out.println("angle after is " + angle);
+					}
+				}
+			}
+		}
+		else {
+			lookCounter++;
+			movingCounter++;
+			System.out.println("got here 2");
+		}
 		return seenSquares;
 	}
 

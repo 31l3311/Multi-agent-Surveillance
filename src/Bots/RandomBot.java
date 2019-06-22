@@ -12,8 +12,21 @@ public class RandomBot extends Bot{
     private int y;
     private double posx;
     private double posy;
-    private Point escapeWall = new Point();
+
+    private int correctorX;
+    private int correctorY;
+
+    private double targetVectorPosX;
+    private double targetVectorPosY;
+
+    private double runAwayPosX;
+    private double runAwayPosY;
+
+    private int counterEscape = 0;
+    private Point targetVector = new Point();
+    private Point escapeWallVector = new Point();
     private MainApp main = new MainApp();
+    private Square square = new Square();
 
     public RandomBot(boolean surveillance, Point position, int time, Point size){
 		this.position = position;
@@ -77,6 +90,7 @@ public class RandomBot extends Bot{
             }
 		checkLocation(true);
         escapeFromWall();
+		greedyWalk();
 		if(agent.myDirection.size()>2 && !agent.entered && !agent.enterTower && !agent.leaveTower) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
 			//System.out.println("I should turn around now!");
@@ -109,42 +123,127 @@ public class RandomBot extends Bot{
 			//System.out.println("I see a tree!");
 		}
 	}
-	//TODO
-	public void greedyWalk() {
-	}
 
 	/**
-	 * This method check if the intruder is too close to the agent, and is close to a wall
-	 * If it is, then it escapes from the board and the game terminates with message : "Intruders escaped"
+	 * This method makes the intruder check in a radius around it.
+	 * If it finds a goal it changes its vector to that target
+	 * If it finds an agent it attempt to run away. It will have the same vector as the agent,
+	 * and since it is faster, it will generally outrun it (in a straight line, that is)
 	 */
-	public void escapeFromWall() {
+	public void greedyWalk() {
 		for (int i = 0; i < main.botI.size(); i++) {
 			for (int j = 0; j < main.botSA.size(); j++) {
-				for (double k = 0; k < 3; k = k + 0.1) {
-					if ((Math.abs(main.botI.get(i).position.x - main.botSA.get(j).position.x) < 3000 ||
-							Math.abs(main.botI.get(i).position.y - main.botSA.get(j).position.y) < 3000)) {
-						if ((main.botI.get(i).position.x - k * 1000 <= 0)) {
-							posx = main.botI.get(i).position.x - k * 1000;
-						}
-						if(main.botI.get(i).position.x + k * 1000 >= 3000) {
-							posx = main.botI.get(i).position.x + k * 1000;
-						}
+				for (int radius = 0; radius < 10; radius++) {
+					//Below is checking for agents
+//					if(Math.abs(main.botI.get(i).getAgent().getCoordinates().x - main.botSA.get(j).getAgent().getCoordinates().x) < 4 && Math.abs(main.botI.get(i).getAgent().getCoordinates().y - main.botSA.get(j).getAgent().getCoordinates().y) < 4) {
+//						Point intruderVector = main.botSA.get(j).getAgent().vector;
+//						//agent.update(agent.findAngle(intruderVector));
+//						agent.findAngle(intruderVector);
+//						System.out.println("I DID THE THING");
+//					}
 
-						if(main.botI.get(i).position.y - k * 1000 <= 0) {
-							posy = main.botI.get(i).position.y - k * 1000;
-						}
-						if(main.botI.get(i).position.y + k * 1000 >= 3000){
-							posy = main.botI.get(i).position.y + k * 1000;
-						}
-						escapeWall.setLocation(posx, posy);
-						//checkLocation(false);
-						agent.update(agent.findAngle(escapeWall));
-						System.out.println("Intruders escaped!");
-						System.exit(0);
+					//Below is the checking for the target
+					//System.out.println("1 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x) + " " +(main.botI.get(i).getAgent().getCoordinates().y + radius));
+					//System.out.println(" ");
+					if(square.board[correctBounds(main.botI.get(i).getAgent().getCoordinates().x, main.botI.get(i).getAgent().getCoordinates().y + radius).x][correctBounds(main.botI.get(i).getAgent().getCoordinates().x, main.botI.get(i).getAgent().getCoordinates().y + radius).y] == 6) {
+
+						targetVectorPosX = square.getTargetCoordinates().x;
+						targetVectorPosY = square.getTargetCoordinates().y;
+						targetVector.setLocation(targetVectorPosX, targetVectorPosY);
+						agent.update(agent.findAngle(targetVector));
+					}
+					//loop for a seperate radius in x and y direction for all squares surrounding intruder
+					//System.out.println("2 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x + radius) + " " +(main.botI.get(i).getAgent().getCoordinates().y));
+					//System.out.println(" ");
+
+					if(square.board[correctBounds(main.botI.get(i).getAgent().getCoordinates().x + radius, main.botI.get(i).getAgent().getCoordinates().y).x][correctBounds(main.botI.get(i).getAgent().getCoordinates().x + radius, main.botI.get(i).getAgent().getCoordinates().y).y] == 6) {
+						targetVectorPosX = square.getTargetCoordinates().x;
+						targetVectorPosY = square.getTargetCoordinates().y;
+						targetVector.setLocation(targetVectorPosX, targetVectorPosY);
+						agent.update(agent.findAngle(targetVector));
+
+					}
+					//System.out.println("3 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x) + " " +(main.botI.get(i).getAgent().getCoordinates().y - radius));
+					//System.out.println(" ");
+					if(square.board[correctBounds(main.botI.get(i).getAgent().getCoordinates().x, main.botI.get(i).getAgent().getCoordinates().y - radius).x][correctBounds(main.botI.get(i).getAgent().getCoordinates().x, main.botI.get(i).getAgent().getCoordinates().y - radius).y] == 6) {
+
+						targetVectorPosX = square.getTargetCoordinates().x;
+						targetVectorPosY = square.getTargetCoordinates().y;
+						targetVector.setLocation(targetVectorPosX, targetVectorPosY);
+						agent.update(agent.findAngle(targetVector));
+
+					}
+					//System.out.println("4 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x - radius) + " " +(main.botI.get(i).getAgent().getCoordinates().y));
+					//System.out.println(" ");
+					if(square.board[correctBounds(main.botI.get(i).getAgent().getCoordinates().x - radius, main.botI.get(i).getAgent().getCoordinates().y).x][correctBounds(main.botI.get(i).getAgent().getCoordinates().x - radius, main.botI.get(i).getAgent().getCoordinates().y).y] == 6) {
+
+						targetVectorPosX = square.getTargetCoordinates().x;
+						targetVectorPosY = square.getTargetCoordinates().y;
+						targetVector.setLocation(targetVectorPosX, targetVectorPosY);
+						agent.update(agent.findAngle(targetVector));
 					}
 				}
 			}
 		}
+	}
+
+	public Point correctBounds(int x, int y) {
+		while(x < 0) {
+			x++;
+		}
+		while(x > 49) {
+			x--;
+		}
+		while(y < 0) {
+			y++;
+		}
+		while(y > 49) {
+			y--;
+		}
+		Point correctorPoint = new Point();
+		correctorPoint.setLocation(x, y);
+		return correctorPoint;
+	}
+
+	/**
+	 * This method check if the intruder is too close to the agent, and is close to a wall
+	 * If it is, then it escapes from the board and the game terminates with message : "Intruders escaped!"
+	 */
+	public void escapeFromWall() {
+
+			for (int i = 0; i < main.botI.size(); i++) {
+				for (int j = 0; j < main.botSA.size(); j++) {
+					for (double k = 0; k < 3; k = k + 0.1) {
+						if ((Math.abs(main.botI.get(i).position.x - main.botSA.get(j).position.x) < 2000 ||
+								Math.abs(main.botI.get(i).position.y - main.botSA.get(j).position.y) < 2000)) {
+							if ((main.botI.get(i).position.x - k * 1000 <= 0)) {
+								posx = main.botI.get(i).position.x - k * 1000;
+							}
+							if (main.botI.get(i).position.x + k * 1000 >= 50000) {
+								posx = main.botI.get(i).position.x + k * 1000;
+							}
+
+							if (main.botI.get(i).position.y - k * 1000 <= 0) {
+								posy = main.botI.get(i).position.y - k * 1000;
+							}
+							if (main.botI.get(i).position.y + k * 1000 >= 50000) {
+								posy = main.botI.get(i).position.y + k * 1000;
+							}
+							if(counterEscape < 60) {
+								counterEscape++;
+							}
+							else if(counterEscape == 60) {
+								escapeWallVector.setLocation(posx, posy);
+								agent.update(agent.findAngle(escapeWallVector));
+								System.out.println("Intruders escaped!");
+								counterEscape = 0;
+								System.exit(0);
+							}
+
+						}
+					}
+				}
+			}
 	}
 
 //	public void updateAgent() {
