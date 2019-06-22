@@ -3,6 +3,8 @@ package agent;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import board.MainApp;
+
 public class SurveillanceAgent extends Agent{
 
 	//speed per millisecond
@@ -46,6 +48,9 @@ public class SurveillanceAgent extends Agent{
 			}
 			return new ArrayList();
 		}
+		if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1) {
+			enterTower();
+		}
 	    if(enterTower == true){
 	        timeTower++;
 	        if(timeTower >= 50){
@@ -60,11 +65,11 @@ public class SurveillanceAgent extends Agent{
         }
         if(entered == true){
 	        enterTower();
-	        /* to leave the tower after 12 seconds
+	        // to leave the tower after 8 seconds
 	        timeTower++;
-	        if(timeTower > 200){
+	        if(timeTower > 160){
 	            leaveTower();
-            }*/
+            }
 	        return lookTower();
         }
         if(leaveTower == true){
@@ -139,6 +144,9 @@ public class SurveillanceAgent extends Agent{
 
 				move(time);
 		}
+			if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1) {
+				enterTower();
+			}
 		//System.out.println("New angle before gon: " + newA);
 		this.newAngle = gon(newA);
 		//System.out.println("New angle after gon: " + newAngle);
@@ -170,6 +178,9 @@ public class SurveillanceAgent extends Agent{
 				openWindow = false;
 				counter = 0;
 			}
+		}
+		if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1) {
+			enterTower();
 		}
 		if(openDoor == false && openWindow == false) {
 		//this.stop = stop;
@@ -237,6 +248,7 @@ public class SurveillanceAgent extends Agent{
             enterTower = true;
             stop = true;
             timeTower = 0;
+            position = new Point(getCoordinates().x*1000 + 500, getCoordinates().y*1000 + 500);
         }
         else if(entered == true){
             ////System.out.println("angle " + angle);

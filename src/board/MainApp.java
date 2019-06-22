@@ -277,7 +277,7 @@ public class MainApp extends Application {
     public static Group root = new Group();
 
 	public static int amountSA = 5;
-	public static int amountI = 1;
+	public static int amountI = 0;
 
 
 	//public static ArrayList<Bot> bots, botSA, botI;
