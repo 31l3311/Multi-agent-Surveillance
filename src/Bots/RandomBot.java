@@ -1,4 +1,7 @@
 import java.awt.Point;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
@@ -63,7 +66,6 @@ public class RandomBot extends Bot{
 //						MainApp.circle.setCenterX(sentryx);
 //						MainApp.circle.setCenterY(sentryy);
                         if (surveillance && !agent.entered && !agent.enterTower && !agent.leaveTower) {
-                            System.out.println("SENTRYTOWER");
                             agent.enterTower();
 							agent.position.x = ((x*50) + 500);
 							agent.position.y = ((y*50) + 500);
@@ -237,6 +239,20 @@ public class RandomBot extends Bot{
 								agent.update(agent.findAngle(escapeWallVector));
 								System.out.println("Intruders escaped!");
 								counterEscape = 0;
+
+								long endTime = System.currentTimeMillis();
+								long timeElapsed = (endTime - MainApp.startTimeProgram)/1000;
+								System.out.println("Execution time in milliseconds: " + timeElapsed);
+
+								try {
+									Writer wr = new FileWriter("intruderEscapeTimes.txt", true);
+									wr.write(timeElapsed + "" + " ");
+									wr.close();
+								}
+								catch(IOException e) {
+									e.printStackTrace();
+								}
+
 								System.exit(0);
 							}
 
