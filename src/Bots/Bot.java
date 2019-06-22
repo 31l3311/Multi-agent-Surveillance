@@ -75,9 +75,9 @@ public abstract class Bot{
 	public void checkLocation(boolean bounceOfWalls) {
 	if(bounceOfWalls) {
 		try {
-			//System.out.println("agent: " + agent);
-			//System.out.println("X:" + agent.getCoordinates().x);
-			//System.out.println("Y: " + agent.getCoordinates().y);
+			////System.out.println("agent: " + agent);
+			////System.out.println("X:" + agent.getCoordinates().x);
+			////System.out.println("Y: " + agent.getCoordinates().y);
 			if (agent.getCoordinates().x > 0 && agent.getCoordinates().y > 0) {
 				int obstacle = map[agent.getCoordinates().x][agent.getCoordinates().y];
 
