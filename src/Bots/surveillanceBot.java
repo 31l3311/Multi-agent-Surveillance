@@ -302,7 +302,12 @@ public class surveillanceBot  extends Bot{
 	
 	for(int i = 0; i<sectionMap.length; i++) {
 		for(int j = 0; j<sectionMap[0].length; j++) {
-			System.out.print("[" + sectionMap[i][j] + "]");
+			if(agent.getCoordinates().equals(new Point(topLeft.x+i, topLeft.y + j))){
+				System.out.print("[ A ]");
+			}
+			else {
+				System.out.print("[" + sectionMap[i][j] + "]");
+			}
 		}
 		System.out.println();
 	}
