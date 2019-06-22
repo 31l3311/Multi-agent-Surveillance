@@ -2,7 +2,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class surveillanceBot  extends Bot{
-	
+
 	//private SurveillanceAgent agent;
 	//private int[][] map;
 	private int[][] sectionMap;
@@ -13,11 +13,11 @@ public class surveillanceBot  extends Bot{
 	private Point nextPosition;
 	private Point currentPosition = new Point(0,0);
 	private ArrayList<Bot> top3 = new ArrayList<Bot>();
-	
+
 	//walking
 	int nextPathpos;
 	private Point pursuitCoordinates;
-	
+
 	//astar
 	private ArrayList<Node> closedNodes= new ArrayList<Node>();
 	private ArrayList<Node> openNodes= new ArrayList<Node>();
@@ -54,16 +54,16 @@ public class surveillanceBot  extends Bot{
 
 //		for(int i = 0; i<pheromoneMap.length; i++ ) {
 //			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
-//				if(map[i][j]!= 0) 
+//				if(map[i][j]!= 0)
 //					{pheromoneMap[i][j] = -1;}
 //			}
 //		}
-		
+
 	}
-	
+
 	public void updateMap(Point loc, int i) {
 		//System.out.println("Updating map at location: " + loc);
-	
+
 		if(loc.x>=topLeft.x && loc.x<(sectionMap.length + topLeft.x) &&loc.y>=topLeft.y && loc.y<(sectionMap[0].length + topLeft.y)) {
 			if(i == 1 && sectionMap[loc.x - topLeft.x][loc.y - topLeft.y] == -1 ) {
 				//System.out.println("Sentry tower added at : " + loc);
@@ -75,66 +75,79 @@ public class surveillanceBot  extends Bot{
 				pheromoneMap[loc.x- topLeft.x][loc.y- topLeft.y] = -1;
 			}
 		}
-		
+
 		map[loc.x][loc.y] = i;
 		for(int j = 0; j<seenPath.size(); j++) {
 			if(loc.equals(seenPath.get(j))) {
 				seenPath.remove(j);
 			}
 		}
-		
+
 //		for(int k = 0; k<sectionMap.length; k++) {
 //			for(int l = 0; l<sectionMap[0].length; l++) {
 //				//System.out.print("[" + sectionMap[k][l]+"]");
 //				}
 //			//System.out.println();
 //			}
-		
+
 		}
 
-	
-	
+
+
 	public SurveillanceAgent getAgent() {
 		return (SurveillanceAgent) agent;
 	}
-	
+
 	public ArrayList update() {
-		System.out.println("UPDATE UPDATE UPDATE UPDATE UPDTA EUPDBAUHDECJKRBCJKBRKJCBJKENBCJKENBCKJBNCJKNE: " + agent);
+		//System.out.println("UPDATE UPDATE UPDATE UPDATE UPDTA EUPDBAUHDECJKRBCJKBRKJCBJKENBCJKENBCKJBNCJKNE: " + agent);
 		//update pheromonemap
 
 		////System.out.println("Location: " + agent.getCoordinates());
 		////System.out.println("SECTIONMAP 2, 13: " + sectionMap[2][13]);
 		//System.out.println("topLeft: " + topLeft);
-
+		for(int i = 0; i<sentryTowers.size(); i++) {
+		if(!agent.getCoordinates().equals(sentryTowers.get(i))) {
+			getAgent().setLeftTower(false);
+		}
+			}
 		checkLocation(true);
 		for(int i = 0; i<pheromoneMap.length; i++ ) {
 			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
 				if(pheromoneMap[i][j]!= -1) {
 				pheromoneMap[i][j]+=1;}
-			
+
 		}}
-		
+
 		boolean change = true;
 		outerloop:
 		for(int k = 0; k<sectionMap.length; k++) {
 			for(int l = 0; l<sectionMap[0].length; l++) {
 				if(sectionMap[k][l] == -1) {
-					System.out.println("Found unexplored square");
-					System.out.println("and " + explorationComplete);
+//					System.out.println("Found unexplored square");
+//					System.out.println("and " + explorationComplete);
 					change = false;
 					break outerloop;
 				}
 				}
-			
+
 			}
 		if(change) {
-				System.out.println("EXPLORATION COMPLETE");
+//				System.out.println("EXPLORATION COMPLETE");
 				explorationComplete = true;
 		}
-		
+
 		//update agent
 		if(agent.enterTower || agent.entered || agent.leaveTower) {
-			System.out.println("IM ON A TOWER");
+			if(agent.enterTower) {
+				System.out.println("I AM ENTERING A tower");
+			}
+			if(agent.entered) {
+				System.out.println("IM ON A TOWER");
+			}
+			if(agent.leaveTower) {
+				System.out.println("I am trying to leave the tower");
+			}
+
 				return agent.update();
 		}
 		else {
@@ -155,7 +168,7 @@ public class surveillanceBot  extends Bot{
 			}
 		}
 		else if ((agent.getCoordinates().x - topLeft.x) < 0 || (agent.getCoordinates().y - topLeft.y)<0) {
-			System.out.println("OUT OF BOUNDS !!");
+//			System.out.println("OUT OF BOUNDS !!");
 			Point backInBounds = new Point(0,0);
 			outerloop:
 			for(int i = 0; i< sectionMap.length; i++) {
@@ -186,7 +199,7 @@ public class surveillanceBot  extends Bot{
 		}
 		if(!pursuit && !agent.enterTower && !agent.entered) {
 		while(agent.getCoordinates().equals(path.get(0))) {
-			System.out.println("WHILE LOOP");
+//			System.out.println("WHILE LOOP");
 			if(explorationComplete) {
 			aStar(new Point(agent.getCoordinates().x - topLeft.x, agent.getCoordinates().y - topLeft.y), surveil(), true, sectionMap);
 			}
@@ -195,15 +208,15 @@ public class surveillanceBot  extends Bot{
 			}
 			scaleSectionMap();}
 		}
-		
-		System.out.println("Path  " + path);
-		System.out.println("Path next position " + path.get(nextPathpos));
+
+//		System.out.println("Path  " + path);
+//		System.out.println("Path next position " + path.get(nextPathpos));
 //		nextPosition = new Point(path.get(nextPathpos).x + topLeft.x, path.get(nextPathpos).y + topLeft.y);
 //		if(nextPathpos +1 < path.size()) {
 //		currentPosition = new Point(path.get(nextPathpos + 1).x + topLeft.x, path.get(nextPathpos + 1).y + topLeft.y);}
 
-		
-		
+
+
 		if(pursuit && position.equals(pursuitCoordinates)) {
 			//System.out.println("CLOSE TO INTRUDER CLOSE TO INTRUDER ");
 			return agent.update(agent.findAngle(agent.findVectorPath(pursuitGoal)));
@@ -228,7 +241,7 @@ public class surveillanceBot  extends Bot{
 					return agent.update(true,agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));}
 				else {
 					return agent.update(agent.findAngle(agent.findVectorPath(path.get(nextPathpos))));}
-				
+
 		}
 			else {
 				////System.out.println("else statement");
@@ -241,9 +254,9 @@ public class surveillanceBot  extends Bot{
 		}
 		}
 		}
-	
+
 	public Point surveil() {
-		System.out.println("method surveil agent: " + agent + " should it surveil? " + explorationComplete);
+//		System.out.println("method surveil agent: " + agent + " should it surveil? " + explorationComplete);
 		max = 0;
 		for(int i = 0; i<sectionMap.length; i++) {
 			for(int j = 0; j<sectionMap[0].length; j++) {
@@ -254,27 +267,27 @@ public class surveillanceBot  extends Bot{
 			}
 		}
 		for(int k = 0; k < sentryTowers.size(); k++) {
-			if (distance(sentryTowers.get(k), bestLoc)<15 && distance(sentryTowers.get(k), bestLoc)>2) {
+			if (distance(sentryTowers.get(k), bestLoc)<15 && distance(sentryTowers.get(k), bestLoc)>2 && !agent.getCoordinates().equals(sentryTowers.get(k))) {
 				return sentryTowers.get(k);
 			}
 		}
 		////////System.out.println("method surveil 2 agent: " + agent);
 		return bestLoc;
-		
+
 	}
-	
+
 	public void explore() {
-		System.out.println("explore agent: " + agent);
+//		System.out.println("explore agent: " + agent);
 		explorationComplete = true;
 		int[][] controlExplore = new int[sectionMap.length][sectionMap[0].length];
 		outerloop:
 		for(int c = 1; c<Math.max(sectionMap.length, sectionMap[0].length); c++) {
-			System.out.println("c: " + c);
+//			System.out.println("c: " + c);
 			for(int i = -c; i<c ; i++) {
-				System.out.println("i: " + i);
+//				System.out.println("i: " + i);
 				for(int j = -c; j<c; j++) {
 					if(Math.abs(i) == c || Math.abs(j)== c) {
-					System.out.println("j: " + j);
+//					System.out.println("j: " + j);
 					//System.out.println("coordinates: " + agent.getCoordinates());
 					//System.out.println("sectionMap : " + sectionMap.length + ",  "+ sectionMap[0].length);
 					//System.out.println( (agent.getCoordinates().x + i - topLeft.x) + "<" + sectionMap.length + "&&" + (agent.getCoordinates().x + i ) +">" + topLeft.x + "&&" + (agent.getCoordinates().y + j - topLeft.y) + "<" + sectionMap[0].length + "&&" +( agent.getCoordinates().y + j )+ ">" + topLeft.y);
@@ -296,52 +309,52 @@ public class surveillanceBot  extends Bot{
 						//System.out.println(Math.abs(i) +  "==" + c  + "||" +  Math.abs(j) + "==" + c);
 						//if(i!=0 || j !=0) {
 						controlExplore[agent.getCoordinates().x + x - topLeft.x][agent.getCoordinates().y + y - topLeft.y] = 1;
-						System.out.println("sectionMap value: " + sectionMap[agent.getCoordinates().x + x - topLeft.x][agent.getCoordinates().y + y - topLeft.y]);
+//						System.out.println("sectionMap value: " + sectionMap[agent.getCoordinates().x + x - topLeft.x][agent.getCoordinates().y + y - topLeft.y]);
 						if(sectionMap[agent.getCoordinates().x + x- topLeft.x][agent.getCoordinates().y + y- topLeft.y] == -1) {
 							explorationComplete = false;
-							System.out.println("exploration not complete and calling astar");
+//							System.out.println("exploration not complete and calling astar");
 							Point goal = new Point(agent.getCoordinates().x + x - topLeft.x, agent.getCoordinates().y + y - topLeft.y);
 							//System.out.println("SectionMap length: " + sectionMap.length + " sectionMap[0]: " + sectionMap[0].length + " i and j: " + i + ",  " + j);
 							for(int k = 0; k < sentryTowers.size(); k++) {
-								if (distance(sentryTowers.get(k), goal)<15 && distance(sentryTowers.get(k), goal)>2) {
+								if (distance(sentryTowers.get(k), goal)<15 && distance(sentryTowers.get(k), goal)>2 && !agent.getCoordinates().equals(sentryTowers.get(k))) {
 									System.out.println("Changing goal to sentry tower");
 									goal = new Point(sentryTowers.get(k).x - topLeft.x, sentryTowers.get(k).y - topLeft.y);
 								}
 							}
-							System.out.println("area: " + topLeft + " - " + bottomRight);
+//							System.out.println("area: " + topLeft + " - " + bottomRight);
 							aStar(new Point(agent.getCoordinates().x - topLeft.x, agent.getCoordinates().y - topLeft.y),goal , false, sectionMap);
 							scaleSectionMap();
 							break outerloop;
 						}
 					}
-					
+
 				}
 			}
 		}
-		
+
 		}
-		
-		System.out.println("Finished outerloop");
-	System.out.println(agent.getCoordinates() + " -" + topLeft);
+
+//		System.out.println("Finished outerloop");
+//	System.out.println(agent.getCoordinates() + " -" + topLeft);
 	for(int i = 0; i<sectionMap.length; i++) {
 		for(int j = 0; j<sectionMap[0].length; j++) {
 			if(agent.getCoordinates().equals(new Point(topLeft.x+i, topLeft.y + j))){
-				System.out.print("[A]");
+//				System.out.print("[A]");
 			}
 			else if(controlExplore[i][j] == 1) {
-				System.out.print("(" + sectionMap[i][j] + ")");
+//				System.out.print("(" + sectionMap[i][j] + ")");
 			}
 			else {
-				System.out.print("[" + sectionMap[i][j] + "]");
+//				System.out.print("[" + sectionMap[i][j] + "]");
 			}
 		}
-		System.out.println();
+//		System.out.println();
 	}
-		
+
 	}
-	
+
 	public void startPursuit(Point position) {
-		System.out.println("Start Pursuit");
+//		System.out.println("Start Pursuit");
 		top3.clear();
 		ArrayList<Bot> agents = MainApp.getSA();
 		double[] top3dist = {100000,100000,100000};
@@ -382,40 +395,40 @@ public class surveillanceBot  extends Bot{
 			top3.get(i).pursuitGoal = position;
 		}
 	}
-	
+
 	public void scaleSectionMap() {
 		for(int i = 0; i<path.size(); i++) {
 			path.set(i, new Point(path.get(i).x + topLeft.x, path.get(i).y + topLeft.y));
 		}
 	}
-	
-	
+
+
 
 	public void aStar(Point startPos, Point goal, boolean surveillance, int[][] board) {
-		
+
 //		if(startPos.x<0 || startPos.y<0) {
 //			startPos = new Point(startPos.x + topLeft.x, startPos.y + topLeft.y);
 //			goal = new Point(goal.x + topLeft.x, goal.y + topLeft.y);
 //			board = map;
 //		}
-		System.out.println("Start pos :" + startPos);
-		System.out.println("astar goal: " + goal.x + ", " + goal.y);
+//		System.out.println("Start pos :" + startPos);
+//		System.out.println("astar goal: " + goal.x + ", " + goal.y);
 		//f = g+h
 		//reset values
 		path.clear();
 		seenPath.clear();
 		openNodes.clear();
 		closedNodes.clear();
-		
-		
+
+
 		//startPos = agent.getCoordinates();
 		startNode = new Node(startPos, distance(startPos, goal), surveillance);
 		openNodes.add(startNode);
 		while(!openNodes.isEmpty()) {
-			System.out.println("WHILE LOOP WHILE LOOP WHILE LOOP");
-		//////System.out.println("goal node" + goal.x +", " + goal.y);	
+//			System.out.println("WHILE LOOP WHILE LOOP WHILE LOOP");
+		//////System.out.println("goal node" + goal.x +", " + goal.y);
 			for(int i = 0; i<openNodes.size(); i++) {
-				//System.out.println("Open nodes wl: " + openNodes.get(i));	
+				//System.out.println("Open nodes wl: " + openNodes.get(i));
 				}
 			bestNode = openNodes.get(0);
 			for(int i = 0; i<openNodes.size(); i++) {
@@ -423,19 +436,19 @@ public class surveillanceBot  extends Bot{
 					bestNode = openNodes.get(i);
 				}
 			}
-			System.out.println("Best Node position: " + bestNode.position);
+//			System.out.println("Best Node position: " + bestNode.position);
 			openNodes.remove(bestNode);
 			closedNodes.add(bestNode);
-			//////System.out.println("best node" + bestNode.position.x +", " + bestNode.position.y);	
-			
+			//////System.out.println("best node" + bestNode.position.x +", " + bestNode.position.y);
+
 			if(bestNode.position.x == goal.x && bestNode.position.y == goal.y ) {
-				System.out.println("Goal reached");
+//				System.out.println("Goal reached");
 				findPath(bestNode);
 				nextPathpos = path.size() - 1;
-				
-				System.out.println("Path size  :" + path.size());
+
+//				System.out.println("Path size  :" + path.size());
 				for(int i = 0; i<path.size(); i++) {
-					System.out.println(path.get(i));
+//					System.out.println(path.get(i));
 				}
 				break;
 			}
@@ -454,7 +467,7 @@ public class surveillanceBot  extends Bot{
 							if(surveillance) {
 							tempNode = new Node(position, bestNode, distance(position, goal), pheromoneMap[position.x][position.y],  board[position.x][position.y]);}
 							else {
-								tempNode = new Node(position, bestNode, distance(position, goal), board[position.x][position.y]);	
+								tempNode = new Node(position, bestNode, distance(position, goal), board[position.x][position.y]);
 							}
 							for(int k = 0; k< closedNodes.size(); k++) {
 								if(position.x == closedNodes.get(k).position.x && position.y == closedNodes.get(k).position.y ) {
@@ -465,7 +478,7 @@ public class surveillanceBot  extends Bot{
 									checked = true;
 								}
 							}
-							
+
 							if(checked == false) {
 							for(int k = 0; k< openNodes.size() ; k++) {
 								if(position.x == openNodes.get(k).position.x && position.y == openNodes.get(k).position.y) {
@@ -477,7 +490,7 @@ public class surveillanceBot  extends Bot{
 									checked = true;
 								}
 							}}
-							
+
 							if(checked == false) {
 								//if(sectionMap[tempNode.position.x][tempNode.position.y] <= 0){
 								if(board[tempNode.position.x][tempNode.position.y] != 2) {
@@ -487,24 +500,24 @@ public class surveillanceBot  extends Bot{
 						}}//}
 					}}
 				}
-			
+
 			}
 		}
 		//////System.out.println("a star 2 agent: " + agent);
 	}
-	
+
 	public void findPath(Node node){
 		path.add(node.position);
 		seenPath.add(node.position);
 		if(node != startNode) {
 		findPath(node.parent); }
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void setSounds(double direction) {
 		sounds.add(direction);
-		
+
 	}
 }
