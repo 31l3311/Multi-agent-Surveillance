@@ -21,6 +21,7 @@ public class SurveillanceAgent extends Agent{
 	private Point tempVector = new Point();
 	private ArrayList info = new ArrayList();
 	private int counter;
+	private boolean leftTower;
 
 	public SurveillanceAgent(Point position, int time, Point size) {
 		speed = BASESPEED;
@@ -47,9 +48,6 @@ public class SurveillanceAgent extends Agent{
 				fastTurn = false;
 			}
 			return new ArrayList();
-		}
-		if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1) {
-			enterTower();
 		}
 	    if(enterTower == true){
 	        timeTower++;
@@ -82,6 +80,9 @@ public class SurveillanceAgent extends Agent{
                 return new ArrayList();
             }
         }
+        if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1 && leftTower == false ) {
+			enterTower();
+		}
 		if(shade){
 			move(time);
 			////System.out.println(1);
@@ -144,7 +145,7 @@ public class SurveillanceAgent extends Agent{
 
 				move(time);
 		}
-			if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1) {
+			if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1 && leftTower== false) {
 				enterTower();
 			}
 		//System.out.println("New angle before gon: " + newA);
@@ -179,7 +180,7 @@ public class SurveillanceAgent extends Agent{
 				counter = 0;
 			}
 		}
-		if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1) {
+		if(MainApp.board[getCoordinates().x][getCoordinates().y] == 1 && leaveTower== false) {
 			enterTower();
 		}
 		if(openDoor == false && openWindow == false) {
@@ -194,6 +195,9 @@ public class SurveillanceAgent extends Agent{
 		return look();
 	}
 
+	public void setLeftTower(boolean hi) {
+		leftTower = hi;
+	}
 	public ArrayList look() {
 		System.runFinalization();
 		seenSquares.clear();
@@ -266,6 +270,7 @@ public class SurveillanceAgent extends Agent{
             enterTower = false;
             entered = false;
             timeTower = 0;
+            leftTower = true;
     }
 
 	@Override

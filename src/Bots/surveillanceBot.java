@@ -110,7 +110,11 @@ public class surveillanceBot  extends Bot{
 		////System.out.println("Location: " + agent.getCoordinates());
 		////System.out.println("SECTIONMAP 2, 13: " + sectionMap[2][13]);
 		//System.out.println("topLeft: " + topLeft);
-
+		for(int i = 0; i<sentryTowers.size(); i++) {
+		if(!agent.getCoordinates().equals(sentryTowers.get(i))) {
+			getAgent().setLeftTower(false);
+		}
+			}
 		checkLocation(true);
 		for(int i = 0; i<pheromoneMap.length; i++ ) {
 			for(int j = 0; j<pheromoneMap[0].length; j++ ) {
@@ -139,7 +143,16 @@ public class surveillanceBot  extends Bot{
 		
 		//update agent
 		if(agent.enterTower || agent.entered || agent.leaveTower) {
-			System.out.println("IM ON A TOWER");
+			if(agent.enterTower) {
+				System.out.println("I AM ENTERING A tower");
+			}
+			if(agent.entered) {
+				System.out.println("IM ON A TOWER");
+			}
+			if(agent.leaveTower) {
+				System.out.println("I am trying to leave the tower");
+			}
+			
 				return agent.update();
 		}
 		else {
@@ -259,7 +272,7 @@ public class surveillanceBot  extends Bot{
 			}
 		}
 		for(int k = 0; k < sentryTowers.size(); k++) {
-			if (distance(sentryTowers.get(k), bestLoc)<15 && distance(sentryTowers.get(k), bestLoc)>2) {
+			if (distance(sentryTowers.get(k), bestLoc)<15 && distance(sentryTowers.get(k), bestLoc)>2 && !agent.getCoordinates().equals(sentryTowers.get(k))) {
 				return sentryTowers.get(k);
 			}
 		}
@@ -275,9 +288,9 @@ public class surveillanceBot  extends Bot{
 		outerloop:
 		for(int c = 1; c<Math.max(sectionMap.length, sectionMap[0].length); c++) {
 			System.out.println("c: " + c);
-			for(int i = -c; i<c ; i++) {
+			for(int i = -c; i<=c ; i++) {
 				System.out.println("i: " + i);
-				for(int j = -c; j<c; j++) {
+				for(int j = -c; j<=c; j++) {
 					if(Math.abs(i) == c || Math.abs(j)== c) {
 					System.out.println("j: " + j);
 					//System.out.println("coordinates: " + agent.getCoordinates());
@@ -308,7 +321,7 @@ public class surveillanceBot  extends Bot{
 							Point goal = new Point(agent.getCoordinates().x + x - topLeft.x, agent.getCoordinates().y + y - topLeft.y);
 							//System.out.println("SectionMap length: " + sectionMap.length + " sectionMap[0]: " + sectionMap[0].length + " i and j: " + i + ",  " + j);
 							for(int k = 0; k < sentryTowers.size(); k++) {
-								if (distance(sentryTowers.get(k), goal)<15 && distance(sentryTowers.get(k), goal)>2) {
+								if (distance(sentryTowers.get(k), goal)<15 && distance(sentryTowers.get(k), goal)>2 && !agent.getCoordinates().equals(sentryTowers.get(k))) {
 									System.out.println("Changing goal to sentry tower");
 									goal = new Point(sentryTowers.get(k).x - topLeft.x, sentryTowers.get(k).y - topLeft.y);
 								}
