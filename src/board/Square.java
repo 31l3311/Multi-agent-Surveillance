@@ -1,5 +1,3 @@
-package board;
-
 import com.sun.org.apache.regexp.internal.REDebugCompiler;
 import javafx.scene.input.MouseEvent;
 import com.sun.org.apache.regexp.internal.RE;
@@ -10,6 +8,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
+
+import java.awt.*;
 import java.util.Properties;
 
 public class Square extends StackPane {
@@ -19,6 +19,7 @@ public class Square extends StackPane {
     public static boolean getCleared = false;
     public double targetX;
     public double targetY;
+    public static Point targetVector = new Point();
     public static int [][] board= {
             {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
             {2,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
@@ -253,5 +254,15 @@ public class Square extends StackPane {
                 targetY = e.getSceneY();
             }
         }
+    }
+    public static Point getTargetCoordinates() {
+        for(int i=0; i<50;i++) {
+            for(int j=0;j<50;j++) {
+                if(board[i][j] == 6) {
+                    targetVector.setLocation(i,j);
+                }
+            }
+        }
+        return targetVector;
     }
 }

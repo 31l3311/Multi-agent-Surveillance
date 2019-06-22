@@ -1,9 +1,5 @@
-package Bots;
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-import agent.*;
 
 
 public abstract class Bot{

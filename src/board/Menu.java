@@ -1,5 +1,3 @@
-package board;
-
 import com.sun.prism.paint.Color;
 import javafx.event.ActionEvent;
 import javax.swing.event.ChangeEvent;

@@ -1,10 +1,5 @@
-package Bots;
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-import agent.SurveillanceAgent;
-import board.MainApp;
 
 public class surveillanceBot  extends Bot{
 	
