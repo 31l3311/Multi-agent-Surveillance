@@ -138,8 +138,8 @@ public class Intruder extends Agent{
 				xPositionAgent = (int) (MainApp.surveillanceAgents.get(i).getCenterX() / 20);
 				yPositionAgent = (int) (MainApp.surveillanceAgents.get(i).getCenterY() / 20);
 				for (int v = 0; v < seenSquares.size(); v++) {
-					System.out.println("seensquares.get(v)is " + seenSquares.get(v));
-					System.out.println("xpositionagent is " + xPositionAgent + " ypositionagent is " + yPositionAgent);
+//					System.out.println("seensquares.get(v)is " + seenSquares.get(v));
+//					System.out.println("xpositionagent is " + xPositionAgent + " ypositionagent is " + yPositionAgent);
 					if ((seenSquares.get(v).x == xPositionAgent) && (seenSquares.get(v).y == yPositionAgent)) {
 						lookCounter = 0;
 						movingCounter = 9;
@@ -152,7 +152,7 @@ public class Intruder extends Agent{
 		else {
 			lookCounter++;
 			movingCounter++;
-			System.out.println("got here 2");
+//			System.out.println("got here 2");
 		}
 		return seenSquares;
 	}
