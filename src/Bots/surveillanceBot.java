@@ -171,7 +171,7 @@ public class surveillanceBot  extends Bot{
 		}
 		if(!pursuit) {
 		while(agent.getCoordinates().equals(path.get(0))) {
-			//System.out.println("WHILE LOOP");
+			System.out.println("WHILE LOOP");
 			if(explorationComplete) {
 			aStar(new Point(agent.getCoordinates().x - topLeft.x, agent.getCoordinates().y - topLeft.y), surveil(), true, sectionMap);
 			}
@@ -181,8 +181,8 @@ public class surveillanceBot  extends Bot{
 			scaleSectionMap();}
 		}
 		
-		////System.out.println("Path  " + path);
-		////System.out.println("Path next position " + path.get(nextPathpos));
+		System.out.println("Path  " + path);
+		System.out.println("Path next position " + path.get(nextPathpos));
 //		nextPosition = new Point(path.get(nextPathpos).x + topLeft.x, path.get(nextPathpos).y + topLeft.y);
 //		if(nextPathpos +1 < path.size()) {
 //		currentPosition = new Point(path.get(nextPathpos + 1).x + topLeft.x, path.get(nextPathpos + 1).y + topLeft.y);}
@@ -253,38 +253,40 @@ public class surveillanceBot  extends Bot{
 		explorationComplete = true;
 		
 		outerloop:
-		for(int c = 1; c<sectionMap.length; c++) {
-			//System.out.println("c: " + c);
+		for(int c = 1; c<Math.max(sectionMap.length, sectionMap[0].length); c++) {
+			System.out.println("c: " + c);
 			for(int i = -c; i<c ; i++) {
-				//System.out.println("i: " + i);
+				System.out.println("i: " + i);
 				for(int j = -c; j<c; j++) {
 					if(Math.abs(i) == c || Math.abs(j)== c) {
-					//System.out.println("j: " + j);
+					System.out.println("j: " + j);
 					//System.out.println("coordinates: " + agent.getCoordinates());
 					//System.out.println("sectionMap : " + sectionMap.length + ",  "+ sectionMap[0].length);
 					//System.out.println( (agent.getCoordinates().x + i - topLeft.x) + "<" + sectionMap.length + "&&" + (agent.getCoordinates().x + i ) +">" + topLeft.x + "&&" + (agent.getCoordinates().y + j - topLeft.y) + "<" + sectionMap[0].length + "&&" +( agent.getCoordinates().y + j )+ ">" + topLeft.y);
-						if((agent.getCoordinates().x + i - topLeft.x)>= sectionMap.length) {
-							i = sectionMap.length - 1 - agent.getCoordinates().x + topLeft.x;
+						int x = i;
+						int y = j;
+					if((agent.getCoordinates().x + i - topLeft.x)>= sectionMap.length) {
+							x = sectionMap.length - 1 - agent.getCoordinates().x + topLeft.x;
 						}
 						if(agent.getCoordinates().x + i < topLeft.x) {
-							i = topLeft.x - agent.getCoordinates().x;
+							x = topLeft.x - agent.getCoordinates().x;
 						}
 						if((agent.getCoordinates().y + j - topLeft.y)>= sectionMap[0].length) {
-							j = sectionMap[0].length - 1 - agent.getCoordinates().y + topLeft.y;
+							y = sectionMap[0].length - 1 - agent.getCoordinates().y + topLeft.y;
 						}
 						if(agent.getCoordinates().y + j < topLeft.y) {
-							j = topLeft.y - agent.getCoordinates().y;
+							y = topLeft.y - agent.getCoordinates().y;
 						}
-					if((agent.getCoordinates().x + i - topLeft.x)< sectionMap.length && agent.getCoordinates().x + i >= topLeft.x && (agent.getCoordinates().y + j - topLeft.y)< sectionMap[0].length && agent.getCoordinates().y + j >= topLeft.y) {
+					if((agent.getCoordinates().x + x - topLeft.x)< sectionMap.length && agent.getCoordinates().x + x >= topLeft.x && (agent.getCoordinates().y + y - topLeft.y)< sectionMap[0].length && agent.getCoordinates().y + y >= topLeft.y) {
 						//System.out.println(Math.abs(i) +  "==" + c  + "||" +  Math.abs(j) + "==" + c);
 						//if(i!=0 || j !=0) {
-						//System.out.println("sectionMap value: " + sectionMap[agent.getCoordinates().x + i - topLeft.x][agent.getCoordinates().y + j - topLeft.y]);
-						if(sectionMap[agent.getCoordinates().x + i- topLeft.x][agent.getCoordinates().y + j- topLeft.y] == -1) {
+						System.out.println("sectionMap value: " + sectionMap[agent.getCoordinates().x + x - topLeft.x][agent.getCoordinates().y + y - topLeft.y]);
+						if(sectionMap[agent.getCoordinates().x + x- topLeft.x][agent.getCoordinates().y + y- topLeft.y] == -1) {
 							explorationComplete = false;
 							System.out.println("exploration not complete and calling astar");
 							//System.out.println("SectionMap length: " + sectionMap.length + " sectionMap[0]: " + sectionMap[0].length + " i and j: " + i + ",  " + j);
 					
-							aStar(new Point(agent.getCoordinates().x - topLeft.x, agent.getCoordinates().y - topLeft.y),new Point(agent.getCoordinates().x + i - topLeft.x, agent.getCoordinates().y + j - topLeft.y), false, sectionMap);
+							aStar(new Point(agent.getCoordinates().x - topLeft.x, agent.getCoordinates().y - topLeft.y),new Point(agent.getCoordinates().x + x - topLeft.x, agent.getCoordinates().y + y - topLeft.y), false, sectionMap);
 							scaleSectionMap();
 							break outerloop;
 						}
@@ -295,6 +297,8 @@ public class surveillanceBot  extends Bot{
 		}
 		
 		}
+		
+		System.out.println("Finished outerloop");
 	
 	for(int i = 0; i<sectionMap.length; i++) {
 		for(int j = 0; j<sectionMap[0].length; j++) {
