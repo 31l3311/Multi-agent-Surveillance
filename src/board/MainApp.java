@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
@@ -54,9 +55,9 @@ public class MainApp extends Application {
         }
 
      
-     	//System.out.println("create board");
+     	////System.out.println("create board");
         board = Square.board;
-     	//System.out.println("create circles");
+     	////System.out.println("create circles");
      	size = new Point(board.length, board[0].length);
 
 
@@ -90,7 +91,7 @@ public class MainApp extends Application {
 			bots.add(bot);
 			botI.add(bot);
 		}
-	 	//System.out.println("finished bots");
+	 	////System.out.println("finished bots");
 	 	
 	 	for(int i = 0; i<board.length; i++) {
 			for(int j =0; j<board[i].length; j++) {
@@ -101,12 +102,12 @@ public class MainApp extends Application {
 			}
         //run = new Run();
         //run.startTimer();
-	 	//System.out.println("create pane");
+	 	////System.out.println("create pane");
         BorderPane pane = new BorderPane();
         Menu menu = new Menu(root);
         pane.setLeft(root);
         pane.setRight(menu.createMenu());
-     	//System.out.println("create scene");
+     	////System.out.println("create scene");
         Scene scene = new Scene( pane, windowWidth+menu.menuWidth, windowHeight);
         primaryStage.setScene( scene);
         primaryStage.show();
@@ -196,14 +197,14 @@ public class MainApp extends Application {
     	//check if intruder is caught
     	for(int i = 0; i<botSA.size(); i++) {
     		for(int j = 0; j<botI.size(); j++) {
-    			//System.out.println("Distance: " + botSA.get(i).distance(botSA.get(i).getAgent().getPosition(), botI.get(j).getAgent().getPosition()));
+    			////System.out.println("Distance: " + botSA.get(i).distance(botSA.get(i).getAgent().getPosition(), botI.get(j).getAgent().getPosition()));
     			if(botSA.get(i).distance(botSA.get(i).getAgent().getPosition(), botI.get(j).getAgent().getPosition())<= 500) {
-    				System.out.println("Agents won!");
+    				//System.out.println("Agents won!");
     				System.exit(0);
     			}
     			//need to add time requirement
     			if(botI.get(j).distance(botI.get(j).getAgent().getPosition(), target) <= radius) {
-    				System.out.println("Intruders won!");
+    				//System.out.println("Intruders won!");
     				System.exit(0);
     			}
     		}
@@ -219,7 +220,7 @@ public class MainApp extends Application {
     
     public static void check(ArrayList<Point> squares, int j) {
 		for(int i = 0; i<squares.size(); i++) {
-			//////System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
+			////////System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).y]);
 		}
 		bots.get(j).setSounds(bots.get(j).getAgent().hear());
@@ -271,8 +272,10 @@ public class MainApp extends Application {
     public static Circle circle;
     public static Line line;
     public static Group root = new Group();
-	public static int amountSA = 4;
-	public static int amountI = 3;
+
+	public static int amountSA = 5;
+	public static int amountI = 0;
+
 
 	//public static ArrayList<Bot> bots, botSA, botI;
 	public static ArrayList<Bot> bots = new ArrayList<Bot>();
