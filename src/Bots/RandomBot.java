@@ -30,6 +30,8 @@ public class RandomBot extends Bot{
     private Point escapeWallVector = new Point();
     private Square square = new Square();
 
+    private boolean closeToWall;
+
     public RandomBot(boolean surveillance, Point position, int time, Point size){
 		this.position = position;
 		this.surveillance = surveillance;
@@ -212,54 +214,61 @@ public class RandomBot extends Bot{
 	 */
 	public void escapeFromWall() {
 
-			for (int i = 0; i < MainApp.botI.size(); i++) {
-				for (int j = 0; j < MainApp.botSA.size(); j++) {
-					for (double k = 0; k < 3; k = k + 0.1) {
-						if ((Math.abs(MainApp.botI.get(i).position.x - MainApp.botSA.get(j).getAgent().position.x) < 2000 &&
-								Math.abs(MainApp.botI.get(i).position.y - MainApp.botSA.get(j).getAgent().position.y) < 2000)) {
-							if ((MainApp.botI.get(i).position.x - (k * 1000) <= 0)) {
-								posx = MainApp.botI.get(i).position.x - (k * 1000);
-							}
-							if (MainApp.botI.get(i).position.x + (k * 1000) >= 50000) {
-								posx = MainApp.botI.get(i).position.x + (k * 1000);
-							}
+		for (int i = 0; i < MainApp.botI.size(); i++) {
+			for (int j = 0; j < MainApp.botSA.size(); j++) {
+				for (double k = 0; k < 3; k = k + 0.1) {
+					closeToWall = false;
+					if ((Math.abs(MainApp.botI.get(i).getAgent().position.x - MainApp.botSA.get(j).getAgent().position.x) < 1000 &&
+							Math.abs(MainApp.botI.get(i).getAgent().position.y - MainApp.botSA.get(j).getAgent().position.y) < 1000)) {
+						System.out.println("1");
 
-							if (MainApp.botI.get(i).position.y - (k * 1000) <= 0) {
-								posy = MainApp.botI.get(i).position.y - (k * 1000);
-							}
-							if (MainApp.botI.get(i).position.y + (k * 1000) >= 50000) {
-								posy = MainApp.botI.get(i).position.y + (k * 1000);
-							}
-							if(counterEscape < 60) {
-								counterEscape++;
-							}
-							else if(counterEscape == 60) {
-								escapeWallVector.setLocation(posx, posy);
-								agent.update(agent.findAngle(escapeWallVector));
-								System.out.println("Intruders escaped!");
-								counterEscape = 0;
+						if ((MainApp.botI.get(i).getAgent().position.x - (k * 1000) <= 0)) {
+							posx = MainApp.botI.get(i).getAgent().position.x - (k * 1000);
+							closeToWall = true;
+						}
+						if (MainApp.botI.get(i).getAgent().position.x + (k * 1000) >= 50000) {
+							posx = MainApp.botI.get(i).getAgent().position.x + (k * 1000);
+							closeToWall = true;
+						}
 
-								long endTime = System.currentTimeMillis();
-								long timeElapsed = (endTime - MainApp.startTimeProgram)/1000;
-								System.out.println("Execution time in milliseconds: " + timeElapsed);
+						if (MainApp.botI.get(i).getAgent().position.y - (k * 1000) <= 0) {
+							posy = MainApp.botI.get(i).getAgent().position.y - (k * 1000);
+							closeToWall = true;
+						}
+						if (MainApp.botI.get(i).getAgent().position.y + (k * 1000) >= 50000) {
+							posy = MainApp.botI.get(i).getAgent().position.y + (k * 1000);
+							closeToWall = true;
+						}
 
-								try {
-									Writer wr = new FileWriter("intruderEscapeTimes.txt", true);
-									wr.write(timeElapsed + "" + " ");
-									wr.close();
-								}
-								catch(IOException e) {
-									e.printStackTrace();
-								}
+						if (counterEscape < 60) {
+							counterEscape++;
+						} else if (counterEscape == 60 && closeToWall) {
+							System.out.println("2");
+							escapeWallVector.setLocation(posx, posy);
+							agent.update(agent.findAngle(escapeWallVector));
+							counterEscape = 0;
 
-								System.exit(0);
+							System.out.println("3");
+							long endTime = System.currentTimeMillis();
+							long timeElapsed = (endTime - MainApp.startTimeProgram) / 1000;
+							System.out.println("Execution time in milliseconds: " + timeElapsed);
+
+							try {
+								Writer wr = new FileWriter("intruderEscapeTimes.txt", true);
+								wr.write(timeElapsed + "" + " ");
+								wr.close();
+							} catch (IOException e) {
+								e.printStackTrace();
 							}
-
+							System.out.println("Intruders escaped!");
+							System.exit(0);
 						}
 					}
 				}
 			}
+		}
 	}
+
 
 //	public void updateAgent() {
 //		agent.update();

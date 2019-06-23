@@ -1,9 +1,5 @@
-package agent;
-
 import java.awt.Point;
 import java.util.ArrayList;
-
-import board.MainApp;
 
 
 public class SurveillanceAgent extends Agent{
