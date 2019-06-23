@@ -162,6 +162,7 @@ public class Square extends StackPane {
             setTranslateY(y);
             getChildren().removeAll(rectangle);
             System.out.println("Break rectangles");
+
         }
         else if(getCleared = false){
             rectangle.setStroke(Color.BLACK);

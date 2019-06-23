@@ -1,6 +1,9 @@
 package board;
 
 import java.awt.Point;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
@@ -36,7 +39,8 @@ public class MainApp extends Application {
     public int getColumnCells() {return columnCells;}
 
     public static void main(String[] args) {
-        launch(args);
+    	startTimeProgram = System.currentTimeMillis();
+		launch(args);
     }
 
 
@@ -117,8 +121,6 @@ public class MainApp extends Application {
         primaryStage.setResizable(true);
         primaryStage.sizeToScene();
         primaryStage.setTitle("Multi Agent Surveillance");
-
-
     }
 
     public void graphicsSA() {
@@ -203,11 +205,37 @@ public class MainApp extends Application {
     			////System.out.println("Distance: " + botSA.get(i).distance(botSA.get(i).getAgent().getPosition(), botI.get(j).getAgent().getPosition()));
     			if(botSA.get(i).distance(botSA.get(i).getAgent().getPosition(), botI.get(j).getAgent().getPosition())<= 500) {
     				//System.out.println("Agents won!");
+
+					long endTime = System.currentTimeMillis();
+					long timeElapsed = (endTime - MainApp.startTimeProgram)/1000;
+					System.out.println("Execution time in milliseconds: " + timeElapsed);
+
+					try {
+						Writer wr = new FileWriter("agentWinningTimes.txt",true);
+						wr.write(timeElapsed + "" + " ");
+						wr.close();
+					}
+					catch(IOException e) {
+						e.printStackTrace();
+					}
     				System.exit(0);
     			}
     			//need to add time requirement
     			if(botI.get(j).distance(botI.get(j).getAgent().getPosition(), target) <= radius) {
     				//System.out.println("Intruders won!");
+					long endTime = System.currentTimeMillis();
+					long timeElapsed = (endTime - MainApp.startTimeProgram)/1000;
+					System.out.println("Execution time in milliseconds: " + timeElapsed);
+
+					try {
+						Writer wr = new FileWriter("intruderWinningTimes.txt", true);
+						wr.write(timeElapsed + "" + " ");
+						wr.close();
+					}
+					catch(IOException e) {
+						e.printStackTrace();
+					}
+
     				System.exit(0);
     			}
     		}
@@ -277,7 +305,7 @@ public class MainApp extends Application {
     public static Group root = new Group();
 
 	public static int amountSA = 5;
-	public static int amountI = 0;
+	public static int amountI = 3;
 
 
 	//public static ArrayList<Bot> bots, botSA, botI;
@@ -289,6 +317,8 @@ public class MainApp extends Application {
 	
 	private static double startTime;
 	private static double timeLapse;
+
+	public static long startTimeProgram;
 	private static PoissonDistribution poisson = new PoissonDistribution(600000);
 	private static ArrayList randomSounds = new ArrayList();
 	private static ArrayList<Point> areas = new ArrayList<Point>();
@@ -298,10 +328,9 @@ public class MainApp extends Application {
 	public static int[][] board;
 	private Point size;
 	private static Bot bot;
-	
 	private static Point target;
 	private static int radius = 1000;
-    
+
 }
 
 
