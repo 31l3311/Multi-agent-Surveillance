@@ -1,6 +1,10 @@
+package agent;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
+
+import board.*;
 
 import org.apache.commons.math3.*;
 
@@ -12,8 +16,8 @@ public abstract class Agent{
 	protected double newAngle;
 	protected Point vector;
 	public final double BASESPEED = 0.0014;
-	public final double SLOWSPEED = 0.99;
-	public final double VERYSLOWSPEED = 0.49;
+	public final double SLOWSPEED = 0.00099;
+	public final double VERYSLOWSPEED = 0.00049;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> checkSight = new ArrayList<Point>();
@@ -50,43 +54,43 @@ public abstract class Agent{
 	
 	public Point movingTurn(double newAngle) {
 
-		//////System.out.println("START OF TURN");
-		////System.out.println("Angle = " + angle);
-		////System.out.println("New angle = " + newAngle);
+		////////System.out.println("START OF TURN");
+		//////System.out.println("Angle = " + angle);
+		//////System.out.println("New angle = " + newAngle);
 		if(angle != newAngle) {
 		if(angle <= 180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
 			if(Math.abs(newAngle-angle) < 0.045*time) {
-				//////System.out.println("Angle is smaller than 9 degrees 1");
+				////////System.out.println("Angle is smaller than 9 degrees 1");
 				angle = gon(newAngle);}
 			else {
 				angle = gon(angle + 0.045*time);
-				//////System.out.println("Updated angle 1 : " + angle);
+				////////System.out.println("Updated angle 1 : " + angle);
 			}
 		}
 		else {
 			if(newAngle > angle) {
 				newAngle = newAngle - 360;}
-			//////System.out.println("Angle check: " + angle);
-			//////System.out.println("New angle check: " + newAngle);
+			////////System.out.println("Angle check: " + angle);
+			////////System.out.println("New angle check: " + newAngle);
 			if(Math.abs(angle-newAngle) < 0.045*time) {
 				angle = gon(newAngle);
-				//////System.out.println("Angle is smaller than 9 degrees 2");
+				////////System.out.println("Angle is smaller than 9 degrees 2");
 			}
 			else {
 				angle = gon(angle - 0.045*time);
-				//////System.out.println("Updated angle 2 : " + angle);
+				////////System.out.println("Updated angle 2 : " + angle);
 			}
 		}}
 		//angle is bigger than 180
 		else {
 			if(newAngle<angle && newAngle>(angle-180)) {
 				if((angle - newAngle) < 0.045*time) {
-					//////System.out.println("Angle is smaller than 9 degrees 3");
+					////////System.out.println("Angle is smaller than 9 degrees 3");
 					angle = gon(newAngle);}
 				else {
 					angle = gon(angle - 0.045*time);
-					//////System.out.println("Updated angle 3 : " + angle);
+					////////System.out.println("Updated angle 3 : " + angle);
 				}
 			}
 			else {
@@ -94,14 +98,14 @@ public abstract class Agent{
 					newAngle = 360 + newAngle;}
 				if(newAngle- angle < 0.045*time) {
 					angle = gon(newAngle);
-					////////System.out.println("Angle is smaller than 9 degrees 4");
+					//////////System.out.println("Angle is smaller than 9 degrees 4");
 				}
 					//if(angle>360)
 						//angle = angle-360;
 				else {
 
 					angle = gon(angle + 0.045*time);
-					//////System.out.println("Updated angle 4 : " + angle);
+					////////System.out.println("Updated angle 4 : " + angle);
 				}
 			}
 		}}
@@ -110,44 +114,44 @@ public abstract class Agent{
 	}
 
 	public Point fastTurn(double newAngle) {
-		//////System.out.println("START OF TURN");
-		//////System.out.println("Angle = " + angle);
-		//////System.out.println("New angle = " + newAngle);
+		////////System.out.println("START OF TURN");
+		////////System.out.println("Angle = " + angle);
+		////////System.out.println("New angle = " + newAngle);
 		fastTurn = true;
 		turnCounter = 0;
 		if(angle <= 180) {
 			if(newAngle>angle && newAngle<(angle+180)) {
 				if(Math.abs(newAngle-angle) < 0.18*time) {
-					//////System.out.println("Angle is smaller than 9 degrees 1");
+					////////System.out.println("Angle is smaller than 9 degrees 1");
 					angle = newAngle;}
 				else {
 					angle = angle + 0.18*time;
-					//////System.out.println("Updated angle 1 : " + angle);
+					////////System.out.println("Updated angle 1 : " + angle);
 				}
 			}
 			else {
 				if(newAngle > angle) {
 					newAngle = newAngle - 360;}
-				//////System.out.println("Angle check: " + angle);
-				//////System.out.println("New angle check: " + newAngle);
+				////////System.out.println("Angle check: " + angle);
+				////////System.out.println("New angle check: " + newAngle);
 				if(Math.abs(angle-newAngle) < 0.18*time) {
 					angle = gon(newAngle);
-					//////System.out.println("Angle is smaller than 9 degrees 2");
+					////////System.out.println("Angle is smaller than 9 degrees 2");
 				}
 				else {
 					angle = angle - 0.18*time;
-					//////System.out.println("Updated angle 2 : " + angle);
+					////////System.out.println("Updated angle 2 : " + angle);
 				}
 			}}
 		//angle is bigger than 180
 		else {
 			if(newAngle<angle && newAngle>(angle-180)) {
 				if((angle - newAngle) < 0.18*time) {
-					//////System.out.println("Angle is smaller than 9 degrees 3");
+					////////System.out.println("Angle is smaller than 9 degrees 3");
 					angle = newAngle;}
 				else {
 					angle = angle - 0.18*time;
-					//////System.out.println("Updated angle 3 : " + angle);
+					////////System.out.println("Updated angle 3 : " + angle);
 				}
 			}
 			else {
@@ -155,13 +159,13 @@ public abstract class Agent{
 					newAngle = 360 + newAngle;}
 				if(newAngle- angle < 0.18*time) {
 					angle = gon(newAngle);
-					//////System.out.println("Angle is smaller than 9 degrees 4");
+					////////System.out.println("Angle is smaller than 9 degrees 4");
 				}
 				//if(angle>360)
 				//angle = angle-360;
 				else {
 					angle = gon(angle + 0.18*time);
-					//////System.out.println("Updated angle 4 : " + angle);
+					////////System.out.println("Updated angle 4 : " + angle);
 				}
 			}
 		}
@@ -174,15 +178,15 @@ public abstract class Agent{
 	}
 
 	public double hear() {
-		////////System.out.println("Hear method called");
+		//////////System.out.println("Hear method called");
 		
 		for(int i = 0; i<MainApp.bots.size(); i++) {
 			if(!MainApp.bots.get(i).getAgent().equals(this)) {
 			Agent curAgent = MainApp.bots.get(i).getAgent();
-			////////System.out.println("Checking agent: " + curAgent);
+			//////////System.out.println("Checking agent: " + curAgent);
 		distance1 = MainApp.bots.get(i).distance(position, curAgent.getPosition());
-		////////System.out.println("distance = " + distance);
-		////////System.out.println("curAgent.speed = " + curAgent.speed);
+		//////////System.out.println("distance = " + distance);
+		//////////System.out.println("curAgent.speed = " + curAgent.speed);
 		double speed = curAgent.speed * 1000;
 		if((speed < 0.5 && distance1<1000) ||
 		   (speed >= 0.5 && speed<1 && distance1<3000)	||
@@ -191,7 +195,7 @@ public abstract class Agent{
 		   	curAgent.loudDoor && distance1<5000 ||
 		   	curAgent.openWindow && distance1 < 10000
 				) {
-			////////System.out.println("I hear a sound!! Yay");
+			//////////System.out.println("I hear a sound!! Yay");
 			Point vector = findVectorPath(curAgent.getPosition());
 			double angle = findAngle(vector);
 			NormalDistribution normal = new NormalDistribution(angle, 10);
@@ -202,8 +206,8 @@ public abstract class Agent{
 		return 0;
 		}
 	
-	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry, int seeLengthObjects) {
-		////////System.out.println("position x and Y: " + position.x + ", " + position.y);
+	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry) {
+		//////////System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
 		seenIntruders.clear();
 		//u creates a vector in same direction with correct length
@@ -212,71 +216,80 @@ public abstract class Agent{
 		double v = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		temppos.x = position.x;
 		temppos.y = position.y;
-		////////System.out.println("U: " + u);
+		//System.out.println("U: " + u);
+		//System.out.println("seelength:" + seeLength);
+		//System.out.println("seeVector: " + seeVector);
 
 		//check for 6m regular vision (for intruders/agents)
-		
-		for(int i = 0; i<10; i++) {
-			temppos.x += 0.1*(u*seeVector.x);
-			temppos.y += 0.1*(u*seeVector.y);
-			////////System.out.println("posX and Y: " + temppos.x + ", " + temppos.y)
+		//System.out.println("Checking for normal objects");
+		for(int i = 0; i<seeLength/500; i++) {
+			//System.out.println("U: " + u);
+			//System.out.println("seelength:" + seeLength);
+			//System.out.println("seeVector: " + seeVector);
+			temppos.x += (int)((500.0/seeLength)*(u*seeVector.x));
+			temppos.y += (int)((500.0/seeLength)*(u*seeVector.y));
+			//System.out.println((500/seeLength)*(u*seeVector.x));
+			//System.out.println("posX and Y: " + temppos.x + ", " + temppos.y);
 			// translate to squares
 			newSquare = new Point((int)(temppos.x/1000),(int)(temppos.y/1000));
 			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
 				lastSquare = newSquare;
-				////////System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
+				//////////System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
 				if(lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+					//System.out.println(lastSquare);
 					checkSight.add(lastSquare);}
 			}
 		}
 		//check for 18m on intruders
-		for(int i = 0; i<10; i++) {
-			temppos.x += 0.1*(w*seeVector.x);
-			temppos.y += 0.1*(w*seeVector.y);
+		//System.out.println("Checking for sentry towers objects");
+		for(int i = 0; i<36; i++) {
+			temppos.x += (int)(1.0/36)*(w*seeVector.x);
+			temppos.y += (int)(1.0/36)*(w*seeVector.y);
 
 			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
 			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
 				lastSquare = newSquare;
-//				//////System.out.println("lastSquare x is " + lastSquare.x + " lastSquare y is " + lastSquare.y);
-				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < 50 && lastSquare.y < 50){
-					if (square.board[lastSquare.x][lastSquare.y] == 1) {
-//						//////System.out.println("WOOP WOOP I SEE SENTRY AT " + lastSquare);
+//				////////System.out.println("lastSquare x is " + lastSquare.x + " lastSquare y is " + lastSquare.y);
+					
+//						////////System.out.println("WOOP WOOP I SEE SENTRY AT " + lastSquare);
 						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+							if (square.board[lastSquare.x][lastSquare.y] == 1) {
+								//System.out.println(lastSquare);
 							checkSight.add(lastSquare);
 						}
 					}
 				}
 			}
-		}
-		//check for 10m all other objects
-		for(int i = 0; i<10; i++) {
-			temppos.x += 0.1*(v*seeVector.x);
-			temppos.y += 0.1*(v*seeVector.y);
-
-			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
-			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
-				lastSquare = newSquare;
-				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < 50 && lastSquare.y < 50){
-					if (square.board[lastSquare.x][lastSquare.y] == 1 ||
-							square.board[lastSquare.x][lastSquare.y] == 2 ||
-							square.board[lastSquare.x][lastSquare.y] == 3 ||
-							square.board[lastSquare.x][lastSquare.y] == 4 ||
-							square.board[lastSquare.x][lastSquare.y] == 5 ||
-							square.board[lastSquare.x][lastSquare.y] == 42 ||
-							square.board[lastSquare.x][lastSquare.y] == 32
-							)
-					{
-						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
-							checkSight.add(lastSquare);
-						}
-					}
-				}
-			}
-		}
+//		
+//		//check for 10m all other objects
+//		for(int i = 0; i<20; i++) {
+//			temppos.x += (1/20)*(v*seeVector.x);
+//			temppos.y += (1/20)*(v*seeVector.y);
+//
+//			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
+//			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
+//				lastSquare = newSquare;
+//				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y){
+////					if (square.board[lastSquare.x][lastSquare.y] == 1 ||
+////							square.board[lastSquare.x][lastSquare.y] == 2 ||
+////							square.board[lastSquare.x][lastSquare.y] == 3 ||
+////							square.board[lastSquare.x][lastSquare.y] == 4 ||
+////							square.board[lastSquare.x][lastSquare.y] == 5 ||
+////							square.board[lastSquare.x][lastSquare.y] == 42 ||
+////							square.board[lastSquare.x][lastSquare.y] == 32
+////							)
+////					{
+////						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+//							checkSight.add(lastSquare);
+//						}
+//					}
+//				}
+			
+		
 		
 		for(int i = 0; i<MainApp.getI().size(); i++) {
 			for(int j = 0; j<checkSight.size(); j++) {
-				if(MainApp.getI().get(i).getAgent().getCoordinates().equals(checkSight.get(j))) {
+				if(MainApp.getI().get(i).getAgent().getCoordinates().equals(checkSight.get(j)) && checkSight.get(j).distance(getCoordinates())<=6) {
 					seenIntruders.add(MainApp.getI().get(i).getAgent().getPosition());
 				}
 			}
@@ -337,19 +350,19 @@ public abstract class Agent{
 		double tempAngle = 0;
 		if(vector.x>0 && vector.y >=0){
 			tempAngle = 360-(180/Math.PI)*Math.atan(vector.y/vector.x);
-			//////System.out.println("270-360 " + tempAngle);
+			////////System.out.println("270-360 " + tempAngle);
 			}
 		if(vector.x<0 && vector.y >=0){
 			tempAngle = (180 + (180/Math.PI)*Math.atan(vector.y/(-vector.x)));
-			//////System.out.println("180-270 " + tempAngle);
+			////////System.out.println("180-270 " + tempAngle);
 			}
 		if(vector.x>0 && vector.y <0){
 			tempAngle = (180/Math.PI)*Math.atan(-vector.y/vector.x);
-			//////System.out.println("0-90 " + tempAngle);
+			////////System.out.println("0-90 " + tempAngle);
 			}
 		if(vector.x<0 && vector.y<0){
 			tempAngle = 180 - (180/Math.PI)*Math.atan(vector.y/vector.x);
-			//////System.out.println("90-180 " + tempAngle);
+			////////System.out.println("90-180 " + tempAngle);
 			}
 		if(vector.x==0 && vector.y<0){
 			tempAngle = 90;}
@@ -360,16 +373,16 @@ public abstract class Agent{
 
 		/*if(vector.x>0 && vector.y >=0){
 			tempAngle = 360-(180/Math.PI)*Math.atan(vector.y/vector.x);
-			////System.out.println("270-360 " + tempAngle);}
+			//////System.out.println("270-360 " + tempAngle);}
 		if(vector.x<0 && vector.y >=0){
 			tempAngle = 270 - (180 - (180/Math.PI)*Math.atan(vector.y/(-vector.x)));
-			////System.out.println("180-270 " + tempAngle);}
+			//////System.out.println("180-270 " + tempAngle);}
 		if(vector.x>0 && vector.y <0){
 			tempAngle = 90 - (360 - (180/Math.PI)*Math.atan(-vector.y/vector.x));
-			////System.out.println("0-90 " + tempAngle);}
+			//////System.out.println("0-90 " + tempAngle);}
 		if(vector.x<0 && vector.y<0){
 			tempAngle = 180 - (180 + (180/Math.PI)*Math.atan(vector.y/vector.x));
-			////System.out.println("90-180 " + tempAngle);}
+			//////System.out.println("90-180 " + tempAngle);}
 		if(vector.x==0 && vector.y<0){
 			tempAngle = 90;}
 		if(vector.x==0 && vector.y>0){
@@ -380,8 +393,8 @@ public abstract class Agent{
 
 	public Point findVector(double angle) {
 		Point tempVector = new Point();
-		//////System.out.println("find vector");
-		//////System.out.println("angle" + angle);
+		////////System.out.println("find vector");
+		////////System.out.println("angle" + angle);
 		if(angle< 90 && angle >= 0) {
 			tempVector.y = (int) (-Math.tan((Math.PI*angle)/180)*10000);
 			tempVector.x = 10000;
@@ -406,7 +419,7 @@ public abstract class Agent{
 			tempVector.y= (int) (-Math.tan(Math.PI*(1+ (angle/180)))*10000);
 			tempVector.x = 10000;
 		}
-		//////System.out.println("vector" + tempVector.x + " " + tempVector.y);
+		////////System.out.println("vector" + tempVector.x + " " + tempVector.y);
 	return tempVector;
 	}
 

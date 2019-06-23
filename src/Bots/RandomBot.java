@@ -1,7 +1,12 @@
+package Bots;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
+
+import agent.*;
+import board.*;
 
 public class RandomBot extends Bot{
 	private boolean surveillance;
@@ -25,7 +30,6 @@ public class RandomBot extends Bot{
     private int counterEscape = 0;
     private Point targetVector = new Point();
     private Point escapeWallVector = new Point();
-    private MainApp main = new MainApp();
     private Square square = new Square();
 
     public RandomBot(boolean surveillance, Point position, int time, Point size){
@@ -131,8 +135,8 @@ public class RandomBot extends Bot{
 	 * and since it is faster, it will generally outrun it (in a straight line, that is)
 	 */
 	public void greedyWalk() {
-		for (int i = 0; i < main.botI.size(); i++) {
-			for (int j = 0; j < main.botSA.size(); j++) {
+		for (int i = 0; i < MainApp.botI.size(); i++) {
+			for (int j = 0; j < MainApp.botSA.size(); j++) {
 				for (int radius = 0; radius < 10; radius++) {
 					//Below is checking for agents
 //					if(Math.abs(main.botI.get(i).getAgent().getCoordinates().x - main.botSA.get(j).getAgent().getCoordinates().x) < 4 && Math.abs(main.botI.get(i).getAgent().getCoordinates().y - main.botSA.get(j).getAgent().getCoordinates().y) < 4) {
@@ -145,7 +149,7 @@ public class RandomBot extends Bot{
 					//Below is the checking for the target
 					//System.out.println("1 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x) + " " +(main.botI.get(i).getAgent().getCoordinates().y + radius));
 					//System.out.println(" ");
-					if(square.board[correctBounds(main.botI.get(i).getAgent().getCoordinates().x, main.botI.get(i).getAgent().getCoordinates().y + radius).x][correctBounds(main.botI.get(i).getAgent().getCoordinates().x, main.botI.get(i).getAgent().getCoordinates().y + radius).y] == 6) {
+					if(square.board[correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x, MainApp.botI.get(i).getAgent().getCoordinates().y + radius).x][correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x, MainApp.botI.get(i).getAgent().getCoordinates().y + radius).y] == 6) {
 
 						targetVectorPosX = square.getTargetCoordinates().x;
 						targetVectorPosY = square.getTargetCoordinates().y;
@@ -153,19 +157,19 @@ public class RandomBot extends Bot{
 						agent.update(agent.findAngle(targetVector));
 					}
 					//loop for a seperate radius in x and y direction for all squares surrounding intruder
-					//System.out.println("2 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x + radius) + " " +(main.botI.get(i).getAgent().getCoordinates().y));
+					//System.out.println("2 Coords are " + (MainApp.botI.get(i).getAgent().getCoordinates().x + radius) + " " +(MainApp.botI.get(i).getAgent().getCoordinates().y));
 					//System.out.println(" ");
 
-					if(square.board[correctBounds(main.botI.get(i).getAgent().getCoordinates().x + radius, main.botI.get(i).getAgent().getCoordinates().y).x][correctBounds(main.botI.get(i).getAgent().getCoordinates().x + radius, main.botI.get(i).getAgent().getCoordinates().y).y] == 6) {
+					if(square.board[correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x + radius, MainApp.botI.get(i).getAgent().getCoordinates().y).x][correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x + radius, MainApp.botI.get(i).getAgent().getCoordinates().y).y] == 6) {
 						targetVectorPosX = square.getTargetCoordinates().x;
 						targetVectorPosY = square.getTargetCoordinates().y;
 						targetVector.setLocation(targetVectorPosX, targetVectorPosY);
 						agent.update(agent.findAngle(targetVector));
 
 					}
-					//System.out.println("3 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x) + " " +(main.botI.get(i).getAgent().getCoordinates().y - radius));
+					//System.out.println("3 Coords are " + (MainApp.botI.get(i).getAgent().getCoordinates().x) + " " +(MainApp.botI.get(i).getAgent().getCoordinates().y - radius));
 					//System.out.println(" ");
-					if(square.board[correctBounds(main.botI.get(i).getAgent().getCoordinates().x, main.botI.get(i).getAgent().getCoordinates().y - radius).x][correctBounds(main.botI.get(i).getAgent().getCoordinates().x, main.botI.get(i).getAgent().getCoordinates().y - radius).y] == 6) {
+					if(square.board[correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x, MainApp.botI.get(i).getAgent().getCoordinates().y - radius).x][correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x, MainApp.botI.get(i).getAgent().getCoordinates().y - radius).y] == 6) {
 
 						targetVectorPosX = square.getTargetCoordinates().x;
 						targetVectorPosY = square.getTargetCoordinates().y;
@@ -173,9 +177,9 @@ public class RandomBot extends Bot{
 						agent.update(agent.findAngle(targetVector));
 
 					}
-					//System.out.println("4 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x - radius) + " " +(main.botI.get(i).getAgent().getCoordinates().y));
+					//System.out.println("4 Coords are " + (MainApp.botI.get(i).getAgent().getCoordinates().x - radius) + " " +(MainApp.botI.get(i).getAgent().getCoordinates().y));
 					//System.out.println(" ");
-					if(square.board[correctBounds(main.botI.get(i).getAgent().getCoordinates().x - radius, main.botI.get(i).getAgent().getCoordinates().y).x][correctBounds(main.botI.get(i).getAgent().getCoordinates().x - radius, main.botI.get(i).getAgent().getCoordinates().y).y] == 6) {
+					if(square.board[correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x - radius, MainApp.botI.get(i).getAgent().getCoordinates().y).x][correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x - radius, MainApp.botI.get(i).getAgent().getCoordinates().y).y] == 6) {
 
 						targetVectorPosX = square.getTargetCoordinates().x;
 						targetVectorPosY = square.getTargetCoordinates().y;
@@ -211,23 +215,23 @@ public class RandomBot extends Bot{
 	 */
 	public void escapeFromWall() {
 
-			for (int i = 0; i < main.botI.size(); i++) {
-				for (int j = 0; j < main.botSA.size(); j++) {
+			for (int i = 0; i < MainApp.botI.size(); i++) {
+				for (int j = 0; j < MainApp.botSA.size(); j++) {
 					for (double k = 0; k < 3; k = k + 0.1) {
-						if ((Math.abs(main.botI.get(i).position.x - main.botSA.get(j).position.x) < 2000 ||
-								Math.abs(main.botI.get(i).position.y - main.botSA.get(j).position.y) < 2000)) {
-							if ((main.botI.get(i).position.x - k * 1000 <= 0)) {
-								posx = main.botI.get(i).position.x - k * 1000;
+						if ((Math.abs(MainApp.botI.get(i).position.x - MainApp.botSA.get(j).position.x) < 2000 ||
+								Math.abs(MainApp.botI.get(i).position.y - MainApp.botSA.get(j).position.y) < 2000)) {
+							if ((MainApp.botI.get(i).position.x - k * 1000 <= 0)) {
+								posx = MainApp.botI.get(i).position.x - k * 1000;
 							}
-							if (main.botI.get(i).position.x + k * 1000 >= 50000) {
-								posx = main.botI.get(i).position.x + k * 1000;
+							if (MainApp.botI.get(i).position.x + k * 1000 >= 50000) {
+								posx = MainApp.botI.get(i).position.x + k * 1000;
 							}
 
-							if (main.botI.get(i).position.y - k * 1000 <= 0) {
-								posy = main.botI.get(i).position.y - k * 1000;
+							if (MainApp.botI.get(i).position.y - k * 1000 <= 0) {
+								posy = MainApp.botI.get(i).position.y - k * 1000;
 							}
-							if (main.botI.get(i).position.y + k * 1000 >= 50000) {
-								posy = main.botI.get(i).position.y + k * 1000;
+							if (MainApp.botI.get(i).position.y + k * 1000 >= 50000) {
+								posy = MainApp.botI.get(i).position.y + k * 1000;
 							}
 							if(counterEscape < 60) {
 								counterEscape++;

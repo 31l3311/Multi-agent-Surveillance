@@ -1,3 +1,5 @@
+package board;
+
 import java.awt.Point;
 import java.util.ArrayList;
 

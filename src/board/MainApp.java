@@ -1,8 +1,11 @@
+package board;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
+import Bots.*;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

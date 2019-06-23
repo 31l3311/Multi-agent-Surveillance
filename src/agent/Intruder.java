@@ -1,5 +1,9 @@
+package agent;
+
 import java.awt.Point;
 import java.util.ArrayList;
+
+import board.MainApp;
 
 public class Intruder extends Agent{
 
@@ -126,12 +130,12 @@ public class Intruder extends Agent{
 		System.runFinalization();
 		seenSquares.clear();
 		myDirection.clear();
-		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects);
-		seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry, seeLengthObjects));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry, seeLengthObjects));
-		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry, seeLengthObjects));
+		myDirection = checkVectorSight(vector, seeLength, seeLengthSentry);
+		seenSquares.addAll(checkVectorSight(vector, seeLength, seeLengthSentry));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 11.25)), seeLength, seeLengthSentry));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle + 22.5)), seeLength, seeLengthSentry));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 11.25)), seeLength, seeLengthSentry));
+		seenSquares.addAll(checkVectorSight(findVector(gon(angle - 22.5)), seeLength, seeLengthSentry));
 
 		if ((lookCounter >= 40)) {
 			for (int i = 0; i < (MainApp.amountSA); i++) {
