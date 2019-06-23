@@ -1,5 +1,3 @@
-package Bots;
-
 import java.awt.Point;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,9 +5,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
-
-import agent.*;
-import board.*;
 
 public class RandomBot extends Bot{
 	private boolean surveillance;
@@ -220,20 +215,20 @@ public class RandomBot extends Bot{
 			for (int i = 0; i < MainApp.botI.size(); i++) {
 				for (int j = 0; j < MainApp.botSA.size(); j++) {
 					for (double k = 0; k < 3; k = k + 0.1) {
-						if ((Math.abs(MainApp.botI.get(i).position.x - MainApp.botSA.get(j).position.x) < 2000 ||
-								Math.abs(MainApp.botI.get(i).position.y - MainApp.botSA.get(j).position.y) < 2000)) {
-							if ((MainApp.botI.get(i).position.x - k * 1000 <= 0)) {
-								posx = MainApp.botI.get(i).position.x - k * 1000;
+						if ((Math.abs(MainApp.botI.get(i).position.x - MainApp.botSA.get(j).getAgent().position.x) < 2000 &&
+								Math.abs(MainApp.botI.get(i).position.y - MainApp.botSA.get(j).getAgent().position.y) < 2000)) {
+							if ((MainApp.botI.get(i).position.x - (k * 1000) <= 0)) {
+								posx = MainApp.botI.get(i).position.x - (k * 1000);
 							}
-							if (MainApp.botI.get(i).position.x + k * 1000 >= 50000) {
-								posx = MainApp.botI.get(i).position.x + k * 1000;
+							if (MainApp.botI.get(i).position.x + (k * 1000) >= 50000) {
+								posx = MainApp.botI.get(i).position.x + (k * 1000);
 							}
 
-							if (MainApp.botI.get(i).position.y - k * 1000 <= 0) {
-								posy = MainApp.botI.get(i).position.y - k * 1000;
+							if (MainApp.botI.get(i).position.y - (k * 1000) <= 0) {
+								posy = MainApp.botI.get(i).position.y - (k * 1000);
 							}
-							if (MainApp.botI.get(i).position.y + k * 1000 >= 50000) {
-								posy = MainApp.botI.get(i).position.y + k * 1000;
+							if (MainApp.botI.get(i).position.y + (k * 1000) >= 50000) {
+								posy = MainApp.botI.get(i).position.y + (k * 1000);
 							}
 							if(counterEscape < 60) {
 								counterEscape++;
