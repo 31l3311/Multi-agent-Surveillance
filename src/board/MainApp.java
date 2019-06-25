@@ -7,14 +7,10 @@ import java.io.Writer;
 import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
-import Bots.*;
 
+import Bots.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-
-//import com.sun.scenario.effect.impl.sw.java.JSWBlend_BLUEPeer;
-
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -29,42 +25,59 @@ import javafx.util.Duration;
 
 public class MainApp extends Application {
 
+	/**
+	 * returns width of grid
+	 * @return the width of the grid
+	 */
     public double getgridWidth() {
         return gridWidth;
     }
-    public double getgridHeight() {
+
+	/**
+	 * returns height of grid
+	 * @return the height of the grid
+	 */
+	public double getgridHeight() {
         return gridHeight;
     }
-    public int getRowCells() {return rowCells;}
+
+	/**
+	 * returns amount of cells per row
+	 * @return cells per row
+	 */
+	public int getRowCells() {return rowCells;}
+
+	/**
+	 * returns amount of cells per column
+	 * @return columns per row
+	 */
     public int getColumnCells() {return columnCells;}
 
-    public static void main(String[] args) {
+	/**
+	 * Starts the timer, as well as the start() method.
+	 * @param args passed arguments.
+	 */
+	public static void main(String[] args) {
     	startTimeProgram = System.currentTimeMillis();
 		launch(args);
     }
 
-
+	/**
+	 * Starts the program. Draws all squares on the board, and adds all surveillance
+	 * agents and bots to the board.
+	 * @param primaryStage Stage used for the main game.
+	 */
     @Override
     public void start(Stage primaryStage) {
 
-    	//create squares
-
         for( int i=0; i < 50; i++) {
             for( int j=0; j < 50; j++) {
-
-                // create node
                 Square node = new Square( i * gridWidth, j * gridHeight, gridWidth, gridHeight, false, i, j);
-                // add node to group
                 root.getChildren().add(node);
-                // add to playfield for further reference using an array
                 playfield[i][j] = node;
             }
         }
-
-     
-     	////System.out.println("create board");
-        board = Square.board;
-     	////System.out.println("create circles");
+		board = Square.board;
      	size = new Point(board.length, board[0].length);
 
 
@@ -84,7 +97,6 @@ public class MainApp extends Application {
 			sounds();
 		}
 
-		
 		splitMap splitm = new splitMap(amountSA, size);
 		ArrayList<Point> areas = splitm.startingPoints();
 		for(int i = 0; i<areas.size(); i = i+2) {
@@ -94,12 +106,11 @@ public class MainApp extends Application {
 		}
 
 		for(int i = 0; i< amountI; i++) {
-			bot = new RandomBot(false, new Point(10000,10000), time, new Point(board.length, board[0].length));
+			bot = new RandomBot(false, new Point(1,10000), time, new Point(board.length, board[0].length));
 			bots.add(bot);
 			botI.add(bot);
 		}
-	 	////System.out.println("finished bots");
-	 	
+
 	 	for(int i = 0; i<board.length; i++) {
 			for(int j =0; j<board[i].length; j++) {
 				if(board[i][j] == 6) {
@@ -107,14 +118,10 @@ public class MainApp extends Application {
 				}
 				}
 			}
-        //run = new Run();
-        //run.startTimer();
-	 	////System.out.println("create pane");
         BorderPane pane = new BorderPane();
         Menu menu = new Menu(root);
         pane.setLeft(root);
         pane.setRight(menu.createMenu());
-     	////System.out.println("create scene");
         Scene scene = new Scene( pane, windowWidth+menu.menuWidth, windowHeight);
         primaryStage.setScene( scene);
         primaryStage.show();
@@ -123,7 +130,10 @@ public class MainApp extends Application {
         primaryStage.setTitle("Multi Agent Surveillance");
     }
 
-    public void graphicsSA() {
+	/**
+	 * Initializes graphics for surveillance agent
+	 */
+	public void graphicsSA() {
         circle = new Circle();
         circle.setCenterX(gridWidth+60 );
         circle.setCenterY(gridHeight+60);
@@ -133,7 +143,10 @@ public class MainApp extends Application {
         root.getChildren().add(circle);
         }
 
-        public void graphicsIntruder() {
+	/**
+	 * initializes graphics for intruder
+	 */
+	public void graphicsIntruder() {
         circle = new Circle();
         circle.setCenterX(gridWidth+60 );
         circle.setCenterY(gridHeight+60 );
@@ -143,7 +156,11 @@ public class MainApp extends Application {
         root.getChildren().add(circle);
         }
 
-        public void sounds() {
+	/**
+	 * initializes grapihcs for sounds made (not fully working)
+	 */
+	//TODO
+	public void sounds() {
 			circle = new Circle();
 			circle.setCenterX(gridWidth+60);
 			circle.setCenterY(gridHeight+60);
@@ -152,8 +169,13 @@ public class MainApp extends Application {
             sounds.add(circle);
 			root.getChildren().add(circle);
         }
-        
-        public static void updateGraphics(ArrayList<Bot> botSA, ArrayList<Bot> botI) {
+
+	/**
+	 * Updates the locations of both surveillance agents and intruders
+	 * @param botSA Arraylist containing all surveillance agents
+	 * @param botI Arraylist containing all intruders
+	 */
+	public static void updateGraphics(ArrayList<Bot> botSA, ArrayList<Bot> botI) {
         for(int i = 0; i<botSA.size(); i++) {
 
 			surveillanceAgents.get(i).setCenterX(botSA.get(i).getAgent().position.x*gridWidth/1000);
@@ -175,36 +197,56 @@ public class MainApp extends Application {
 
         }
 
-        
-        public static ArrayList<Bot> getSA(){
+	/**
+	 * returns array with surveillance agents
+	 * @return arraylist of surveillance agents
+	 */
+	public static ArrayList<Bot> getSA(){
         		return botSA;
         }
-        
-        public static ArrayList<Bot> getI(){
+
+	/**
+	 * returns array of intruders
+	 * @return arraylist of intuder agents
+	 */
+	public static ArrayList<Bot> getI(){
         		return botI;
         }
-        
-        public void setBots(ArrayList bots, ArrayList botSA, ArrayList botI) {
+
+	/**
+	 * setter for all bot arrays
+	 * @param bots sets all bots
+	 * @param botSA sets all surveillance agents
+	 * @param botI sets all intruders
+	 */
+	public void setBots(ArrayList bots, ArrayList botSA, ArrayList botI) {
         	this.bots = bots;
         	this.botSA = botSA;
         	this.botI = botI;
         }
-        
-        public static void startTimer() {
+
+	/**
+	 * Starts game timer
+	 */
+	public static void startTimer() {
 			KeyFrame mainFrame =
         			new KeyFrame(Duration.millis(time), e -> update());
         	GameTimer.getKeyFrames().add(mainFrame);
         	GameTimer.setCycleCount(Timeline.INDEFINITE);
         	GameTimer.play();
         	}
-        
-    private static void update() {
-    	//check if intruder is caught
+
+	/**
+	 * Update method. Checks if the agents caught intruders. If that happened, terminate game with message "Agents Won!" and
+	 * write time taken to corresponding time agentWinningTimes.txt
+	 * Also checks if intruders reached their target. If that happened, terminate game with message "Intruders Won!" and
+	 * write time taken to corresponding time intruderWinningTime.txt
+	 */
+	private static void update() {
     	for(int i = 0; i<botSA.size(); i++) {
     		for(int j = 0; j<botI.size(); j++) {
-    			////System.out.println("Distance: " + botSA.get(i).distance(botSA.get(i).getAgent().getPosition(), botI.get(j).getAgent().getPosition()));
     			if(botSA.get(i).distance(botSA.get(i).getAgent().getPosition(), botI.get(j).getAgent().getPosition())<= 500) {
-    				//System.out.println("Agents won!");
+    				System.out.println("Agents won!");
 
 					long endTime = System.currentTimeMillis();
 					long timeElapsed = (endTime - MainApp.startTimeProgram)/1000;
@@ -220,9 +262,8 @@ public class MainApp extends Application {
 					}
     				System.exit(0);
     			}
-    			//need to add time requirement
     			if(botI.get(j).distance(botI.get(j).getAgent().getPosition(), target) <= radius) {
-    				//System.out.println("Intruders won!");
+    				System.out.println("Intruders won!");
 					long endTime = System.currentTimeMillis();
 					long timeElapsed = (endTime - MainApp.startTimeProgram)/1000;
 					System.out.println("Execution time in milliseconds: " + timeElapsed);
@@ -242,21 +283,27 @@ public class MainApp extends Application {
     	}
 
     		for(int i = 0; i<bots.size(); i++) {
-    			//if(!bots.get(i).explorationComplete) {
 			check(bots.get(i).update(), i);
 		}
     			updateGraphics(botSA, botI);
     			randomSound();
 		}
-    
+
+	/**
+	 * updates map with current squares
+	 * @param squares Ararylist cointaining Points with all coordinates
+	 * @param j j'th agent in bots
+	 */
     public static void check(ArrayList<Point> squares, int j) {
 		for(int i = 0; i<squares.size(); i++) {
-			////////System.out.println(i + ",  " + squares.get(i).x + ", " + squares.get(i).y);
 			bots.get(j).updateMap(squares.get(i), board[squares.get(i).x][squares.get(i).y]);
 		}
 		bots.get(j).setSounds(bots.get(j).getAgent().hear());
 	}
-	
+
+	/**
+	 * Initializes random sound
+	 */
 	public void initRandomSound() {
 		for(int i = 0; i<board.length/5 ; i++ ) {
 			for(int j = 0; i<board.length/5; j++) {
@@ -264,7 +311,11 @@ public class MainApp extends Application {
 				areas.add(new Point(i*5, j*5));
 			}
 		}}
-	
+
+	/**
+	 * Uses poisson distribution to determine when a sound is made randomly
+	 * x and y - coordinates of sound are the saved.
+	 */
 	public static void randomSound() {
 		timeLapse = System.currentTimeMillis() - startTime;
 		for(int i = 0; i<randomSounds.size(); i++) {
@@ -303,21 +354,15 @@ public class MainApp extends Application {
     public static Circle circle;
     public static Line line;
     public static Group root = new Group();
-
-	public static int amountSA = 5;
-	public static int amountI = 3;
-
-
-	//public static ArrayList<Bot> bots, botSA, botI;
+	public static int amountSA = 3;
+	public static int amountI = 2;
 	public static ArrayList<Bot> bots = new ArrayList<Bot>();
 	public static ArrayList<Bot> botSA = new ArrayList<Bot>();
 	public static ArrayList<Bot> botI = new ArrayList<Bot>();
  	private static Timeline GameTimer = new Timeline();
 	private static final int time = 50;
-	
 	private static double startTime;
 	private static double timeLapse;
-
 	public static long startTimeProgram;
 	private static PoissonDistribution poisson = new PoissonDistribution(600000);
 	private static ArrayList randomSounds = new ArrayList();

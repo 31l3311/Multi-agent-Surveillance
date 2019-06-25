@@ -206,9 +206,6 @@ public class splitMap{
 			startingPoints.add(size);
 		}
 
-		for(int i = 0; i<startingPoints.size(); i++) {
-			System.out.println(startingPoints.get(i));
-		}
 	}
 
 		/**

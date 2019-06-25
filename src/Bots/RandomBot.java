@@ -13,7 +13,6 @@ import agent.*;
 
 public class RandomBot extends Bot{
 	private boolean surveillance;
-	//private int[][] map;
 	private int counter = 0;
 	private ArrayList bots;
 	private int x;
@@ -37,40 +36,53 @@ public class RandomBot extends Bot{
 
     private boolean closeToWall;
 
+	/**
+	 * Constructor - initializing either of type surveillance or intruder
+	 * @param surveillance determines whether we are dealing with an intruder or agent
+	 * @param position the initial position of the current bot
+	 * @param time time it takes to update game
+	 * @param size size of the map
+	 */
     public RandomBot(boolean surveillance, Point position, int time, Point size){
 		this.position = position;
 		this.surveillance = surveillance;
 		map = new int[size.x][size.y];
-		//System.out.println("Random Bot initialised");
 		if(surveillance) {
 			agent = new SurveillanceAgent(position, time, size);
 		}
 		else {
 			agent = new Intruder(position, time, size);
 		}
-	//System.out.println("Position: " + agent.getPosition());
-	//System.out.println("Coordinates: " + agent.getCoordinates());
 	}
 
+	/**
+	 * sets bots
+	 * @param bots arraylist containing all bots
+	 */
 	public void setBots(ArrayList bots) {
 		this.bots = bots;
 	}
 
+	/**
+	 * getter for array containing bots
+	 * @return array containing bots
+	 */
 	public ArrayList<Bot> getBots(){
 		return bots;
 	}
 
+	/**
+	 * main update method, allows entering into tower, ensures bot stays
+	 * within bounds, and scans for surrounding targets. Gets called recursively to
+	 * constantly update bots.
+	 * @return update() method on current bot, called recursively
+	 */
 	public ArrayList update() {
-        //System.out.println("entered" + agent.entered + "enterTower" + agent.enterTower);
         for (int i = 0; i < Square.board.length; i++) {
             for (int j = 0; j < Square.board[i].length; j++) {
                 if (Square.board[i][j] == 1) {
                     x = i*20;
                     y = j*20;
-
-                   // if (Math.abs(MainApp.intruders.get(0).getCenterX() - x) <= 15 && Math.abs(MainApp.intruders.get(1).getCenterY() - y) <= 15) {
-//						MainApp.circle.setCenterX(sentryx);
-//						MainApp.circle.setCenterY(sentryy);
                         if (surveillance && !agent.entered && !agent.enterTower && !agent.leaveTower) {
                             agent.enterTower();
 							agent.position.x = ((x*50) + 500);
@@ -81,18 +93,10 @@ public class RandomBot extends Bot{
                     else if (Square.board[i][j] == 5) {
                         x = i * 20;
                         y = j * 20;
-//                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 15 && Math.abs(MainApp.circle1.getCenterY() - y) <= 15) {
-//                            agent.inShade();
-//                            //System.out.print("inShade");
-//
-//                        }
+
                     } else if (Square.board[i][j] != 5) {
                         x = i * 20;
                         y = j * 20;
-//                        if (Math.abs(MainApp.circle1.getCenterX() - x) <= 5 && Math.abs(MainApp.circle1.getCenterY() - y) <= 5 && agent.shade) {
-//                            agent.shade = false;
-//                            //System.out.println("out of shade");
-//                        }
                     }
                 }
             }
@@ -101,11 +105,9 @@ public class RandomBot extends Bot{
 		greedyWalk();
 		if(agent.myDirection.size()>2 && !agent.entered && !agent.enterTower && !agent.leaveTower) {
 		if(map[agent.myDirection.get(2).x][agent.myDirection.get(2).y] != 0) {
-			//System.out.println("I should turn around now!");
 			return agent.update(true,(agent.getAngle() + 160));
 		}
 		if(map[agent.myDirection.get(1).x][agent.myDirection.get(1).y] != 0) {
-			//System.out.println("I should turn around now!");
 			return agent.update(true,(agent.getAngle() + 160));
 			}
 		}
@@ -118,41 +120,36 @@ public class RandomBot extends Bot{
 	}
 
 
+	/**
+	 * changes the direction vector stochastically
+	 * @return new angle
+	 */
 	public double changeAngle() {
 		double angle = (360*Math.random());
-		//System.out.println("New angle = " + angle);
 		return angle;
 	}
 
+	/**
+	 * sets current location of map to object i
+	 * @param loc point containing coordinates
+	 * @param i object corresponding to number
+	 */
 	public void updateMap(Point loc, int i) {
 		map[loc.x][loc.y] = i;
 		if(i == 1) {
-			// implement method to avoid tree or shit
-			//System.out.println("I see a tree!");
 		}
 	}
 
 	/**
 	 * This method makes the intruder check in a radius around it.
-	 * If it finds a goal it changes its vector to that target
-	 * If it finds an agent it attempt to run away. It will have the same vector as the agent,
-	 * and since it is faster, it will generally outrun it (in a straight line, that is)
+	 * If it finds a goal it changes its vector to that target.
+	 * If it finds an agent it attempt to run away. It will have the same vector as the agent.
 	 */
 	public void greedyWalk() {
 		for (int i = 0; i < MainApp.botI.size(); i++) {
 			for (int j = 0; j < MainApp.botSA.size(); j++) {
 				for (int radius = 0; radius < 10; radius++) {
 					//Below is checking for agents
-//					if(Math.abs(main.botI.get(i).getAgent().getCoordinates().x - main.botSA.get(j).getAgent().getCoordinates().x) < 4 && Math.abs(main.botI.get(i).getAgent().getCoordinates().y - main.botSA.get(j).getAgent().getCoordinates().y) < 4) {
-//						Point intruderVector = main.botSA.get(j).getAgent().vector;
-//						//agent.update(agent.findAngle(intruderVector));
-//						agent.findAngle(intruderVector);
-//						System.out.println("I DID THE THING");
-//					}
-
-					//Below is the checking for the target
-					//System.out.println("1 Coords are " + (main.botI.get(i).getAgent().getCoordinates().x) + " " +(main.botI.get(i).getAgent().getCoordinates().y + radius));
-					//System.out.println(" ");
 					if(square.board[correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x, MainApp.botI.get(i).getAgent().getCoordinates().y + radius).x][correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x, MainApp.botI.get(i).getAgent().getCoordinates().y + radius).y] == 6) {
 
 						targetVectorPosX = square.getTargetCoordinates().x;
@@ -160,10 +157,6 @@ public class RandomBot extends Bot{
 						targetVector.setLocation(targetVectorPosX, targetVectorPosY);
 						agent.update(agent.findAngle(targetVector));
 					}
-					//loop for a seperate radius in x and y direction for all squares surrounding intruder
-					//System.out.println("2 Coords are " + (MainApp.botI.get(i).getAgent().getCoordinates().x + radius) + " " +(MainApp.botI.get(i).getAgent().getCoordinates().y));
-					//System.out.println(" ");
-
 					if(square.board[correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x + radius, MainApp.botI.get(i).getAgent().getCoordinates().y).x][correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x + radius, MainApp.botI.get(i).getAgent().getCoordinates().y).y] == 6) {
 						targetVectorPosX = square.getTargetCoordinates().x;
 						targetVectorPosY = square.getTargetCoordinates().y;
@@ -171,8 +164,6 @@ public class RandomBot extends Bot{
 						agent.update(agent.findAngle(targetVector));
 
 					}
-					//System.out.println("3 Coords are " + (MainApp.botI.get(i).getAgent().getCoordinates().x) + " " +(MainApp.botI.get(i).getAgent().getCoordinates().y - radius));
-					//System.out.println(" ");
 					if(square.board[correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x, MainApp.botI.get(i).getAgent().getCoordinates().y - radius).x][correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x, MainApp.botI.get(i).getAgent().getCoordinates().y - radius).y] == 6) {
 
 						targetVectorPosX = square.getTargetCoordinates().x;
@@ -181,8 +172,6 @@ public class RandomBot extends Bot{
 						agent.update(agent.findAngle(targetVector));
 
 					}
-					//System.out.println("4 Coords are " + (MainApp.botI.get(i).getAgent().getCoordinates().x - radius) + " " +(MainApp.botI.get(i).getAgent().getCoordinates().y));
-					//System.out.println(" ");
 					if(square.board[correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x - radius, MainApp.botI.get(i).getAgent().getCoordinates().y).x][correctBounds(MainApp.botI.get(i).getAgent().getCoordinates().x - radius, MainApp.botI.get(i).getAgent().getCoordinates().y).y] == 6) {
 
 						targetVectorPosX = square.getTargetCoordinates().x;
@@ -195,6 +184,13 @@ public class RandomBot extends Bot{
 		}
 	}
 
+	/**
+	 * we ensure that when changing vectors we never go out of bounds. If we do,
+	 * We correct to the nearest point that is within bounds.
+	 * @param x x coordinate that is being checked of the bot
+	 * @param y y coordinate that is being checked of the bot
+	 * @return Point containing the corrected bounds
+	 */
 	public Point correctBounds(int x, int y) {
 		while(x < 0) {
 			x++;
@@ -215,7 +211,8 @@ public class RandomBot extends Bot{
 
 	/**
 	 * This method check if the intruder is too close to the agent, and is close to a wall
-	 * If it is, then it escapes from the board and the game terminates with message : "Intruders escaped!"
+	 * If it is, then it escapes from the board and the game terminates with message : "Intruders escaped!", and
+	 * the time taken is written to the file intruderEscapeTimes.txt
 	 */
 	public void escapeFromWall() {
 
@@ -274,16 +271,14 @@ public class RandomBot extends Bot{
 		}
 	}
 
-
-//	public void updateAgent() {
-//		agent.update();
-//		agent.hear(getBots());
-//	}
-
+	/**
+	 * As long as there is an object in its way (i.e. !=0) we return true.
+	 * If no objects are found we return false.
+	 * @return boolean true or false depending on there being objects in the way or not
+	 */
 	public boolean avoidObjects() {
 		for( int i = 0; i < agent.myDirection.size(); i++) {
 			if (map[agent.myDirection.get(i).x][agent.myDirection.get(i).y] != 0) {
-				//System.out.println("I see something at : " + agent.myDirection.get(i).x + ", " + agent.myDirection.get(i).y);
 				return true;
 			}
 		}

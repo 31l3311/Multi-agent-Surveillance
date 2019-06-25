@@ -76,6 +76,19 @@ public class Square extends StackPane {
     public static boolean targetPlaced;
 
     public Square() {}
+
+    /**
+     * Constructor of square class. Responsible for placing all obstacles in their correct spots.
+     * Every object (and their variations for doors and windows) corresponds to a number on the board.
+     * Depending on what that number represents we draw the corresponding object on the board, and add it to the 2d matrix
+     * @param x x coordinate of the object to be placed
+     * @param y y coordinate of the object to be placed
+     * @param width width of the object to be placed
+     * @param height height of the object to be placed
+     * @param getCleared boolean that checks whether we want to clear the board or not
+     * @param ii secondary x coordinate corresponding to the 2d matrix
+     * @param jj secondary y coordinate corresponding to the 2d matrix
+     */
     public Square(double x, double y, double width, double height, boolean getCleared, int ii, int jj) {
 
         Rectangle rectangle = new Rectangle(x, y, width, height);
@@ -176,6 +189,11 @@ public class Square extends StackPane {
         }
     }
 
+    /**
+     * Depending on what is selected in the drop down menu on the right side of the game,
+     * we place the corresponding object on the same position where the mouse is currently pointed
+     * @param e mouse-click keylistener
+     */
     void mousePressedOnSquare(MouseEvent e) {
         if(Menu.state == "Sentry") {
             Circle sentry = new Circle((e.getSceneX() / w.getgridWidth()), e.getSceneY() / w.getgridHeight(), 10);
@@ -258,6 +276,12 @@ public class Square extends StackPane {
             }
         }
     }
+
+    /**
+     * Method for returning the location of the target on the board. Used for the intruder bot
+     * when checking for targets in its proximity, and changing direction.
+     * @return targetVector a vector containing the coordinates of the target
+     */
     public static Point getTargetCoordinates() {
         for(int i=0; i<50;i++) {
             for(int j=0;j<50;j++) {
