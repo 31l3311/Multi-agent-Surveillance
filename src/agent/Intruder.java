@@ -23,7 +23,13 @@ public class Intruder extends Agent{
 	private int lookCounter = 40;
 	private int movingCounter = 10;
 	//visual range 7.5 m
-	
+
+	/**
+	 * This is the constructor of the Intruder class, it has the following three parameter values
+	 * @param position of type Point
+	 * @param time of primitive object integer
+	 * @param size of type Point
+	 */
 	public Intruder(Point position, int time, Point size) {
 		speed = BASESPEED;
 		this.position = position;
@@ -33,7 +39,11 @@ public class Intruder extends Agent{
 		this.time = time;
 		this.size = size;
 	}
-	
+
+	/**
+	 * This method is intended to update the position, movement and graphical representation of the Intruder
+	 * @return ArrayList of position coordinates
+	 */
 	public ArrayList update() {
 		if (movingCounter <= 9){
 			vector = movingTurn(gon(angle + 150));
@@ -81,7 +91,12 @@ public class Intruder extends Agent{
 	}
 		return look();
 		}
-	
+
+	/**
+	 * This method is intended to update the position, movement and graphical representation of the intruder
+	 * @param newAngle of primitive type double
+	 * @return ArrayList of position coordinates
+	 */
 	public ArrayList update(double newAngle) {
 		if(openDoor) {
 			counter++;
@@ -114,7 +129,11 @@ public class Intruder extends Agent{
 		}
 		return look();
 	}
-	
+
+	/**
+	 * This method is intended to change the mode of the intruder from walking to sprinting
+	 * @param s of primitive type boolean to determine if sprinting or not
+	 */
 	public void changeSprint(boolean s) {
 		if(sprint != s && s == true) {
 			if(timeWalked>= (10000/time)) {
@@ -125,7 +144,11 @@ public class Intruder extends Agent{
 			}
 		}
 	}
-	
+
+	/**
+	 * This method is intended for the intruder to look around in it's limited field of view and update the ArrayList with the squares it has seen
+	 * @return ArrayList of object SeenSquares
+     */
 	public ArrayList look() {
 		System.runFinalization();
 		seenSquares.clear();
@@ -156,7 +179,10 @@ public class Intruder extends Agent{
 		return seenSquares;
 	}
 
-
+	/**
+	 * Method intended to make the agent move
+	 * @param time of primitive type integer
+	 */
 	@Override
 	public void move(int time) {
 		double u;
@@ -173,6 +199,12 @@ public class Intruder extends Agent{
 		////System.out.println("Position in move method:" + position);
 	}
 
+	/**
+	 * Method intended to update the ArrayList of squares it has already seen
+	 * @param stop of primitive type boolean
+	 * @param newAngle of primitive type double
+	 * @return another method call to the look method above, which will return an ArrayList with objects seensquares
+	 */
 	@Override
 	public ArrayList update(boolean stop, double newAngle) {
 		// TODO Auto-generated method stub

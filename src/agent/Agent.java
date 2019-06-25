@@ -8,6 +8,9 @@ import board.*;
 
 import org.apache.commons.math3.*;
 
+/**
+ * This an abstract class of surveillance agents and intruders
+ */
 public abstract class Agent{
 	
 	
@@ -16,12 +19,9 @@ public abstract class Agent{
 	protected double newAngle;
 	protected Point vector;
 	public final double BASESPEED = 0.0014;
-	public final double SLOWSPEED = 0.00099;
-	public final double VERYSLOWSPEED = 0.00049;
 	public Point position;
 	private Point lastSquare = new Point(0,0);
 	private ArrayList<Point> checkSight = new ArrayList<Point>();
-	private double distance;
 	private Point newSquare;
 	private Point temppos = new Point();
 	protected int time;
@@ -41,71 +41,61 @@ public abstract class Agent{
 	public ArrayList<Point> myDirection = new ArrayList<Point>();
 	public ArrayList<Point> seenIntruders = new ArrayList<Point>();
 	protected boolean fastTurn;
-	
 	private double distance1;
 
+
 	public abstract void move(int time);
-	//public abstract void turn(int angle);
-	
 	public abstract ArrayList update();
 	public abstract ArrayList update(double angle);
 	public abstract ArrayList update(boolean stop, double newAngle);
 	protected int turnCounter;
-	
+
+	/**
+	 * slow turning of the agent (45 degrees per second), it can see and move while turning
+	 * @param newAngle is a new angle the agents wats to have after finishing turning
+	 * @return the new Point direction vector of an agent
+	 */
 	public Point movingTurn(double newAngle) {
 
-		////////System.out.println("START OF TURN");
-		//////System.out.println("Angle = " + angle);
-		//////System.out.println("New angle = " + newAngle);
 		if(angle != newAngle) {
 		if(angle <= 180) {
 		if(newAngle>angle && newAngle<(angle+180)) {
-			if(Math.abs(newAngle-angle) < 0.045*time) {
-				////////System.out.println("Angle is smaller than 9 degrees 1");
+			if(Math.abs(newAngle-angle) <= 0.045*time) {
 				angle = gon(newAngle);}
 			else {
 				angle = gon(angle + 0.045*time);
-				////////System.out.println("Updated angle 1 : " + angle);
 			}
 		}
 		else {
 			if(newAngle > angle) {
-				newAngle = newAngle - 360;}
-			////////System.out.println("Angle check: " + angle);
-			////////System.out.println("New angle check: " + newAngle);
-			if(Math.abs(angle-newAngle) < 0.045*time) {
+				newAngle = newAngle - 360;
+			}
+			if(Math.abs(angle-newAngle) <= 0.045*time) {
 				angle = gon(newAngle);
-				////////System.out.println("Angle is smaller than 9 degrees 2");
 			}
 			else {
 				angle = gon(angle - 0.045*time);
-				////////System.out.println("Updated angle 2 : " + angle);
 			}
 		}}
 		//angle is bigger than 180
 		else {
 			if(newAngle<angle && newAngle>(angle-180)) {
-				if((angle - newAngle) < 0.045*time) {
-					////////System.out.println("Angle is smaller than 9 degrees 3");
-					angle = gon(newAngle);}
+				if((angle - newAngle) <= 0.045*time) {
+					angle = gon(newAngle);
+				}
 				else {
 					angle = gon(angle - 0.045*time);
-					////////System.out.println("Updated angle 3 : " + angle);
 				}
 			}
 			else {
 				if(newAngle < angle) {
 					newAngle = 360 + newAngle;}
-				if(newAngle- angle < 0.045*time) {
+				if(newAngle - angle <= 0.045*time) {
 					angle = gon(newAngle);
-					//////////System.out.println("Angle is smaller than 9 degrees 4");
 				}
-					//if(angle>360)
-						//angle = angle-360;
 				else {
 
 					angle = gon(angle + 0.045*time);
-					////////System.out.println("Updated angle 4 : " + angle);
 				}
 			}
 		}}
@@ -113,59 +103,50 @@ public abstract class Agent{
 		return vector;
 	}
 
+	/**
+	 * fast turn of the agent (180 degrees per second), it can't see for the turning time plus 0.5 second
+	 * @param newAngle is a new angle the agents wats to have after finishing turning
+	 * @return the new Point direction vector of an agent
+	 */
 	public Point fastTurn(double newAngle) {
-		////////System.out.println("START OF TURN");
-		////////System.out.println("Angle = " + angle);
-		////////System.out.println("New angle = " + newAngle);
 		fastTurn = true;
 		turnCounter = 0;
 		if(angle <= 180) {
 			if(newAngle>angle && newAngle<(angle+180)) {
-				if(Math.abs(newAngle-angle) < 0.18*time) {
-					////////System.out.println("Angle is smaller than 9 degrees 1");
+				if(Math.abs(newAngle-angle) <= 0.18*time) {
 					angle = newAngle;}
 				else {
 					angle = angle + 0.18*time;
-					////////System.out.println("Updated angle 1 : " + angle);
 				}
 			}
 			else {
 				if(newAngle > angle) {
-					newAngle = newAngle - 360;}
-				////////System.out.println("Angle check: " + angle);
-				////////System.out.println("New angle check: " + newAngle);
-				if(Math.abs(angle-newAngle) < 0.18*time) {
+					newAngle = newAngle - 360;
+				}
+				if(Math.abs(angle-newAngle) <= 0.18*time) {
 					angle = gon(newAngle);
-					////////System.out.println("Angle is smaller than 9 degrees 2");
 				}
 				else {
 					angle = angle - 0.18*time;
-					////////System.out.println("Updated angle 2 : " + angle);
 				}
 			}}
 		//angle is bigger than 180
 		else {
 			if(newAngle<angle && newAngle>(angle-180)) {
-				if((angle - newAngle) < 0.18*time) {
-					////////System.out.println("Angle is smaller than 9 degrees 3");
+				if((angle - newAngle) <= 0.18*time) {
 					angle = newAngle;}
 				else {
 					angle = angle - 0.18*time;
-					////////System.out.println("Updated angle 3 : " + angle);
 				}
 			}
 			else {
 				if(newAngle < angle) {
 					newAngle = 360 + newAngle;}
-				if(newAngle- angle < 0.18*time) {
+				if(newAngle - angle <= 0.18*time) {
 					angle = gon(newAngle);
-					////////System.out.println("Angle is smaller than 9 degrees 4");
 				}
-				//if(angle>360)
-				//angle = angle-360;
 				else {
 					angle = gon(angle + 0.18*time);
-					////////System.out.println("Updated angle 4 : " + angle);
 				}
 			}
 		}
@@ -173,75 +154,74 @@ public abstract class Agent{
 		return vector;
 	}
 
+	/**
+	 * changing the speed of turning
+	 * @param turnSpeed a boolean, when it is true agent turns with fast speed
+	 */
 	public void changeTurnSpeed(boolean turnSpeed){
 		fastTurn = turnSpeed;
 	}
 
+	/**
+	 * checks if the agent hears any sounds
+	 * @return the direction of the soind
+	 */
 	public double hear() {
-		//////////System.out.println("Hear method called");
 		
 		for(int i = 0; i<MainApp.bots.size(); i++) {
 			if(!MainApp.bots.get(i).getAgent().equals(this)) {
-			Agent curAgent = MainApp.bots.get(i).getAgent();
-			//////////System.out.println("Checking agent: " + curAgent);
-		distance1 = MainApp.bots.get(i).distance(position, curAgent.getPosition());
-		//////////System.out.println("distance = " + distance);
-		//////////System.out.println("curAgent.speed = " + curAgent.speed);
-		double speed = curAgent.speed * 1000;
-		if((speed < 0.5 && distance1<1000) ||
-		   (speed >= 0.5 && speed<1 && distance1<3000)	||
-		   (speed >= 1 && speed<2 && distance1<5000) ||
-		   (speed >= 2 && distance1<10000) ||
-		   	curAgent.loudDoor && distance1<5000 ||
-		   	curAgent.openWindow && distance1 < 10000
-				) {
-			//////////System.out.println("I hear a sound!! Yay");
-			Point vector = findVectorPath(curAgent.getPosition());
-			double angle = findAngle(vector);
-			NormalDistribution normal = new NormalDistribution(angle, 10);
-			double direction = normal.sample();
-			if(direction == 0) {direction = 360;}
-			return direction;
-		}}}
+				Agent curAgent = MainApp.bots.get(i).getAgent();
+				distance1 = MainApp.bots.get(i).distance(position, curAgent.getPosition());
+				double speed = curAgent.speed * 1000;
+				if((speed < 0.5 && distance1<1000) ||
+						(speed >= 0.5 && speed<1 && distance1<3000)	||
+		   				(speed >= 1 && speed<2 && distance1<5000) ||
+		   				(speed >= 2 && distance1<10000) ||
+		   				curAgent.loudDoor && distance1<5000 ||
+		   				curAgent.openWindow && distance1 < 10000) {
+						Point vector = findVectorPath(curAgent.getPosition());
+						double angle = findAngle(vector);
+						NormalDistribution normal = new NormalDistribution(angle, 10);
+						double direction = normal.sample();
+						if(direction == 0) {direction = 360;}
+						return direction;
+				}
+			}
+		}
+		//it shouldn't reach this return statement
 		return 0;
 		}
-	
+
+	/**
+	 * Method that chacks what the agent can see
+ 	 * @param seeVector a vision vector of the agent, influenced by the vision angle
+	 * @param seeLength the distance from which agent can see objects
+	 * @param seeLengthSentry the distance from which you can see the sentry tower
+	 * @return
+	 */
 	public ArrayList<Point> checkVectorSight(Point seeVector, int seeLength, int seeLengthSentry) {
-		//////////System.out.println("position x and Y: " + position.x + ", " + position.y);
 		checkSight.clear();
 		seenIntruders.clear();
-		//u creates a vector in same direction with correct length
+		//u creates a vector in the same direction with correct length
 		double u = (seeLength)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		double w = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
-		double v = (seeLengthSentry)/(Math.sqrt(Math.pow(seeVector.x, 2) + Math.pow(seeVector.y, 2)));
 		temppos.x = position.x;
 		temppos.y = position.y;
-		//System.out.println("U: " + u);
-		//System.out.println("seelength:" + seeLength);
-		//System.out.println("seeVector: " + seeVector);
 
-		//check for 6m regular vision (for intruders/agents)
-		//System.out.println("Checking for normal objects");
+		//check for 10m regular vision for objects
 		for(int i = 0; i<seeLength/500; i++) {
-			//System.out.println("U: " + u);
-			//System.out.println("seelength:" + seeLength);
-			//System.out.println("seeVector: " + seeVector);
 			temppos.x += (int)((500.0/seeLength)*(u*seeVector.x));
 			temppos.y += (int)((500.0/seeLength)*(u*seeVector.y));
-			//System.out.println((500/seeLength)*(u*seeVector.x));
-			//System.out.println("posX and Y: " + temppos.x + ", " + temppos.y);
 			// translate to squares
 			newSquare = new Point((int)(temppos.x/1000),(int)(temppos.y/1000));
 			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y) {
 				lastSquare = newSquare;
-				//////////System.out.println("lastSquare: " + lastSquare.getX() + ", " + lastSquare.getY());
 				if(lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
-					//System.out.println(lastSquare);
-					checkSight.add(lastSquare);}
+					checkSight.add(lastSquare);
+				}
 			}
 		}
-		//check for 18m on intruders
-		//System.out.println("Checking for sentry towers objects");
+		//checks sentry towers
 		for(int i = 0; i<36; i++) {
 			temppos.x += (int)(1.0/36)*(w*seeVector.x);
 			temppos.y += (int)(1.0/36)*(w*seeVector.y);
@@ -249,44 +229,15 @@ public abstract class Agent{
 			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
 			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
 				lastSquare = newSquare;
-//				////////System.out.println("lastSquare x is " + lastSquare.x + " lastSquare y is " + lastSquare.y);
-					
-//						////////System.out.println("WOOP WOOP I SEE SENTRY AT " + lastSquare);
-						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
-							if (square.board[lastSquare.x][lastSquare.y] == 1) {
-								//System.out.println(lastSquare);
-							checkSight.add(lastSquare);
+				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
+					if (square.board[lastSquare.x][lastSquare.y] == 1) {
+						checkSight.add(lastSquare);
 						}
 					}
 				}
 			}
-//		
-//		//check for 10m all other objects
-//		for(int i = 0; i<20; i++) {
-//			temppos.x += (1/20)*(v*seeVector.x);
-//			temppos.y += (1/20)*(v*seeVector.y);
-//
-//			newSquare = new Point((temppos.x/1000),(temppos.y/1000));
-//			if(newSquare.x != lastSquare.x || newSquare.y != lastSquare.y && lastSquare.x >=0 && lastSquare.y >=0) {
-//				lastSquare = newSquare;
-//				if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y){
-////					if (square.board[lastSquare.x][lastSquare.y] == 1 ||
-////							square.board[lastSquare.x][lastSquare.y] == 2 ||
-////							square.board[lastSquare.x][lastSquare.y] == 3 ||
-////							square.board[lastSquare.x][lastSquare.y] == 4 ||
-////							square.board[lastSquare.x][lastSquare.y] == 5 ||
-////							square.board[lastSquare.x][lastSquare.y] == 42 ||
-////							square.board[lastSquare.x][lastSquare.y] == 32
-////							)
-////					{
-////						if (lastSquare.x >= 0 && lastSquare.y >= 0 && lastSquare.x < size.x && lastSquare.y < size.y) {
-//							checkSight.add(lastSquare);
-//						}
-//					}
-//				}
-			
-		
-		
+
+		//checks if the agent can see other agents
 		for(int i = 0; i<MainApp.getI().size(); i++) {
 			for(int j = 0; j<checkSight.size(); j++) {
 				if(MainApp.getI().get(i).getAgent().getCoordinates().equals(checkSight.get(j)) && checkSight.get(j).distance(getCoordinates())<=6) {
@@ -297,6 +248,9 @@ public abstract class Agent{
 		return checkSight;
 	}
 
+	/**
+	 * Changes boolean shade to true, when the agent is in shade
+	 */
 	public void inShade(){
 		shade = true;
 	}
@@ -305,6 +259,10 @@ public abstract class Agent{
 
 	public void leaveTower(){}
 
+	/**
+	 * changes speed ofthe agent,
+	 * @param newSpeed
+	 */
 	public void changeSpeed(double newSpeed){
 		if(newSpeed <= BASESPEED){
 			speed = newSpeed;
@@ -332,7 +290,11 @@ public abstract class Agent{
 //		}}}
 //		return 0;
 //		}
-	
+
+	/**
+	 * opens the door
+	 * @param quiet a boolean that decides whether the doors open quietly or loudly
+	 */
 	public void openDoor(boolean quiet) {
 		openDoor = true;
 		if(quiet) {
@@ -346,51 +308,38 @@ public abstract class Agent{
 		
 	}
 
+	/**
+	 * Finds the angle from a given vector
+	 * @param vector a Point vector
+	 * @return an angle
+	 */
 	public double findAngle(Point vector) {
 		double tempAngle = 0;
 		if(vector.x>0 && vector.y >=0){
 			tempAngle = 360-(180/Math.PI)*Math.atan(vector.y/vector.x);
-			////////System.out.println("270-360 " + tempAngle);
 			}
 		if(vector.x<0 && vector.y >=0){
 			tempAngle = (180 + (180/Math.PI)*Math.atan(vector.y/(-vector.x)));
-			////////System.out.println("180-270 " + tempAngle);
 			}
 		if(vector.x>0 && vector.y <0){
 			tempAngle = (180/Math.PI)*Math.atan(-vector.y/vector.x);
-			////////System.out.println("0-90 " + tempAngle);
 			}
 		if(vector.x<0 && vector.y<0){
 			tempAngle = 180 - (180/Math.PI)*Math.atan(vector.y/vector.x);
-			////////System.out.println("90-180 " + tempAngle);
 			}
 		if(vector.x==0 && vector.y<0){
 			tempAngle = 90;}
 		if(vector.x==0 && vector.y>0){
 			tempAngle = 270;}
 
-
-
-		/*if(vector.x>0 && vector.y >=0){
-			tempAngle = 360-(180/Math.PI)*Math.atan(vector.y/vector.x);
-			//////System.out.println("270-360 " + tempAngle);}
-		if(vector.x<0 && vector.y >=0){
-			tempAngle = 270 - (180 - (180/Math.PI)*Math.atan(vector.y/(-vector.x)));
-			//////System.out.println("180-270 " + tempAngle);}
-		if(vector.x>0 && vector.y <0){
-			tempAngle = 90 - (360 - (180/Math.PI)*Math.atan(-vector.y/vector.x));
-			//////System.out.println("0-90 " + tempAngle);}
-		if(vector.x<0 && vector.y<0){
-			tempAngle = 180 - (180 + (180/Math.PI)*Math.atan(vector.y/vector.x));
-			//////System.out.println("90-180 " + tempAngle);}
-		if(vector.x==0 && vector.y<0){
-			tempAngle = 90;}
-		if(vector.x==0 && vector.y>0){
-			tempAngle = 270;}*/
-
 	return gon(tempAngle);
 	}
 
+	/**
+	 * finds a vector from a given angle
+	 * @param angle is an integer angle
+	 * @return a Point vector
+	 */
 	public Point findVector(double angle) {
 		Point tempVector = new Point();
 		////////System.out.println("find vector");
@@ -419,11 +368,15 @@ public abstract class Agent{
 			tempVector.y= (int) (-Math.tan(Math.PI*(1+ (angle/180)))*10000);
 			tempVector.x = 10000;
 		}
-		////////System.out.println("vector" + tempVector.x + " " + tempVector.y);
 	return tempVector;
 	}
 
-	//method which normalizes angles to values btwn 0 and 360
+
+	/**
+	 * method which normalizes angles to values btwn 0 and 360
+	 * @param angle an integer angle
+	 * @return a normalized angle
+	 */
 	public double gon(double angle) {
 		if(angle>=360)
 			angle = angle - 360;
@@ -432,29 +385,53 @@ public abstract class Agent{
 	return angle;
 	}
 
+	/**
+	 * finds a direction vector to a chosen position
+	 * @param targetPos a Point target position, where the agent wants to go
+	 * @return a direction vector
+	 */
 	public Point findVectorPath(Point targetPos){
 		return new Point(targetPos.x - this.getCoordinates().x, targetPos.y - this.getCoordinates().y);
 	}
-	
+
+	/**
+	 * sets the positioin of an agent
+	 * @param x
+	 * @param y
+	 */
 	public void setPosition(int x , int y) {
 		this.position.x = x;
 		this.position.y = y;
 	}
 
+	/**
+	 * gets position of an agent in millimeters
+	 * @return the position of the agent
+	 */
 	public Point getPosition() {
 		return position;
 	}
 
-
-	
+	/**
+	 * gets the coordinates of the agent
+	 * @return the coordinates of an agent
+	 */
 	public Point getCoordinates() {
 		return new Point((int)(position.x/1000),(int)(position.y/1000));
 	}
-	
+
+	/**
+	 * gets the angle of the agent
+	 * @return the angle of the agent
+	 */
 	public double getAngle() {
 		return angle;
 	}
-	
+
+	/**
+	 * gets direction of type Point
+	 * @return the direction of an agent
+	 */
 	public Point direction() {
 		double u = ((1000*BASESPEED)/Math.sqrt(Math.pow( vector.x, 2) + Math.pow( vector.y, 2)));
 		direction.x = (int) (position.x + Math.round(1000*(u*vector.x)));

@@ -26,17 +26,20 @@ public class Menu {
 	MainApp mainApp = new MainApp();
 	public static boolean getCleared = true;
 
-	
-	//private Run run;
 
+	/**
+	 * Constructor for the menu class
+	 * @param root object
+	 */
 	public Menu(Group root) {
 		Group squares = root;
 	}
 
-	private void getChoice(ChoiceBox<String> chooseType) {
-		String state = chooseType.getValue();
-	}
-	
+
+	/**
+	 * Method meant to put all of the elements together and create the menu
+	 * @return object of VBox returns a complete menu
+	 */
 	public VBox createMenu()
 	{
 		Button clearBoard = new Button("Clear board");
@@ -54,6 +57,11 @@ public class Menu {
 		chooseType.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> state = newValue);
 
 		EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+
+			/**
+			 * Method intented to handle events
+			 * @param event object
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				//mainApp.root.getChildren().remove(1, 49);
@@ -76,6 +84,10 @@ public class Menu {
 			Button start = new Button("Start");
 
  			quit.setOnAction(new EventHandler<ActionEvent>() {
+				/**
+				 * Eventhandler which listens to the Clear Bord button
+				 * @param event object
+				 */
 				@Override
 				public void handle(ActionEvent event) {
 					System.exit(0);
@@ -83,6 +95,10 @@ public class Menu {
 			});
 
  			clearBoard.setOnAction(new EventHandler<ActionEvent>() {
+				/**
+				 * Eventhandler which listens to the Deploy Agents button
+				 * @param event object
+				 */
 				@Override
 				public void handle(ActionEvent event) {
 
@@ -90,6 +106,10 @@ public class Menu {
 			});
 
  			deployAgents.setOnAction(new EventHandler<ActionEvent>() {
+				/**
+				 * Eventhandler which listens to the Deploy Intruders button
+				 * @param event object
+				 */
 				@Override
 				public void handle(ActionEvent event) {
 					//agent1 = new SurveillanceAgent( new Point(10,10));
@@ -98,6 +118,10 @@ public class Menu {
 			});
 
  			deployIntruders.setOnAction(new EventHandler<ActionEvent>() {
+				/**
+				 * Eventhandler which listens to the start button
+				 * @param event object
+				 */
 				@Override
 				public void handle(ActionEvent event) {
 					//agent2 = new Intruder( new Point(50, 50));
