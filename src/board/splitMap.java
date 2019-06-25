@@ -8,11 +8,11 @@ public class splitMap{
 	
 	public splitMap(int amount, Point size) {
 		if(amount == 1) {
-//			startingPoints.add(new Point(0,0));
-//			startingPoints.add(size);
+			startingPoints.add(new Point(0,0));
+			startingPoints.add(size);
 			
-			startingPoints.add(new Point((int)size.x/2,0));
-			startingPoints.add(new Point(size.x, (int)size.y/2));
+			//startingPoints.add(new Point((int)size.x/2,0));
+			//startingPoints.add(new Point(size.x, (int)size.y/2));
 		}
 		if(amount == 2) {
 			//first agent

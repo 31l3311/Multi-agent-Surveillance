@@ -8,22 +8,23 @@ public class Node {
 	public Point position;
 	public double f,g,h;
 	public double pheromoneCount;
-	private double factor = 0.001;
+	private double factor = 0.1;
 	
-	public Node(Point position, double distance, boolean surveillance) {
+	public Node(Point position, double distance) {
 		this.position = position;
 		g = 0;
 		h = distance;
 		f = g+h;
 	}
+
 	
 	public Node(Point position, Node parent, double distance, int pheromoneCount, int object) {
 		this.pheromoneCount = pheromoneCount;
 		this.parent = parent;
 		this.position = position;
 		
-			g = Math.max(Math.sqrt(Math.pow((position.x-parent.position.x), 2)+ Math.pow((position.y - parent.position.y), 2)+ parent.g) - factor*pheromoneCount, 0) ;
-		
+			//g = Math.max(Math.sqrt(Math.pow((position.x-parent.position.x), 2)+ Math.pow((position.y - parent.position.y), 2)+ parent.g) - factor*pheromoneCount, 0) ;
+			g = Math.sqrt(Math.pow((position.x-parent.position.x), 2)+ Math.pow((position.y - parent.position.y), 2)+ parent.g) + factor*pheromoneCount;
 		if(object == 3 || object == 32) {
 			g = g + 3*1.4;
 		}
@@ -35,7 +36,7 @@ public class Node {
 	}
 	
 	public Node(Point position, Node parent, double distance, int object) {
-		this.pheromoneCount = pheromoneCount + parent.pheromoneCount;
+		//this.pheromoneCount = pheromoneCount + parent.pheromoneCount;
 		this.parent = parent;
 		this.position = position;
 		
