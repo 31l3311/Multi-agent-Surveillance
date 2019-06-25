@@ -1,3 +1,5 @@
+package Bots;
+
 import java.awt.Point;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -5,6 +7,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
+
+import board.*;
+import agent.*;
 
 public class RandomBot extends Bot{
 	private boolean surveillance;
@@ -220,7 +225,7 @@ public class RandomBot extends Bot{
 					closeToWall = false;
 					if ((Math.abs(MainApp.botI.get(i).getAgent().position.x - MainApp.botSA.get(j).getAgent().position.x) < 1000 &&
 							Math.abs(MainApp.botI.get(i).getAgent().position.y - MainApp.botSA.get(j).getAgent().position.y) < 1000)) {
-						System.out.println("1");
+						//System.out.println("1");
 
 						if ((MainApp.botI.get(i).getAgent().position.x - (k * 1000) <= 0)) {
 							posx = MainApp.botI.get(i).getAgent().position.x - (k * 1000);
@@ -243,12 +248,12 @@ public class RandomBot extends Bot{
 						if (counterEscape < 60) {
 							counterEscape++;
 						} else if (counterEscape == 60 && closeToWall) {
-							System.out.println("2");
+							//System.out.println("2");
 							escapeWallVector.setLocation(posx, posy);
 							agent.update(agent.findAngle(escapeWallVector));
 							counterEscape = 0;
 
-							System.out.println("3");
+							//System.out.println("3");
 							long endTime = System.currentTimeMillis();
 							long timeElapsed = (endTime - MainApp.startTimeProgram) / 1000;
 							System.out.println("Execution time in milliseconds: " + timeElapsed);
