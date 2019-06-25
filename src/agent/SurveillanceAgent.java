@@ -34,6 +34,10 @@ public class SurveillanceAgent extends Agent{
 		this.size = size;
 	}
 
+	/**
+	 * updates the surveillance agent, checks for fast turns, entering/leaving tower, going trough doors and shades. changes the angle if not already done
+	 * @return method look, which returns the seen squares for the bot in that moment, see method look
+	 */
 	public ArrayList update() {
 		if(fastTurn){
 			if(!stop){
@@ -123,6 +127,11 @@ public class SurveillanceAgent extends Agent{
 		return look();
 		}
 
+	/**
+	 * same as other update method, but checking less things, this gets called when a new angle is given wtih calling update
+	 * @param newA is the new angle given when update is called
+	 * @return method look, which returns the seen squares for the bot in that moment, see method look
+	 */
 	public ArrayList update(double newA) {
 		//System.out.println("UPDATE WALK CALLED");
 		if(openDoor) {
@@ -164,6 +173,12 @@ public class SurveillanceAgent extends Agent{
 		return look();
 	}
 
+	/**
+	 * same as other update, but with boolean stop for stopping the bot
+	 * @param stop set bot to stop or let bot go again with false
+	 * @param newAngle new angle given to bot
+	 * @return method look, which returns the seen squares for the bot in that moment, see method look
+	 *          */
 	public ArrayList update(boolean stop, double newAngle) {
 		//System.out.println("UPDATE STOP CALLED");
 		if(openDoor) {
@@ -196,9 +211,18 @@ public class SurveillanceAgent extends Agent{
 		return look();
 	}
 
+	/**
+	 * set boolean for leaving tower and not immediatly entering it again
+	 * @param hi true if bot just left tower
+	 */
 	public void setLeftTower(boolean hi) {
 		leftTower = hi;
 	}
+
+	/**
+	 * looks for al 5 vectors of bot, checks the squares it can see and adds them to al list, with the right value of the map
+	 * @return arraylist of the seensquares
+	 */
 	public ArrayList look() {
 		System.runFinalization();
 		seenSquares.clear();
@@ -214,6 +238,10 @@ public class SurveillanceAgent extends Agent{
         return seenSquares;
 	}
 
+	/**
+	 * same as first look, but with the sight in square, so divided by 2
+	 * @return arraylist of the seensquares
+	 */
     public ArrayList lookShade() {
         System.runFinalization();
         seenSquares.clear();
@@ -228,6 +256,10 @@ public class SurveillanceAgent extends Agent{
         return seenSquares;
     }
 
+	/**
+	 * same as first look, but this time adding for 15 meter the sight and deleting squares seen within 2 meters
+	 * @return
+	 */
     public ArrayList lookTower() {
         System.runFinalization();
         seenSquares.clear();
@@ -240,7 +272,7 @@ public class SurveillanceAgent extends Agent{
         seenSquares.addAll(checkVectorSight(findVector(gon(angle - 15)), 15000, seeLengthSentry));
         //myDirection = checkVectorSight(vector, 2000, seeLengthSentry, seeLengthObjects);
         //seenSquares.removeAll(myDirection);
-        seenSquares.removeAll(checkVectorSight(findVector(gon(angle)), 15000, seeLengthSentry));
+        seenSquares.removeAll(checkVectorSight(findVector(gon(angle)), 2000, seeLengthSentry));
         seenSquares.removeAll(checkVectorSight(findVector(gon(angle + 7.5)), 2000, seeLengthSentry));
         seenSquares.removeAll(checkVectorSight(findVector(gon(angle + 15)), 2000, seeLengthSentry));
         seenSquares.removeAll(checkVectorSight(findVector(gon(angle - 7.5)), 2000, seeLengthSentry));
@@ -248,6 +280,9 @@ public class SurveillanceAgent extends Agent{
         return seenSquares;
     }
 
+	/**
+	 * if not entered yet, wait the 3 seconds otherwise start turning and looking inside sentrytower
+	 */
     @Override
 	public void enterTower() {
 	    if(enterTower == false && entered == false) {
@@ -266,6 +301,9 @@ public class SurveillanceAgent extends Agent{
 		//delay three seconds
 	}
 
+	/**
+	 * leave the tower, update() does the rest
+	 */
 	public void leaveTower(){
 	        //////System.out.println("leave tower");
             leaveTower = true;
@@ -275,6 +313,10 @@ public class SurveillanceAgent extends Agent{
             leftTower = true;
     }
 
+	/**
+	 * moves the bot itself with a speed and vectors
+	 * @param time with a given parameter time, given through constructer surveillance bot
+	 */
 	@Override
 	public void move(int time) {
 		//System.out.println("move");
@@ -285,6 +327,10 @@ public class SurveillanceAgent extends Agent{
 		//System.out.println("Updated Position: " + position.x + ", " + position.y);
 	}
 
+	/**
+	 * changes pixels to squares
+	 * @return the translation 
+	 */
 	public int[] getTranslation() {
 
 		int[] translation = new int[2];
